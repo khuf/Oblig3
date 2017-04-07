@@ -9,5 +9,9 @@ public class AggressivePlayer extends Player {
 		super(name);
 		//testing
 	} 
+	
+	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+		return 0;
+	}
 }
 
