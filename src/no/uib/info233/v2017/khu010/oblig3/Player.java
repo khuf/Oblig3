@@ -16,5 +16,4 @@ public class Player {
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		return 0;
 	}
-
 }
