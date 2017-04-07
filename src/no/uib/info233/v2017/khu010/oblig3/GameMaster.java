@@ -31,7 +31,7 @@ public class GameMaster {
 	}
 	
 	public void startGame() {
-		p1.makeNextMove(currentPosition, yourEnergy, opponentEnergy))
+		//p1.makeNextMove(currentPosition, yourEnergy, opponentEnergy))
 	}
 	
 	public void listenToPlayerMove(Player player, int move) {

@@ -4,7 +4,7 @@ public class AggressivePlayer extends Player {
 
 	public AggressivePlayer(String name) {
 		super(name);
-		//test
+		//testing
 	} 
 	
 }

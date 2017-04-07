@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 		GameMaster master = GameMaster.getInstance();
 		
-		System.out.println(master.isInstanciated());
+		//System.out.println(master.isInstanciated());
 	}
 
 }
