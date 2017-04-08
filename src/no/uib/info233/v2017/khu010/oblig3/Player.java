@@ -1,15 +1,19 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
-public class Player {
+abstract public class Player {
 	
-	GameMaster gameMaster;
+	private String name;
+	private GameMaster gameMaster;
 	
 	
 	public Player(String name) {
-		
+		this.name = name;
 	}
 	
-	public void registerGameMaster(GameMaster gameMaster) {
+	public void registerGameMaster(GameMaster gameMaster) throws IllegalArgumentException {
+		if (gameMaster == null) {
+			throw new IllegalArgumentException("Gamemaster has not been instanciated");
+		}
 		this.gameMaster = gameMaster;
 	}
 	

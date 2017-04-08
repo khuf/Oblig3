@@ -7,17 +7,18 @@ package no.uib.info233.v2017.khu010.oblig3;
  */
 public class GameMaster {
 	
-	//Static ensures it belongs to the class.
+	//Static ensures it belongs to the class rather than an instance of this class.
 	private static GameMaster instance = null;
-	private static Player p1;
-	private static Player p2;
-	private static double currentPosition = 1.00;
+	private Player p1;
+	private Player p2;
+	private double currentPosition = 1.00;
 	
 	private GameMaster() {
 	}
 	
-	/*
-	 * Returns an instance of this class
+	/**
+	 * Retrieves the Game Master instance and creates one if needed.
+	 * @return the gamemaster instance
 	 */
 	public static GameMaster getInstance() {
 		if (instance == null) {
