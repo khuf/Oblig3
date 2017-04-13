@@ -8,7 +8,7 @@ public class Main {
 		
 		AggressivePlayer robot1 = new AggressivePlayer("robot1");
 		robot1.registerGameMaster(master);
-		AggressivePlayer robot2 = new AggressivePlayer("robot2");
+		DefensivePlayer robot2 = new DefensivePlayer("robot2");
 		robot2.registerGameMaster(master);
 		master.setPlayers(robot1, robot2);
 		master.startGame();

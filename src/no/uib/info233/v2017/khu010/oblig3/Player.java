@@ -3,8 +3,8 @@ package no.uib.info233.v2017.khu010.oblig3;
 abstract public class Player {
 	
 	private String name;
-	private GameMaster gameMaster;
-	private int energy;
+	protected GameMaster gameMaster;
+	protected int energy;
 	
 	
 	public Player(String name) {
@@ -20,7 +20,7 @@ abstract public class Player {
 	}
 	
 	//Figure out how much energy the player wants to spend based on the current state of the game. 
-	//Call gameMaster.listenToPlayerMove  to inform the gameMaster about the players choice.
+	//Call gameMaster.listenToPlayerMove to inform the gameMaster about the players choice.
 	//gets inputs from gameMaster
 	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		gameMaster.listenToPlayerMove(this, 0);

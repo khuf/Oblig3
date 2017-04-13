@@ -37,8 +37,15 @@ public class GameMaster {
 	//This is done by running  player.  for each player.
 	public void startGame() {
 		System.out.println("Game is starting!");
-		bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
-		topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+		//do rounds while both players have energy and currentposition is not endzones
+		while ((bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && currentPosition != 3 && currentPosition != -3)
+		{
+			System.out.println(bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0);
+			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
+			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+			evaluateTurn();
+		}
+		System.out.println("Game over. End circle = " + currentPosition);
 	}
 	
 	//each player uses this method to communicate how much energy he wants to use in the current turn. 
@@ -47,25 +54,32 @@ public class GameMaster {
 	public void listenToPlayerMove(Player player, int move) {
 		if (move < 0) { move = 0; }
 		if (player == bottomPlayer){
-			bottomMove = -move;
+			bottomMove = move;
 		} else {
-			topMove = move;
+			topMove = -move;
 		}
 	}
 	
 	//use the information submitted via . listenToPlayerMove  to identify who won and update the players on the state of the game 
-	// either by running  player.makeNextMove  (if the game has not yet ended), or  player.gameOver 	
+	// either by running  player.makeNextMove  (if the game has not yet ended), or  player.gameOver
 	// (in case the game has come to an end). If the game came to an end, also run  .updateRanking()
 	public void evaluateTurn() {
-		if (topMove && bottomMove) {
+		if (topMove != 0 && bottomMove != 0) {
 			int result = topMove + bottomMove;
-			if (result > 0){
+			if (result < 0){
 				//top won
+				System.out.println("top player won");
+				currentPosition -= 1;
 			} else if (result == 0){ 
 				//tie
+				System.out.println("the game is a tie");
 			} else {
 				//bottom won
+				System.out.println("bottom player won");
+				currentPosition += 1;
 			}
+			topMove = bottomMove = 0;
+			System.out.println("result: " + result);
 		}
 	}
 	
