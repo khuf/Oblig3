@@ -22,9 +22,7 @@ abstract public class Player {
 	//Figure out how much energy the player wants to spend based on the current state of the game. 
 	//Call gameMaster.listenToPlayerMove to inform the gameMaster about the players choice.
 	//gets inputs from gameMaster
-	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
-		gameMaster.listenToPlayerMove(this, 0);
-	}
+	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {}
 	
 	//Informs the player that the game has come to an and and how many points he earned in this game.
 	public void gameOver(float earnedPoints){
