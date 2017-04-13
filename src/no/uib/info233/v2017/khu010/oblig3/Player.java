@@ -3,12 +3,13 @@ package no.uib.info233.v2017.khu010.oblig3;
 abstract public class Player {
 	
 	private String name;
-	protected GameMaster gameMaster;
-	protected int energy;
+	private GameMaster gameMaster;
+	private int energy;
 	
 	
 	public Player(String name) {
 		this.name = name;
+		this.energy = 100;
 	}
 	
 	public void registerGameMaster(GameMaster gameMaster) throws IllegalArgumentException {
@@ -16,7 +17,6 @@ abstract public class Player {
 			throw new IllegalArgumentException("Gamemaster has not been instanciated");
 		}
 		this.gameMaster = gameMaster;
-		this.energy = 100;
 	}
 	
 	//Figure out how much energy the player wants to spend based on the current state of the game. 
@@ -29,16 +29,34 @@ abstract public class Player {
 		System.out.println(name + " got " + earnedPoints + " points");
 	}
 	
-	//returns how much energy this robot got left
+	/**
+	 * Returns the Players energy level
+	 * @return energy level
+	 */
 	public int getEnergy(){
 		return energy;
+	}
+	
+	public void setEnergy(int energy) {
+		this.energy = energy;
 	}
 	
 	public String getName(){
 		return name;
 	}
-	
+
 	public String toString(){
 		return this.name + ", of type " + this.getClass().getSimpleName();
+	}
+	/**
+	 * Returns the game master instance
+	 * @return
+	 */
+	public GameMaster getGameMaster() {
+		return gameMaster;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 }

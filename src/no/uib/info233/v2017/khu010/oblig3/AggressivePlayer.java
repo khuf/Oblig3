@@ -13,15 +13,15 @@ public class AggressivePlayer extends Player {
 	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
 		int useEnergy;
-		if (this.energy > 40){
+		if (getEnergy() > 40){
 			useEnergy = 40;
 		} else {
-			useEnergy = this.energy;
+			useEnergy = getEnergy();
 		}
 		
 		//System.out.println("energy: " + this.energy + " useEnergy: " + useEnergy);
-		this.energy -= useEnergy;
-		gameMaster.listenToPlayerMove(this, useEnergy);
+		setEnergy(getEnergy() - useEnergy);
+		getGameMaster().listenToPlayerMove(this, useEnergy);
 	}
 }
 
