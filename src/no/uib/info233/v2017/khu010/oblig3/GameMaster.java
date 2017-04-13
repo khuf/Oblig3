@@ -37,10 +37,8 @@ public class GameMaster {
 	public void startGame() {
 		System.out.println("Game is starting!");
 		//continue to to rounds as long as one of the players have energy and they have not reached one of the endzones
-		while ( (bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && currentPosition != 3 && currentPosition != -3)
+		while ((bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && currentPosition != 3 && currentPosition != -3)
 		{
-			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
-			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			evaluateTurn();
 		}
 		System.out.println("Game over. End circle = " + currentPosition);
@@ -65,19 +63,25 @@ public class GameMaster {
 	public void evaluateTurn() {
 		//System.out.println("topMove: " + topMove);
 		//System.out.println("bottomMove: " + bottomMove);
+		int topEnergy = topPlayer.getEnergy();
+		int bottomEnergy = bottomPlayer.getEnergy();
+		
+		topPlayer.makeNextMove(currentPosition, topEnergy, bottomEnergy);
+		bottomPlayer.makeNextMove(currentPosition, bottomEnergy, topEnergy);
 
 		if (topMove > bottomMove){
-			System.out.println(topPlayer.getClass().getSimpleName() + " won by " + (topMove - bottomMove) 
-													+ " points and pushed bottom player 1 circle back");
+			String topType = topPlayer.getClass().getSimpleName();
+			System.out.println(topType + " won by " + (topMove - bottomMove) + " points and pushed bottom player 1 circle back");
 			currentPosition -= 1;
 		} else if (topMove == bottomMove){ 
 			System.out.println("the round ended in a tie");
 		} else {
-			System.out.println(bottomPlayer.getClass().getSimpleName() + " won by " + (bottomMove - topMove)
-															+ " points and pushed top player 1 circle back");
+			String bottomType = bottomPlayer.getClass().getSimpleName();
+			System.out.println(bottomType + " won by " + (bottomMove - topMove) + " points and pushed top player 1 circle back");
 			currentPosition += 1;
 		}
 		topMove = bottomMove = 0;
+		
 	}
 	
 	//update the player rankings in the ranking table. This table is to be stored in a remote (mySQL) database. 
@@ -110,6 +114,5 @@ public class GameMaster {
 		System.out.println(topPlayer.getClass().getSimpleName() + ": " + scoreboard[0]);
 		scoreboard[1] += bottomScore;
 		System.out.println(bottomPlayer.getClass().getSimpleName() + ": " + scoreboard[1]);
-		
 	}
 }
