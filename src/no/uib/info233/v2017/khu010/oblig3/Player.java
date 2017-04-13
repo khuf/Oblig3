@@ -26,7 +26,7 @@ abstract public class Player {
 	
 	//Informs the player that the game has come to an and and how many points he earned in this game.
 	public void gameOver(float earnedPoints){
-		System.out.println("you lost... you got x points");
+		System.out.println(name + " got " + earnedPoints + " points");
 	}
 	
 	//returns how much energy this robot got left

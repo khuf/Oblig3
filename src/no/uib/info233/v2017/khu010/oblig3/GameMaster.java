@@ -69,50 +69,56 @@ public class GameMaster {
 		topPlayer.makeNextMove(currentPosition, topEnergy, bottomEnergy);
 		bottomPlayer.makeNextMove(currentPosition, bottomEnergy, topEnergy);
 
-		if (topMove > bottomMove){
+		if (topMove == bottomMove) { 
+			System.out.println("the round ended in a tie");
+		} else if(topMove > bottomMove) {
 			String topType = topPlayer.getClass().getSimpleName();
 			System.out.println(topType + " won by " + (topMove - bottomMove) + " points and pushed bottom player 1 circle back");
 			currentPosition -= 1;
-		} else if (topMove == bottomMove){ 
-			System.out.println("the round ended in a tie");
 		} else {
 			String bottomType = bottomPlayer.getClass().getSimpleName();
 			System.out.println(bottomType + " won by " + (bottomMove - topMove) + " points and pushed top player 1 circle back");
 			currentPosition += 1;
 		}
 		topMove = bottomMove = 0;
+		if (topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0){
+			topPlayer.gameOver(calculateScore(topPlayer));
+			bottomPlayer.gameOver(calculateScore(bottomPlayer));
+		}
+	}
+	
+	public float calculateScore(Player player) {
+		float bonus = 0.5f;
+		int endPos = Math.abs(currentPosition);
+		if (endPos > 0){bonus += 0.25;}
+		if (endPos > 1){bonus += 0.25;}
+		if (endPos > 2){bonus += 1.0;}
 		
+		float topScore = 0;
+		float bottomScore = 0;
+		
+		if (currentPosition > 0){ //bottom won
+			topScore -= bonus;
+			bottomScore += bonus;
+		} else if (currentPosition < 0){ //top won
+			topScore += bonus;
+			bottomScore -= bonus;
+		} else {
+			topScore = bonus;
+			bottomScore = bonus;
+		}
+		
+		if (player == topPlayer){
+			return topScore;
+		} else {
+			return bottomScore;
+		}
 	}
 	
 	//update the player rankings in the ranking table. This table is to be stored in a remote (mySQL) database. 
 	//Use the table named “ranking”, with columns “player” (VARCHAR128) and “score” (FLOAT). 
 	//You will be given the credentials required to connect to your group’s database from your seminar leader.
 	public void updateRanking() {
-		
-		float bonus = 0.0f;
-		int endPos = Math.abs(currentPosition);
-		if (endPos > 0){bonus += 0.25;}
-		if (endPos > 1){bonus += 0.25;}
-		if (endPos > 2){bonus += 1.0;}
-		
-		float topScore;
-		float bottomScore;
-		
-		if (currentPosition > 0){ //bottom won
-			bottomScore = 0.5f + bonus;
-			topScore = 0.5f - bonus;
-		} else if (currentPosition < 0){ //top won
-			topScore = 0.5f + bonus;
-			bottomScore = 0.5f - bonus;
-		} else {
-			bottomScore = 0.5f;
-			topScore = 0.5f;
-		}
-		
-		float[] scoreboard = new float[2];
-		scoreboard[0] += topScore;
-		System.out.println(topPlayer.getClass().getSimpleName() + ": " + scoreboard[0]);
-		scoreboard[1] += bottomScore;
-		System.out.println(bottomPlayer.getClass().getSimpleName() + ": " + scoreboard[1]);
+		//send data to sql here
 	}
 }
