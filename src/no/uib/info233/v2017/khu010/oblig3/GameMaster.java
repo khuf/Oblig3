@@ -8,34 +8,36 @@ package no.uib.info233.v2017.khu010.oblig3;
 public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
-	private static GameMaster instance = null;
+	private static GameMaster gameMaster = null;
 	private Player p1;
 	private Player p2;
-	private double currentPosition = 1.00;
+	private int currentPosition = 0;
 	
-	private GameMaster() {
-	}
+	private GameMaster() {}
 	
 	/**
-	 * Retrieves the Game Master instance and creates one if needed.
-	 * @return the gamemaster instance
+	 * Retrieves the GameMaster instance and creates one if needed.
+	 * @return the GameMaster instance
 	 */
-	public static GameMaster getInstance() {
-		if (instance == null) {
-			instance = new GameMaster();
+	public static GameMaster getGameMaster() {
+		if (gameMaster == null) {
+			gameMaster = new GameMaster();
 		}
-		return instance;
+		return gameMaster;
 	}
 	
 	//assign the players that are going to play against each other.
 	public void setPlayers(Player player1, Player player2) {
-		
+		this.p1 = player1;
+		this.p2 = player2;
 	}
 	
 	//sends a message to each of the players to come up with their next move. 
 	//This is done by running  player.  for each player.
 	public void startGame() {
-		//p1.makeNextMove(currentPosition, yourEnergy, opponentEnergy))
+		System.out.println("Game is starting!");
+		p1.makeNextMove(currentPosition, p1.getEnergy(), p2.getEnergy());
+		p2.makeNextMove(currentPosition, p2.getEnergy(), p1.getEnergy());
 	}
 	
 	//each player uses this method to communicate how much energy he wants to use in the current turn. 
