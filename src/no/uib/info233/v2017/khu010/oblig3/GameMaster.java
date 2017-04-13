@@ -12,6 +12,7 @@ public class GameMaster {
 	private Player bottomPlayer, topPlayer;
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
+	private float topPlayerScore, bottomPlayerScore;
 	
 	private GameMaster() {}
 	
@@ -81,37 +82,32 @@ public class GameMaster {
 			currentPosition += 1;
 		}
 		topMove = bottomMove = 0;
+		
+		//game over
 		if (topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0){
-			topPlayer.gameOver(calculateScore(topPlayer));
-			bottomPlayer.gameOver(calculateScore(bottomPlayer));
+			calculateScores();
+			topPlayer.gameOver(topPlayerScore);
+			bottomPlayer.gameOver(bottomPlayerScore);
+			updateRanking();
 		}
 	}
 	
-	public float calculateScore(Player player) {
+	public void calculateScores() {
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
 		if (endPos > 0){bonus += 0.25;}
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
 		
-		float topScore = 0;
-		float bottomScore = 0;
-		
 		if (currentPosition > 0){ //bottom won
-			topScore -= bonus;
-			bottomScore += bonus;
+			topPlayerScore -= bonus;
+			bottomPlayerScore += bonus;
 		} else if (currentPosition < 0){ //top won
-			topScore += bonus;
-			bottomScore -= bonus;
+			topPlayerScore += bonus;
+			bottomPlayerScore -= bonus;
 		} else {
-			topScore = bonus;
-			bottomScore = bonus;
-		}
-		
-		if (player == topPlayer){
-			return topScore;
-		} else {
-			return bottomScore;
+			topPlayerScore = bonus;
+			bottomPlayerScore = bonus;
 		}
 	}
 	
@@ -119,6 +115,6 @@ public class GameMaster {
 	//Use the table named “ranking”, with columns “player” (VARCHAR128) and “score” (FLOAT). 
 	//You will be given the credentials required to connect to your group’s database from your seminar leader.
 	public void updateRanking() {
-		//send data to sql here
+		//send data to sql here using topPlayerScore & bottomPlayerScore
 	}
 }
