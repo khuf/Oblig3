@@ -85,27 +85,27 @@ public class GameMaster {
 	//You will be given the credentials required to connect to your group’s database from your seminar leader.
 	public void updateRanking() {
 		
-		double bonus = 0.0;
+		float bonus = 0.0f;
 		int endPos = Math.abs(currentPosition);
 		if (endPos > 0){bonus += 0.25;}
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
 		
-		double topScore;
-		double bottomScore;
+		float topScore;
+		float bottomScore;
 		
 		if (currentPosition > 0){ //bottom won
-			bottomScore = 0.5 + bonus;
-			topScore = 0.5 - bonus;
+			bottomScore = 0.5f + bonus;
+			topScore = 0.5f - bonus;
 		} else if (currentPosition < 0){ //top won
-			topScore = 0.5 + bonus;
-			bottomScore = 0.5 - bonus;
+			topScore = 0.5f + bonus;
+			bottomScore = 0.5f - bonus;
 		} else {
-			bottomScore = 0.5;
-			topScore = 0.5;
+			bottomScore = 0.5f;
+			topScore = 0.5f;
 		}
 		
-		double[] scoreboard = new double[2];
+		float[] scoreboard = new float[2];
 		scoreboard[0] += topScore;
 		System.out.println(topPlayer.getClass().getSimpleName() + ": " + scoreboard[0]);
 		scoreboard[1] += bottomScore;
