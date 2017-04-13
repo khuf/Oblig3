@@ -38,7 +38,7 @@ public class GameMaster {
 	public void startGame() {
 		System.out.println("Game is starting!");
 		//continue to to rounds as long as one of the players have energy and they have not reached one of the endzones
-		while ((bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && currentPosition != 3 && currentPosition != -3)
+		while ((bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && Math.abs(currentPosition) != 3)
 		{
 			evaluateTurn();
 		}
