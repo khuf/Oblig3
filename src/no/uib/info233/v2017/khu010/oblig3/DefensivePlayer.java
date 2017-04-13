@@ -9,15 +9,15 @@ public class DefensivePlayer extends Player{
 	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
 		int useEnergy;
-		if (this.energy > 50){
-			useEnergy = 50;
+		if (this.energy > 20){
+			useEnergy = 20;
 		} else {
 			useEnergy = this.energy;
 		}
 		
-		gameMaster.listenToPlayerMove(this, useEnergy);
+		//System.out.println("energy: " + this.energy + " useEnergy: " + useEnergy);
 		this.energy -= useEnergy;
-		
+		gameMaster.listenToPlayerMove(this, useEnergy);
 	}
 	
 }

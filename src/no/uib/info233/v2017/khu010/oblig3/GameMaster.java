@@ -12,7 +12,6 @@ public class GameMaster {
 	private Player bottomPlayer, topPlayer;
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
-	private int[] leaderboard = new int[2];
 	
 	private GameMaster() {}
 	
@@ -64,14 +63,18 @@ public class GameMaster {
 	// either by running  player.makeNextMove  (if the game has not yet ended), or  player.gameOver
 	// (in case the game has come to an end). If the game came to an end, also run  .updateRanking()
 	public void evaluateTurn() {
-		int result = Math.abs(topMove - bottomMove);
-		if (result < 0){
-			System.out.println("top player won by " + result + " points and pushed bottom player 1 circle back");
+		//System.out.println("topMove: " + topMove);
+		//System.out.println("bottomMove: " + bottomMove);
+
+		if (topMove > bottomMove){
+			System.out.println(topPlayer.getClass().getSimpleName() + " won by " + (topMove - bottomMove) 
+													+ " points and pushed bottom player 1 circle back");
 			currentPosition -= 1;
-		} else if (result == 0){ 
+		} else if (topMove == bottomMove){ 
 			System.out.println("the round ended in a tie");
 		} else {
-			System.out.println("bottom player won by " + result + " points and pushed top player 1 circle back");
+			System.out.println(bottomPlayer.getClass().getSimpleName() + " won by " + (bottomMove - topMove)
+															+ " points and pushed top player 1 circle back");
 			currentPosition += 1;
 		}
 		topMove = bottomMove = 0;
@@ -91,17 +94,22 @@ public class GameMaster {
 		double topScore;
 		double bottomScore;
 		
-		
-		if (currentPosition > 0){
+		if (currentPosition > 0){ //bottom won
 			bottomScore = 0.5 + bonus;
 			topScore = 0.5 - bonus;
-		} else if (currentPosition < 0){
+		} else if (currentPosition < 0){ //top won
 			topScore = 0.5 + bonus;
 			bottomScore = 0.5 - bonus;
 		} else {
 			bottomScore = 0.5;
 			topScore = 0.5;
 		}
+		
+		double[] scoreboard = new double[2];
+		scoreboard[0] += topScore;
+		System.out.println(topPlayer.getClass().getSimpleName() + ": " + scoreboard[0]);
+		scoreboard[1] += bottomScore;
+		System.out.println(bottomPlayer.getClass().getSimpleName() + ": " + scoreboard[1]);
 		
 	}
 }

@@ -33,4 +33,8 @@ abstract public class Player {
 	public int getEnergy(){
 		return energy;
 	}
+	
+	public String getName(){
+		return name;
+	}
 }
