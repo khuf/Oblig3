@@ -73,12 +73,10 @@ public class GameMaster {
 		if (topMove == bottomMove) { 
 			System.out.println("the round ended in a tie");
 		} else if(topMove > bottomMove) {
-			String topType = topPlayer.getClass().getSimpleName();
-			System.out.println(topType + " won by " + (topMove - bottomMove) + " points and pushed bottom player 1 circle back");
+			System.out.println(topPlayer + " won by " + (topMove - bottomMove) + " points and pushed bottom player 1 circle back");
 			currentPosition -= 1;
 		} else {
-			String bottomType = bottomPlayer.getClass().getSimpleName();
-			System.out.println(bottomType + " won by " + (bottomMove - topMove) + " points and pushed top player 1 circle back");
+			System.out.println(bottomPlayer + " won by " + (bottomMove - topMove) + " points and pushed top player 1 circle back");
 			currentPosition += 1;
 		}
 		topMove = bottomMove = 0;

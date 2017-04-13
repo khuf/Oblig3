@@ -37,4 +37,8 @@ abstract public class Player {
 	public String getName(){
 		return name;
 	}
+	
+	public String toString(){
+		return this.name + ", of type " + this.getClass().getSimpleName();
+	}
 }
