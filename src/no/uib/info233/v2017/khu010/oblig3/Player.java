@@ -1,17 +1,30 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+/**
+ * Base class for a Player.
+ * @author knuhuf && ....
+ * @version 0.0.1 (11.04.2017)
+ */
 abstract public class Player {
 	
 	private String name;
 	private GameMaster gameMaster;
 	private int energy;
 	
-	
+	/**
+	 * Creates a Player with a specified name
+	 * @param name
+	 */
 	public Player(String name) {
 		this.name = name;
 		this.energy = 100;
 	}
 	
+	/**
+	 * Registers the Game Master for the Player.
+	 * @param gameMaster
+	 * @throws IllegalArgumentException
+	 */
 	public void registerGameMaster(GameMaster gameMaster) throws IllegalArgumentException {
 		if (gameMaster == null) {
 			throw new IllegalArgumentException("Gamemaster has not been instanciated");
@@ -30,6 +43,14 @@ abstract public class Player {
 	}
 	
 	/**
+	 * Sets the energy level of the player
+	 * @param energy level
+	 */
+	public void setEnergy(int energy) {
+		this.energy = energy;
+	}
+	
+	/**
 	 * Returns the Players energy level
 	 * @return energy level
 	 */
@@ -37,17 +58,22 @@ abstract public class Player {
 		return energy;
 	}
 	
-	public void setEnergy(int energy) {
-		this.energy = energy;
+	/**
+	 * Sets the name of the player
+	 * @param name of player
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 	
+	/**
+	 * Returns the Player's name
+	 * @return name of the player
+	 */
 	public String getName(){
 		return name;
 	}
 
-	public String toString(){
-		return this.name + ", of type " + this.getClass().getSimpleName();
-	}
 	/**
 	 * Returns the game master instance
 	 * @return
@@ -56,7 +82,11 @@ abstract public class Player {
 		return gameMaster;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	/**
+	 * Returns a string representation of the Player.
+	 * @return A string representation of the player
+	 */
+	public String toString(){
+		return this.name + ", of type " + this.getClass().getSimpleName();
 	}
 }
