@@ -13,6 +13,7 @@ public class GameMaster {
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
 	private float topPlayerScore, bottomPlayerScore;
+	SQLconnector server = new SQLconnector();
 	
 	private GameMaster() {}
 	
@@ -119,6 +120,10 @@ public class GameMaster {
 	//Use the table named “ranking”, with columns “player” (VARCHAR128) and “score” (FLOAT). 
 	//You will be given the credentials required to connect to your group’s database from your seminar leader.
 	public void updateRanking() {
-		//send data to sql here using topPlayerScore & bottomPlayerScore
+		boolean topSync = server.addScore(topPlayer.getName(), topPlayerScore);
+		boolean bottomSync = server.addScore(bottomPlayer.getName(), bottomPlayerScore);
+		if (topSync && bottomSync){
+			System.out.println("Sync Successfull");
+		}
 	}
 }
