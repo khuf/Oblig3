@@ -2,7 +2,7 @@ package no.uib.info233.v2017.khu010.oblig3;
 
 /**
  * A singleton GameMaster class.
- * @author knu010 && ....
+ * @author knu010 && xeq003
  * @version 0.0.1 (06.04.2017).
  */
 public class GameMaster {
@@ -33,6 +33,8 @@ public class GameMaster {
 	 * @param player2
 	 */
 	public void setPlayers(Player player1, Player player2) {
+		player1.registerGameMaster(this);
+		player2.registerGameMaster(this);
 		this.bottomPlayer = player1;
 		this.topPlayer = player2;
 	}
