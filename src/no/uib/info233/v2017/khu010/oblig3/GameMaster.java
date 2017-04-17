@@ -8,7 +8,7 @@ package no.uib.info233.v2017.khu010.oblig3;
 public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
-	private static GameMaster gameMaster = null;
+	private static GameMaster gameMaster = new GameMaster();
 	private Player bottomPlayer, topPlayer;
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
@@ -22,9 +22,6 @@ public class GameMaster {
 	 * @return the GameMaster instance
 	 */
 	public static GameMaster getGameMaster() {
-		if (gameMaster == null) {
-			gameMaster = new GameMaster();
-		}
 		return gameMaster;
 	}
 	
