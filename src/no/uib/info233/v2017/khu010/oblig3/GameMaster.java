@@ -97,6 +97,10 @@ public class GameMaster {
 		}
 	}
 	
+	/**
+	 * Calculates the score for each player based on the position
+	 * where the fight has ended.
+	 */
 	public void calculateScores() {
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
