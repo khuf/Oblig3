@@ -33,5 +33,3 @@ public class AggressivePlayer extends Player {
 		return useEnergy;
 	}
 }
-
-0

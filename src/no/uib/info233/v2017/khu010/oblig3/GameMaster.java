@@ -123,4 +123,39 @@ public class GameMaster {
 		}
 		return false;
 	}
+	
+	/**
+	 * Checks wether the game has ended by checking if either player is in a
+	 * winning position or if both players are out of energy.
+	 * @return
+	 */
+	private boolean isFinnished() {
+		boolean hasWon = Math.abs(currentPosition) == 3;
+		boolean hasNoEnergy = topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0;
+		
+		return (hasWon || hasNoEnergy);
+	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		float topPlayerScore = scoreBoard.get(currentPosition).getPointA();
+		float bottomPlayerScore = scoreBoard.get(currentPosition).getPointB();
+		
+		if (!isFinnished()) {
+			result = "Current standings:\n" + topPlayer.getName() + ": " + topPlayerScore + "\n" +
+					bottomPlayer.getName() + ": " + bottomPlayerScore;
+		}
+		else {
+			if (topPlayerScore == bottomPlayerScore) {
+				result =  "Game has ended in a tie";
+			}
+			else {
+				String winner = topPlayerScore > bottomPlayerScore ? topPlayer.getName() : bottomPlayer.getName();
+				float points = Math.abs(topPlayerScore - bottomPlayerScore);
+				result = winner + " has won by " + points + " points";
+			}
+		}
+		return result;
+	}
 }
