@@ -16,6 +16,7 @@ public class GameMaster {
 	//Static ensures it belongs to the class rather than an instance of this class.
 	private static GameMaster gameMaster = null;
 	private static Map<Integer, Point> scoreBoard;
+	private SQLconnector server = new SQLconnector();
 	private Player bottomPlayer, topPlayer;
 	private int bottomMove, topMove;
 	private int currentPosition = 0;
@@ -65,16 +66,20 @@ public class GameMaster {
 		this.topPlayer = player2;
 	}
 	
-	//sends a message to each of the players to come up with their next move. 
-	//This is done by running  player.makeNextMove  for each player.
+	/**
+	 * Starts a game by requesting both players to come up with a move.
+	 */
 	public void startGame() {
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 	}
 	
-	//each player uses this method to communicate how much energy he wants to use in the current turn. 
-	//Treat all invalid inputs (values other than the energy currently available to the player) as equal to 0. 
-	//If both players made a call to this method during the current round, run evaluateTurn()
+	/**
+	 * Listens to the players moves and evaluates the round once
+	 * both players have made its move.
+	 * @param player The player that does a move
+	 * @param move The move that the player chose.
+	 */
 	public void listenToPlayerMove(Player player, int move) {
 		if (player.equals(topPlayer)) {
 			topMove = move;
@@ -94,7 +99,7 @@ public class GameMaster {
 	}
 	
 	/**
-	 * Checks wether the game has ended by checking if either player is in a
+	 * Checks whether the game has ended by checking if either player is in a
 	 * winning position or if both players are out of energy.
 	 * @return
 	 */
@@ -150,5 +155,18 @@ public class GameMaster {
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 		}			
+	}
+	
+	/**
+	 * Updates the ranking table with scores from the finished
+	 * game.
+	 * @return true if the update was successful. Otherwise, false.
+	 */
+	public boolean updateRanking() {
+		float topPlayerScore = scoreBoard.get(currentPosition).getPointA();
+		float bottomPlayerScore = scoreBoard.get(currentPosition).getPointB();
+		
+		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
+				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
 	}
 }
