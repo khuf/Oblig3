@@ -92,7 +92,7 @@ public class GameMaster {
 		}
 	}
 	
-	private int calculateScores() {
+	private float calculateScores() {
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
 		if (endPos > 0){bonus += 0.25;}
@@ -110,7 +110,7 @@ public class GameMaster {
 			bottomPlayerScore = bonus;
 		}
 		
-		return (int) (topPlayerScore + bottomPlayerScore);
+		return (topPlayerScore + bottomPlayerScore);
 	}
 	
 	//update the player rankings in the ranking table. This table is to be stored in a remote (mySQL) database. 

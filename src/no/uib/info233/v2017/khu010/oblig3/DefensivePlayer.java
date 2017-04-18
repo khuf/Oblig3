@@ -6,7 +6,7 @@ public class DefensivePlayer extends Player{
 		super(name);
 	} 
 	
-	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
 		int useEnergy;
 		if (getEnergy() > 20){
@@ -18,6 +18,7 @@ public class DefensivePlayer extends Player{
 		//System.out.println("energy: " + this.energy + " useEnergy: " + useEnergy);
 		setEnergy(getEnergy() - useEnergy);
 		getGameMaster().listenToPlayerMove(this, useEnergy);
+		return useEnergy;
 	}
 	
 }
