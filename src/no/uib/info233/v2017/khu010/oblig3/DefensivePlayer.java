@@ -12,6 +12,9 @@ public class DefensivePlayer extends Player{
 		super(name);
 	} 
 	
+	/**
+	 * 
+	 */
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
 		int useEnergy;

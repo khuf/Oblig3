@@ -7,6 +7,13 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Handles the SQL connection for updating
+ * new scores in the game.
+ * @author xeq003
+ * @version 0.0.1 (14.04.2017)
+ *
+ */
 public class SQLconnector {
 	
     Connection con = null;
@@ -16,6 +23,13 @@ public class SQLconnector {
     String user = "root";
     String password = "root";
 	
+    /**
+     * Updates the ranking table with the new score from
+     * a finished game.
+     * @param playerName The player's name.
+     * @param playerScore The player's score
+     * @return true if the update was successful. Otherwise, false.
+     */
 	public boolean addScore(String playerName, float playerScore){
 		
         try {
