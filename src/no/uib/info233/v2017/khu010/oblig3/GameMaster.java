@@ -8,23 +8,19 @@ package no.uib.info233.v2017.khu010.oblig3;
 public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
-	private static GameMaster gameMaster = null;
+	private static GameMaster gameMaster = new GameMaster();
 	private Player bottomPlayer, topPlayer;
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
 	private float topPlayerScore, bottomPlayerScore;
-	SQLconnector server = new SQLconnector();
+	private SQLconnector server = new SQLconnector();
 	
 	private GameMaster() {}
 	
 	/**
-	 * Retrieves the GameMaster instance and creates one if needed.
 	 * @return the GameMaster instance
 	 */
 	public static GameMaster getGameMaster() {
-		if (gameMaster == null) {
-			gameMaster = new GameMaster();
-		}
 		return gameMaster;
 	}
 	
@@ -90,18 +86,13 @@ public class GameMaster {
 		
 		//game over
 		if (topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0){
-			calculateScores();
+			updateRanking();
 			topPlayer.gameOver(topPlayerScore);
 			bottomPlayer.gameOver(bottomPlayerScore);
-			updateRanking();
 		}
 	}
 	
-	/**
-	 * Calculates the score for each player based on the position
-	 * where the fight has ended.
-	 */
-	public void calculateScores() {
+	private float calculateScores() {
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
 		if (endPos > 0){bonus += 0.25;}
@@ -118,16 +109,18 @@ public class GameMaster {
 			topPlayerScore = bonus;
 			bottomPlayerScore = bonus;
 		}
+		
+		return (topPlayerScore + bottomPlayerScore);
 	}
 	
 	//update the player rankings in the ranking table. This table is to be stored in a remote (mySQL) database. 
 	//Use the table named “ranking”, with columns “player” (VARCHAR128) and “score” (FLOAT). 
 	//You will be given the credentials required to connect to your group’s database from your seminar leader.
-	public void updateRanking() {
-		boolean topSync = server.addScore(topPlayer.getName(), topPlayerScore);
-		boolean bottomSync = server.addScore(bottomPlayer.getName(), bottomPlayerScore);
-		if (topSync && bottomSync){
-			System.out.println("Sync Successfull");
+	public boolean updateRanking() {
+		if (calculateScores() == 1) {
+		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
+				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
 		}
+		return false;
 	}
 }

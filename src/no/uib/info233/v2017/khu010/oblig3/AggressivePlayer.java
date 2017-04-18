@@ -18,7 +18,7 @@ public class AggressivePlayer extends Player {
 	/**
 	 * Makes a move based on the current position, player and opponent energy level.
 	 */
-	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
 		int useEnergy;
 		if (getEnergy() > 40){
@@ -30,6 +30,8 @@ public class AggressivePlayer extends Player {
 		//System.out.println("energy: " + this.energy + " useEnergy: " + useEnergy);
 		setEnergy(getEnergy() - useEnergy);
 		getGameMaster().listenToPlayerMove(this, useEnergy);
+		return useEnergy;
 	}
 }
 
+0
