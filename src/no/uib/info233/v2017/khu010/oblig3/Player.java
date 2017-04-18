@@ -2,7 +2,7 @@ package no.uib.info233.v2017.khu010.oblig3;
 
 /**
  * Base class for a Player.
- * @author knuhuf && ....
+ * @author khuf010 && xeq003
  * @version 0.0.1 (11.04.2017)
  */
 abstract public class Player {
@@ -23,7 +23,7 @@ abstract public class Player {
 	/**
 	 * Registers the Game Master for the Player.
 	 * @param gameMaster
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException if the GM has not been instanciated.
 	 */
 	public void registerGameMaster(GameMaster gameMaster) throws IllegalArgumentException {
 		if (gameMaster == null) {
@@ -32,12 +32,21 @@ abstract public class Player {
 		this.gameMaster = gameMaster;
 	}
 	
-	//Figure out how much energy the player wants to spend based on the current state of the game. 
-	//Call gameMaster.listenToPlayerMove to inform the gameMaster about the players choice.
-	//gets inputs from gameMaster
+	/**
+	 * Figures out how much energy to spend this round and forwards the
+	 * information to the game master.
+	 * @param currentPosition Where the robots are currently fighting.
+	 * @param yourEnergy Player's current energy level
+	 * @param opponentEnergy Opponents current energy level.
+	 * @return energy to spend this round.
+	 */
 	abstract int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy);
 	
-	//Informs the player that the game has come to an and and how many points he earned in this game.
+	/**
+	 * Informs the player that the game has come to an end and how 
+	 * much points was earned this round.
+	 * @param earnedPoints the points earned by the player
+	 */
 	public void gameOver(float earnedPoints){
 		System.out.println(name + " got " + earnedPoints + " points");
 	}
@@ -76,7 +85,7 @@ abstract public class Player {
 
 	/**
 	 * Returns the game master instance
-	 * @return
+	 * @return gameMaster the registered game master.
 	 */
 	public GameMaster getGameMaster() {
 		return gameMaster;

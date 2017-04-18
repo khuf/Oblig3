@@ -36,8 +36,10 @@ public class GameMaster {
 		this.topPlayer = player2;
 	}
 	
-	//sends a message to each of the players to come up with their next move. 
-	//This is done by running  player.makeNextMove  for each player.
+	/**
+	 * Starts the game by sending a request to both players to come up 
+	 * with their next move.
+	 */
 	public void startGame() {
 		System.out.println("Game is starting!");
 		//continue to to rounds as long as one of the players have energy and they have not reached one of the endzones
@@ -49,6 +51,12 @@ public class GameMaster {
 		updateRanking();
 	}
 	
+	/**
+	 * Listens for both players next move and evaluates the round
+	 * when energy spendings have been decided for both players.
+	 * @param player the player that makes a move
+	 * @param move the players chosen move
+	 */
 	//each player uses this method to communicate how much energy he wants to use in the current turn. 
 	//Treat all invalid inputs (values other than the energy currently available to the player) as equal to 0. 
 	//If both players made a call to this method during the current round, run evaluateTurn()

@@ -9,6 +9,11 @@ public class Junit_Testing {
 	DefensivePlayer defRobot;
 	AggressivePlayer agrRobot;
 	
+	/**
+	 * Prepares a game for testing.
+	 * A game master with two players are
+	 * created.
+	 */
 	@Before
 	public void setUp() {
 		master = GameMaster.getGameMaster();
@@ -18,6 +23,9 @@ public class Junit_Testing {
 		master.startGame();
 	}
 	
+	/**
+	 * 
+	 */
 	@Test
 	public void testScoreCalculation(){
 		assertTrue(master.updateRanking());

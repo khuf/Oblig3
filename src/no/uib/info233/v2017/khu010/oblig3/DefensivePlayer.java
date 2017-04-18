@@ -1,5 +1,11 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+/**
+ * A class representing a defensive minded player.
+ * A defensive player makes his choice...
+ * @author 
+ *
+ */
 public class DefensivePlayer extends Player{
 
 	public DefensivePlayer(String name) {
