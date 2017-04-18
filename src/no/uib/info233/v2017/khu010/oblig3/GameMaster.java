@@ -1,27 +1,56 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
+
+
 /**
  * A singleton GameMaster class.
  * @author knu010 && xeq003
- * @version 0.0.1 (06.04.2017).
+ * @version 0.0.2 (14.04.2017).
  */
 public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
-	private static GameMaster gameMaster = new GameMaster();
+	private static GameMaster gameMaster = null;
+	private static Map<Integer, Point> scoreBoard;
 	private Player bottomPlayer, topPlayer;
-	private int topMove, bottomMove;
+	private int bottomMove, topMove;
 	private int currentPosition = 0;
-	private float topPlayerScore, bottomPlayerScore;
-	private SQLconnector server = new SQLconnector();
+	
+	//Counter for number of moves made each round.
+	private int movesMade = 0;
 	
 	private GameMaster() {}
 	
 	/**
+	 * Retrieves the GameMaster instance and creates one if needed.
 	 * @return the GameMaster instance
 	 */
 	public static GameMaster getGameMaster() {
+		if (gameMaster == null) {
+			gameMaster = new GameMaster();
+			initializeScoreboard();
+		}
 		return gameMaster;
+	}
+	
+	/**
+	 * Creates the scoreboard for the game using a hashmap where
+	 * the key corresponds with the position in which the game has ended.
+	 */
+	private static void initializeScoreboard() {
+		scoreBoard = new HashMap<>();
+		
+		scoreBoard.put(-3, new Point(-1F, 2F));
+		scoreBoard.put(-2, new Point(0F, 1F));
+		scoreBoard.put(-1, new Point(0.25F, 0.75F));
+		scoreBoard.put(0, new Point(0.5F, 0.5F));
+		scoreBoard.put(1, new Point(0.75F, 0.25F));
+		scoreBoard.put(2, new Point(1F, 0F));
+		scoreBoard.put(3, new Point(2F, -1F));
 	}
 	
 	/**
@@ -39,89 +68,29 @@ public class GameMaster {
 	//sends a message to each of the players to come up with their next move. 
 	//This is done by running  player.makeNextMove  for each player.
 	public void startGame() {
-		System.out.println("Game is starting!");
-		//continue to to rounds as long as one of the players have energy and they have not reached one of the endzones
-		while ((bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && Math.abs(currentPosition) != 3)
-		{
-			evaluateTurn();
-		}
-		System.out.println("Game over. End circle = " + currentPosition);
-		updateRanking();
+			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 	}
 	
 	//each player uses this method to communicate how much energy he wants to use in the current turn. 
 	//Treat all invalid inputs (values other than the energy currently available to the player) as equal to 0. 
 	//If both players made a call to this method during the current round, run evaluateTurn()
 	public void listenToPlayerMove(Player player, int move) {
-		if (move < 0) { move = 0; }
-		if (player == bottomPlayer){
-			bottomMove = move;
-		} else {
+		if (player.equals(topPlayer)) {
 			topMove = move;
+			movesMade++;
 		}
-	}
-	
-	//use the information submitted via . listenToPlayerMove  to identify who won and update the players on the state of the game 
-	// either by running  player.makeNextMove  (if the game has not yet ended), or  player.gameOver
-	// (in case the game has come to an end). If the game came to an end, also run  .updateRanking()
-	public void evaluateTurn() {
-		//System.out.println("topMove: " + topMove);
-		//System.out.println("bottomMove: " + bottomMove);
-		int topEnergy = topPlayer.getEnergy();
-		int bottomEnergy = bottomPlayer.getEnergy();
-		
-		topPlayer.makeNextMove(currentPosition, topEnergy, bottomEnergy);
-		bottomPlayer.makeNextMove(currentPosition, bottomEnergy, topEnergy);
-
-		if (topMove == bottomMove) { 
-			System.out.println("the round ended in a tie");
-		} else if(topMove > bottomMove) {
-			System.out.println(topPlayer + " won by " + (topMove - bottomMove) + " points and pushed bottom player 1 circle back");
-			currentPosition -= 1;
-		} else {
-			System.out.println(bottomPlayer + " won by " + (bottomMove - topMove) + " points and pushed top player 1 circle back");
-			currentPosition += 1;
-		}
-		topMove = bottomMove = 0;
-		
-		//game over
-		if (topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0){
-			updateRanking();
-			topPlayer.gameOver(topPlayerScore);
-			bottomPlayer.gameOver(bottomPlayerScore);
-		}
-	}
-	
-	private float calculateScores() {
-		float bonus = 0.5f;
-		int endPos = Math.abs(currentPosition);
-		if (endPos > 0){bonus += 0.25;}
-		if (endPos > 1){bonus += 0.25;}
-		if (endPos > 2){bonus += 1.0;}
-		
-		if (currentPosition > 0){ //bottom won
-			topPlayerScore -= bonus;
-			bottomPlayerScore += bonus;
-		} else if (currentPosition < 0){ //top won
-			topPlayerScore += bonus;
-			bottomPlayerScore -= bonus;
-		} else {
-			topPlayerScore = bonus;
-			bottomPlayerScore = bonus;
+		else if (player.equals(bottomPlayer)) {
+			bottomMove = move;
+			movesMade++;
 		}
 		
-		return (topPlayerScore + bottomPlayerScore);
-	}
-	
-	//update the player rankings in the ranking table. This table is to be stored in a remote (mySQL) database. 
-	//Use the table named “ranking”, with columns “player” (VARCHAR128) and “score” (FLOAT). 
-	//You will be given the credentials required to connect to your group’s database from your seminar leader.
-	public boolean updateRanking() {
-		if (calculateScores() == 1) {
-		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
-				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
+		if (movesMade == 2) {
+			topPlayer.useEnergy(topMove);
+			bottomPlayer.useEnergy(bottomMove);
+			movesMade = 0;
+			evaluateTurn();
 		}
-		return false;
 	}
 	
 	/**
@@ -136,7 +105,10 @@ public class GameMaster {
 		return (hasWon || hasNoEnergy);
 	}
 	
-	@Override
+	/**
+	 * Creates a string representation of the current state of the game.
+	 * @return a string representing the game's current state.
+	 */
 	public String toString() {
 		String result = "";
 		float topPlayerScore = scoreBoard.get(currentPosition).getPointA();
@@ -157,5 +129,26 @@ public class GameMaster {
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * Evaluates the current round and continues the game if neither player is
+	 * in a winning position and at least one them has energy to fight.
+	 * Otherwise the game ends and both players are notified of their score.
+	 */
+	public void evaluateTurn() {
+		
+		if (isFinnished()){
+			topPlayer.gameOver(scoreBoard.get(currentPosition).getPointA());
+			bottomPlayer.gameOver(scoreBoard.get(currentPosition).getPointB());
+			System.out.println(gameMaster);
+		}
+		else {
+			if (topMove != bottomMove) {
+				currentPosition = (topMove > bottomMove) ? currentPosition +1 : currentPosition - 1;
+			}
+			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
+		}			
 	}
 }

@@ -1,17 +1,23 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+/**
+ * Class representing a stage...
+ * @author khuf010 && xeq003.
+ * @version 0.0.1 (09.04.2017).
+ *
+ */
 public class Point {
 	
-	private final int pointA;
-	private final int pointB;
+	private final float pointA;
+	private final float pointB;
 	
-	public Point(int pointA, int pointB) {
+	public Point(float pointA, float pointB) {
 		this.pointA = pointA;
 		this.pointB = pointB;
 	}
 	
-	public int getPointA() { return pointA; }
+	public float getPointA() { return pointA; }
 	
-	public int getPointB() { return pointB; }
+	public float getPointB() { return pointB; }
 
 }
