@@ -148,10 +148,17 @@ public class GameMaster {
 			bottomPlayer.gameOver(scoreBoard.get(currentPosition).getPointB());
 			System.out.println(gameMaster);
 		}
-		else {
-			if (topMove != bottomMove) {
-				currentPosition = (topMove > bottomMove) ? currentPosition +1 : currentPosition - 1;
+		else if (topMove != bottomMove) {
+			if (topMove > bottomMove) {
+				currentPosition++;
 			}
+			else {
+				currentPosition--;
+			}
+			//Bruke ternary operator?
+			/*if (topMove != bottomMove) {
+				currentPosition = (topMove > bottomMove) ? currentPosition +1 : currentPosition - 1;
+			}*/
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 		}			
