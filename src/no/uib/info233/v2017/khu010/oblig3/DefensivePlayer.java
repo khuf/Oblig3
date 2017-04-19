@@ -8,7 +8,7 @@ package no.uib.info233.v2017.khu010.oblig3;
  */
 public class DefensivePlayer extends Player{
 
-	public DefensivePlayer(String name) {
+	public DefensivePlayer(String name, int goal) {
 		super(name);
 	} 
 	

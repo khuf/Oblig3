@@ -17,8 +17,8 @@ public class Junit_Testing {
 	@Before
 	public void setUp() {
 		master = GameMaster.getGameMaster();
-		defRobot = new DefensivePlayer("defRobot");
-		agrRobot = new AggressivePlayer("agrRobot");
+		defRobot = new DefensivePlayer("defRobot", 3);
+		agrRobot = new AggressivePlayer("agrRobot", -3);
 		master.setPlayers(defRobot, agrRobot);
 		master.startGame();
 	}

@@ -10,20 +10,22 @@ abstract public class Player {
 	private String name;
 	private GameMaster gameMaster;
 	private int energy;
+	private int goal;
 	
 	/**
 	 * Creates a Player with a specified name
 	 * @param name
 	 */
-	public Player(String name) {
+	public Player(String name, int goal) {
 		this.name = name;
 		this.energy = 100;
+		this.goal = goal;
 	}
 	
 	/**
 	 * Registers the Game Master for the Player.
 	 * @param gameMaster
-	 * @throws IllegalArgumentException if the GM has not been instanciated.
+	 * @throws IllegalArgumentException if the GM has not been instantiated.
 	 */
 	public void registerGameMaster(GameMaster gameMaster) throws IllegalArgumentException {
 		if (gameMaster == null) {
@@ -60,7 +62,7 @@ abstract public class Player {
 	}
 	
 	/**
-	 * Returns the Players energy level
+	 * Returns the energy level of the player
 	 * @return energy level
 	 */
 	public int getEnergy(){
@@ -76,7 +78,7 @@ abstract public class Player {
 	}
 	
 	/**
-	 * Returns the Player's name
+	 * Returns the name of the player
 	 * @return name of the player
 	 */
 	public String getName(){
@@ -98,4 +100,44 @@ abstract public class Player {
 	public String toString(){
 		return this.name + ", of type " + this.getClass().getSimpleName();
 	}
+
+	/**
+	 * Generates a hashcode representing the player
+	 * @return hashcode representation of player
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + energy;
+		result = prime * result + goal;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	/**
+	 * Checks if this player is equal to the specified object.
+	 * @return true if the objects are equal. Otherwise, false.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Player other = (Player) obj;
+		if (energy != other.energy)
+			return false;
+		if (goal != other.goal)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+	
 }
