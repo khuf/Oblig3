@@ -37,11 +37,10 @@ public class Junit_Testing {
 		defRobot.registerGameMaster(null);
 	}
 	
+	@Test
 	public void NoDamageWhenNoEnergy(){
-		defRobot.useEnergy(100);
-		agrRobot.useEnergy(100);
-		assertEquals(0, defRobot.makeNextMove(0, 0, 20));
-		assertEquals(0, agrRobot.makeNextMove(0, 0, 20));
+		assertEquals(0, defRobot.useEnergy(101));
+		assertEquals(0, agrRobot.useEnergy(101));
 	}
 
 }
