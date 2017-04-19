@@ -14,15 +14,13 @@ import java.util.Map;
 public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
-	private static GameMaster gameMaster = null;
+	private static GameMaster gameMaster = new GameMaster();
+	private int currentPosition = 0;
 	private static Map<Integer, Point> scoreBoard;
 	private SQLconnector server = new SQLconnector();
+	
 	private Player bottomPlayer, topPlayer;
 	private int bottomMove, topMove = -1;
-	private int currentPosition = 0;
-	
-	//Counter for number of moves made each round.
-	private int movesMade = 0;
 	
 	private GameMaster() {}
 	
@@ -31,10 +29,7 @@ public class GameMaster {
 	 * @return the GameMaster instance
 	 */
 	public static GameMaster getGameMaster() {
-		if (gameMaster == null) {
-			gameMaster = new GameMaster();
-			initializeScoreboard();
-		}
+		initializeScoreboard();
 		return gameMaster;
 	}
 	
@@ -83,20 +78,11 @@ public class GameMaster {
 	public void listenToPlayerMove(Player player, int move) {
 		if (player.equals(topPlayer)) {
 			topMove = move;
-			movesMade++;
 		}
 		else if (player.equals(bottomPlayer)) {
 			bottomMove = move;
-			movesMade++;
 		}
 		
-		/*if (movesMade == 2) {
-			topPlayer.useEnergy(topMove);
-			bottomPlayer.useEnergy(bottomMove);
-			movesMade = 0;
-			evaluateTurn();
-		}*/
-
 		if (topMove != -1 && bottomMove != -1) {
 			topPlayer.useEnergy(topMove);
 			bottomPlayer.useEnergy(bottomMove);

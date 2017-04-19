@@ -31,10 +31,7 @@ public class AggressivePlayer extends Player {
 		int distanceFromGoal = Math.abs(getGoal()-currentPosition);
 		Random rng = new Random();
 		
-		if (distanceFromGoal > 4) {
-			energyToUse = getEnergy();
-		}
-		else if (getEnergy() >= 15) {
+		if (getEnergy() >= 15) {
 		energyToUse = rng.nextInt(15);
 		}
 		else {
