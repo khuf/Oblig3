@@ -18,7 +18,7 @@ public class GameMaster {
 	private static Map<Integer, Point> scoreBoard;
 	private SQLconnector server = new SQLconnector();
 	private Player bottomPlayer, topPlayer;
-	private int bottomMove, topMove;
+	private int bottomMove, topMove = -1;
 	private int currentPosition = 0;
 	
 	//Counter for number of moves made each round.
@@ -90,10 +90,16 @@ public class GameMaster {
 			movesMade++;
 		}
 		
-		if (movesMade == 2) {
+		/*if (movesMade == 2) {
 			topPlayer.useEnergy(topMove);
 			bottomPlayer.useEnergy(bottomMove);
 			movesMade = 0;
+			evaluateTurn();
+		}*/
+
+		if (topMove != -1 && bottomMove != -1) {
+			topPlayer.useEnergy(topMove);
+			bottomPlayer.useEnergy(bottomMove);
 			evaluateTurn();
 		}
 	}
@@ -142,7 +148,7 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
-		
+
 		if (isFinnished()){
 			topPlayer.gameOver(scoreBoard.get(currentPosition).getPointA());
 			bottomPlayer.gameOver(scoreBoard.get(currentPosition).getPointB());
@@ -155,7 +161,12 @@ public class GameMaster {
 			else {
 				currentPosition--;
 			}
-
+			
+			//Reset moves
+			topMove = -1;
+			bottomMove = -1;
+			
+			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 		}			
