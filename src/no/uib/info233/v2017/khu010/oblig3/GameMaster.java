@@ -21,9 +21,7 @@ public class GameMaster {
 	 * Returns an instance of the Game Master.
 	 * @return the GameMaster instance
 	 */
-	public static GameMaster getGameMaster() {
-		return gameMaster;
-	}
+	public static GameMaster getGameMaster() {return gameMaster;}
 	
 	/**
 	 * Registers the players to the game master.
@@ -54,14 +52,11 @@ public class GameMaster {
 	 * @param move The move that the player chose.
 	 */
 	public void listenToPlayerMove(Player player, int move) {
-		if (player.equals(topPlayer)) {
-			topMove = move;
-		}
-		else if (player.equals(bottomPlayer)) {
-			bottomMove = move;
-		}
+		if (player.equals(topPlayer)) {topMove = move;}
+		if (player.equals(bottomPlayer)) {bottomMove = move;}
 		
 		if (topMove != -1 && bottomMove != -1) {
+			//makes sure no invalid energy values are used
 			topMove = topPlayer.useEnergy(topMove);
 			bottomMove = bottomPlayer.useEnergy(bottomMove);
 			evaluateTurn();
@@ -78,12 +73,11 @@ public class GameMaster {
 		if (isFinnished()){
 			updateRanking();
 			System.out.println(gameMaster);
-		}
-		else if (topMove != bottomMove) {
+		} else {
+			
 			if (topMove > bottomMove) {
 				currentPosition++;
-			}
-			else {
+			} else {
 				currentPosition--;
 			}
 			
@@ -94,7 +88,7 @@ public class GameMaster {
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
-		}			
+		}
 	}
 	
 	/**
@@ -145,7 +139,6 @@ public class GameMaster {
 	private boolean isFinnished() {
 		boolean hasWon = Math.abs(currentPosition) == 3;
 		boolean hasNoEnergy = topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0;
-		
 		return (hasWon || hasNoEnergy);
 	}
 	
