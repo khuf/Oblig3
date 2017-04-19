@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		GameMaster master = GameMaster.getGameMaster();
-		master.setPlayers(new DefensivePlayer("defRobot"), new AggressivePlayer("agrRobot"));
+		master.setPlayers(new DefensivePlayer("defRobot", 3), new AggressivePlayer("agrRobot", -3));
 		master.startGame();
 
 	}

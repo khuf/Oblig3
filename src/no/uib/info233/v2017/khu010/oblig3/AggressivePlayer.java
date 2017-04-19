@@ -16,9 +16,10 @@ public class AggressivePlayer extends Player {
 	/**
 	 * Creates an aggressive player with a specified name.
 	 * @param name of the player
+	 * @param goal the players goal destination.
 	 */
 	public AggressivePlayer(String name, int goal) {
-		super(name);
+		super(name, goal);
 	} 
 	
 	/**

@@ -52,20 +52,23 @@ public class GameMaster {
 	}
 	
 	/**
-	 * Listens for both players next move and evaluates the round
-	 * when energy spendings have been decided for both players.
-	 * @param player the player that makes a move
-	 * @param move the players chosen move
+	 * Listens to the players moves and evaluates the round once
+	 * both players have made its move.
+	 * @param player The player that does a move
+	 * @param move The move that the player chose.
 	 */
-	//each player uses this method to communicate how much energy he wants to use in the current turn. 
-	//Treat all invalid inputs (values other than the energy currently available to the player) as equal to 0. 
-	//If both players made a call to this method during the current round, run evaluateTurn()
 	public void listenToPlayerMove(Player player, int move) {
-		if (move < 0) { move = 0; }
-		if (player == bottomPlayer){
-			bottomMove = move;
-		} else {
+		if (player.equals(topPlayer)) {
 			topMove = move;
+		}
+		else if (player.equals(bottomPlayer)) {
+			bottomMove = move;
+		}
+		
+		if (topMove != -1 && bottomMove != -1) {
+			topPlayer.useEnergy(topMove);
+			bottomPlayer.useEnergy(bottomMove);
+			evaluateTurn();
 		}
 	}
 	

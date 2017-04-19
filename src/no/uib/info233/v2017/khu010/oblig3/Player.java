@@ -42,7 +42,7 @@ abstract public class Player {
 	 * @param opponentEnergy Opponents current energy level.
 	 * @return energy to spend this round.
 	 */
-	abstract int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy);
+	abstract void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy);
 	
 	/**
 	 * Informs the player that the game has come to an end and how 
@@ -54,11 +54,13 @@ abstract public class Player {
 	}
 	
 	/**
-	 * Sets the energy level of the player
-	 * @param energy level
+	 * Uses a specified amount of energy from the player
+	 * @param energyUsage how much energy to use
 	 */
-	public void setEnergy(int energy) {
-		this.energy = energy;
+	public void useEnergy(int energyUsage) {
+		if (this.energy >= energyUsage) {
+			this.energy -= energyUsage;
+		}
 	}
 	
 	/**
