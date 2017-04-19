@@ -16,8 +16,16 @@ public class Point {
 		this.pointB = pointB;
 	}
 	
+	/**
+	 * Gets the score for player A
+	 * @return points scored by player A in the game
+	 */
 	public float getPointA() { return pointA; }
 	
+	/**
+	 * Gets the score for player B
+	 * @return points scored by player B in the game
+	 */
 	public float getPointB() { return pointB; }
 
 }

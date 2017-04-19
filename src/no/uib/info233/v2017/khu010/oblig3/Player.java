@@ -1,7 +1,5 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
-import khu010.GameMaster;
-import khu010.Player;
 
 /**
  * Base class for a Player.

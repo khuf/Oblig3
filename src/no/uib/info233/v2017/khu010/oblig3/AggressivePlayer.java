@@ -1,9 +1,14 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+import java.util.Random;
+
+
 /**
  * Class representing an aggressive player.
  * An aggressive player will try to win the match
  * within 3 rounds.
+ * @author khuf010 && xeq003
+ * @version 0.0.1 (08.04.2017).
  */
 public class AggressivePlayer extends Player {
 
@@ -11,25 +16,26 @@ public class AggressivePlayer extends Player {
 	 * Creates an aggressive player with a specified name.
 	 * @param name of the player
 	 */
-	public AggressivePlayer(String name) {
-		super(name);
+	public AggressivePlayer(String name, int goal) {
+		super(name, goal);
 	} 
 	
 	/**
 	 * Makes a move based on the current position, player and opponent energy level.
+	 * @param currentPosition the position where the robots fight.
+	 * @param yourEnergy the energy level of this robot.
+	 * @param opponentEnergy the energy level of the enemy.
 	 */
-	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+		int energyToUse = 0;
+		Random rng = new Random();
 		
-		int useEnergy;
-		if (getEnergy() > 40){
-			useEnergy = 40;
-		} else {
-			useEnergy = getEnergy();
+		if (getEnergy() >= 15) {
+		energyToUse = rng.nextInt(15);
 		}
-		
-		//System.out.println("energy: " + this.energy + " useEnergy: " + useEnergy);
-		setEnergy(getEnergy() - useEnergy);
-		getGameMaster().listenToPlayerMove(this, useEnergy);
-		return useEnergy;
+		else {
+			energyToUse = rng.nextInt(getEnergy());
+		}
+		getGameMaster().listenToPlayerMove(this, energyToUse);
 	}
 }
