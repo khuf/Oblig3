@@ -2,8 +2,6 @@ package no.uib.info233.v2017.khu010.oblig3;
 
 import java.util.Random;
 
-import khu010.Player;
-
 /**
  * Class representing an aggressive player.
  * An aggressive player will try to win the match
@@ -28,7 +26,7 @@ public class AggressivePlayer extends Player {
 	 * @param yourEnergy the energy level of this robot.
 	 * @param opponentEnergy the energy level of the enemy.
 	 */
-	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		int energyToUse = 0;
 		Random rng = new Random();
 		
@@ -40,5 +38,6 @@ public class AggressivePlayer extends Player {
 			energyToUse = rng.nextInt(getEnergy());
 		}
 		getGameMaster().listenToPlayerMove(this, energyToUse);
+		return energyToUse;
 	}
 }

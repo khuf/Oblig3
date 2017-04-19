@@ -102,6 +102,7 @@ public class GameMaster {
 	 * @return sum of both players score (1).
 	 */
 	private float calculateScores() {
+		
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
 		if (endPos > 0){bonus += 0.25;}
@@ -118,7 +119,7 @@ public class GameMaster {
 			topPlayerScore = bonus;
 			bottomPlayerScore = bonus;
 		}
-		
+
 		return (topPlayerScore + bottomPlayerScore);
 	}
 	
@@ -127,7 +128,9 @@ public class GameMaster {
 	 * @return
 	 */
 	public boolean updateRanking() {
-		if (calculateScores() == 1) {
+		System.out.println(calculateScores());
+		if (calculateScores() == 1.0f) {
+			System.out.println("updaterating");
 		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
 				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
 		}

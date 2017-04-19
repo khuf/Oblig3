@@ -19,9 +19,9 @@ public class SQLconnector {
     Connection con = null;
     PreparedStatement pst = null;
 
-    String url = "jdbc:mysql://localhost:8889/barInfo";
-    String user = "root";
-    String password = "root";
+    String url = "jdbc:mysql:https://bigfoot.uib.no/phpMyAdmin";
+    String user = "Khuna";
+    String password = "'mr{6)9m5wHfS3*";
 	
     /**
      * Updates the ranking table with the new score from
@@ -31,7 +31,7 @@ public class SQLconnector {
      * @return true if the update was successful. Otherwise, false.
      */
 	public boolean addScore(String playerName, float playerScore){
-		
+		System.out.println("test");
         try {
     		con = DriverManager.getConnection(url, user, password);
             pst = con.prepareStatement("INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)");

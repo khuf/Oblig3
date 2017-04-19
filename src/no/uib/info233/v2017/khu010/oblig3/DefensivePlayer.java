@@ -18,19 +18,17 @@ public class DefensivePlayer extends Player{
 		super(name, goal);
 	} 
 	
-	/**
-	 * 
-	 */
-	public void makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
-		int useEnergy;
+		int energyToUse;
 		if (getEnergy() > 20){
-			useEnergy = 20;
+			energyToUse = 20;
 		} else {
-			useEnergy = getEnergy();
+			energyToUse = getEnergy();
 		}
 		
-		getGameMaster().listenToPlayerMove(this, useEnergy);
+		getGameMaster().listenToPlayerMove(this, energyToUse);
+		return energyToUse;
 	}
 	
 }
