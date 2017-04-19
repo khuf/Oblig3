@@ -69,6 +69,9 @@ public class GameMaster {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	//use the information submitted via . listenToPlayerMove  to identify who won and update the players on the state of the game 
 	// either by running  player.makeNextMove  (if the game has not yet ended), or  player.gameOver
 	// (in case the game has come to an end). If the game came to an end, also run  .updateRanking()

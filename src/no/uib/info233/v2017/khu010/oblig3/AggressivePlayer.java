@@ -22,7 +22,7 @@ public class AggressivePlayer extends Player {
 	} 
 	
 	/**
-	 * Makes a move based on the current position, player and opponent energy level.
+	 * Makes a move based on the current position, player and opponents energy level.
 	 * @param currentPosition the position where the robots fight.
 	 * @param yourEnergy the energy level of this robot.
 	 * @param opponentEnergy the energy level of the enemy.
@@ -32,7 +32,8 @@ public class AggressivePlayer extends Player {
 		Random rng = new Random();
 		
 		if (getEnergy() >= 15) {
-		energyToUse = rng.nextInt(15);
+		//Use energy between 5 and 15 (inclusive).
+		energyToUse = rng.nextInt(15-5+1) + 5;
 		}
 		else {
 			energyToUse = rng.nextInt(getEnergy());
