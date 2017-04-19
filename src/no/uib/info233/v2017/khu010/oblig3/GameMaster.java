@@ -41,14 +41,8 @@ public class GameMaster {
 	 * with their next move.
 	 */
 	public void startGame() {
-		System.out.println("Game is starting!");
-		//continue to to rounds as long as one of the players have energy and they have not reached one of the endzones
-		while ((bottomPlayer.getEnergy() != 0 || topPlayer.getEnergy() != 0) && Math.abs(currentPosition) != 3)
-		{
-			evaluateTurn();
-		}
-		System.out.println("Game over. End circle = " + currentPosition);
-		updateRanking();
+		topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+		bottomPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 	}
 	
 	/**
@@ -73,39 +67,38 @@ public class GameMaster {
 	}
 	
 	/**
-	 * 
+	 * Evaluates the current round and continues the game if neither player is
+	 * in a winning position and at least one them has energy to fight.
+	 * Otherwise the game ends and both players are notified of their score.
 	 */
-	//use the information submitted via . listenToPlayerMove  to identify who won and update the players on the state of the game 
-	// either by running  player.makeNextMove  (if the game has not yet ended), or  player.gameOver
-	// (in case the game has come to an end). If the game came to an end, also run  .updateRanking()
 	public void evaluateTurn() {
-		//System.out.println("topMove: " + topMove);
-		//System.out.println("bottomMove: " + bottomMove);
-		int topEnergy = topPlayer.getEnergy();
-		int bottomEnergy = bottomPlayer.getEnergy();
-		
-		topPlayer.makeNextMove(currentPosition, topEnergy, bottomEnergy);
-		bottomPlayer.makeNextMove(currentPosition, bottomEnergy, topEnergy);
 
-		if (topMove == bottomMove) { 
-			System.out.println("the round ended in a tie");
-		} else if(topMove > bottomMove) {
-			System.out.println(topPlayer + " won by " + (topMove - bottomMove) + " points and pushed bottom player 1 circle back");
-			currentPosition -= 1;
-		} else {
-			System.out.println(bottomPlayer + " won by " + (bottomMove - topMove) + " points and pushed top player 1 circle back");
-			currentPosition += 1;
-		}
-		topMove = bottomMove = 0;
-		
-		//game over
-		if (topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0){
+		if (isFinnished()){
 			updateRanking();
-			topPlayer.gameOver(topPlayerScore);
-			bottomPlayer.gameOver(bottomPlayerScore);
+			System.out.println(gameMaster);
 		}
+		else if (topMove != bottomMove) {
+			if (topMove > bottomMove) {
+				currentPosition++;
+			}
+			else {
+				currentPosition--;
+			}
+			
+			//Reset moves
+			topMove = -1;
+			bottomMove = -1;
+			
+			//Make next move
+			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
+		}			
 	}
 	
+	/**
+	 * Calculates the score for each player from a finished game.
+	 * @return sum of both players score (1).
+	 */
 	private float calculateScores() {
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
@@ -127,9 +120,10 @@ public class GameMaster {
 		return (topPlayerScore + bottomPlayerScore);
 	}
 	
-	//update the player rankings in the ranking table. This table is to be stored in a remote (mySQL) database. 
-	//Use the table named “ranking”, with columns “player” (VARCHAR128) and “score” (FLOAT). 
-	//You will be given the credentials required to connect to your group’s database from your seminar leader.
+	/**
+	 * Updates the ranking table with new scores from a finished game.
+	 * @return
+	 */
 	public boolean updateRanking() {
 		if (calculateScores() == 1) {
 		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
@@ -139,7 +133,7 @@ public class GameMaster {
 	}
 	
 	/**
-	 * Checks wether the game has ended by checking if either player is in a
+	 * Checks whether the game has ended by checking if either player is in a
 	 * winning position or if both players are out of energy.
 	 * @return
 	 */
@@ -153,8 +147,6 @@ public class GameMaster {
 	@Override
 	public String toString() {
 		String result = "";
-		float topPlayerScore = scoreBoard.get(currentPosition).getPointA();
-		float bottomPlayerScore = scoreBoard.get(currentPosition).getPointB();
 		
 		if (!isFinnished()) {
 			result = "Current standings:\n" + topPlayer.getName() + ": " + topPlayerScore + "\n" +
