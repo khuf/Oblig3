@@ -155,10 +155,7 @@ public class GameMaster {
 			else {
 				currentPosition--;
 			}
-			//Bruke ternary operator?
-			/*if (topMove != bottomMove) {
-				currentPosition = (topMove > bottomMove) ? currentPosition +1 : currentPosition - 1;
-			}*/
+
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 		}			
