@@ -18,6 +18,7 @@ public class GameMaster {
 	private GameMaster() {}
 	
 	/**
+	 * Returns an instance of the Game Master.
 	 * @return the GameMaster instance
 	 */
 	public static GameMaster getGameMaster() {
@@ -26,8 +27,8 @@ public class GameMaster {
 	
 	/**
 	 * Registers the players to the game master.
-	 * @param player1
-	 * @param player2
+	 * @param player1 the topPlayer
+	 * @param player2 the bottomPlayer
 	 */
 	public void setPlayers(Player player1, Player player2) {
 		player1.registerGameMaster(this);
@@ -41,6 +42,7 @@ public class GameMaster {
 	 * with their next move.
 	 */
 	public void startGame() {
+		System.out.println("The two players meet each other in the middle circle and prepares their move");
 		topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 		bottomPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 	}

@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 
 public class Junit_Testing {
 	
-	GameMaster master;
-	DefensivePlayer defRobot;
-	AggressivePlayer agrRobot;
+	private GameMaster master;
+	private DefensivePlayer defRobot;
+	private AggressivePlayer agrRobot;
 	
 	/**
 	 * Prepares a game for testing.
@@ -24,7 +24,8 @@ public class Junit_Testing {
 	}
 	
 	/**
-	 * 
+	 * Checks if the score can be successfully synchronized with the 
+	 * database.
 	 */
 	@Test
 	public void testScoreCalculation(){
@@ -37,8 +38,8 @@ public class Junit_Testing {
 	}
 	
 	public void NoDamageWhenNoEnergy(){
-		defRobot.setEnergy(100);
-		agrRobot.setEnergy(100);
+		defRobot.useEnergy(100);
+		agrRobot.useEnergy(100);
 		assertEquals(0, defRobot.makeNextMove(0, 0, 20));
 		assertEquals(0, agrRobot.makeNextMove(0, 0, 20));
 	}
