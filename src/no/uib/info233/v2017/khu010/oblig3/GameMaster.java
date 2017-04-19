@@ -62,8 +62,8 @@ public class GameMaster {
 		}
 		
 		if (topMove != -1 && bottomMove != -1) {
-			topPlayer.useEnergy(topMove);
-			bottomPlayer.useEnergy(bottomMove);
+			topMove = topPlayer.useEnergy(topMove);
+			bottomMove = bottomPlayer.useEnergy(bottomMove);
 			evaluateTurn();
 		}
 	}
