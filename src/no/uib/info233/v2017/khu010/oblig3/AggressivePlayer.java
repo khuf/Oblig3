@@ -2,11 +2,6 @@ package no.uib.info233.v2017.khu010.oblig3;
 
 import java.util.Random;
 
-<<<<<<< Updated upstream
-=======
-//import khu010.Player;
-
->>>>>>> Stashed changes
 /**
  * Class representing an aggressive player.
  * An aggressive player will try to win the match
