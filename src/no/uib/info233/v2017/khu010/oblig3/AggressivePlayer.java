@@ -32,14 +32,22 @@ public class AggressivePlayer extends Player {
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		
 		int energyToUse = 0;
+		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
+		boolean hasEnergy = getEnergy() > 0;
 		Random rng = new Random();
-		
-		if (getEnergy() >= 15) {
-		//Use energy between 5 and 15 (inclusive).
-		energyToUse = rng.nextInt(15-5+1) + 5;
-		}
-		else {
-			energyToUse = rng.nextInt(getEnergy());
+
+		if (hasEnergy) {
+			// If we're 1 step from winning; use remaining energy
+			if (distanceFromGoal == 1) {
+				energyToUse = getEnergy();
+			}
+			else  if (distanceFromGoal > 3){
+				energyToUse = yourEnergy/distanceFromGoal;
+			}
+			else if (yourEnergy >= 15) {
+				// Use energy between 5 and 15 (inclusive).
+				energyToUse = rng.nextInt(15 - 5 + 1) + 5;
+			} 
 		}
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
