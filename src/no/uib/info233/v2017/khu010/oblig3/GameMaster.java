@@ -16,6 +16,9 @@ public class GameMaster {
 	private SQLconnector server = new SQLconnector();
 	private int roundNumber = 0;
 	
+	//TEST
+	private int movesMade = 0;
+	
 	private GameMaster() {}
 	
 	/**
@@ -53,13 +56,21 @@ public class GameMaster {
 	 * @param move The move that the player chose.
 	 */
 	public void listenToPlayerMove(Player player, int move) {
-		if (player.equals(topPlayer)) {topMove = move;}
-		if (player.equals(bottomPlayer)) {bottomMove = move;}
+		if (player.equals(topPlayer)) {topMove = move; movesMade++;}
+		if (player.equals(bottomPlayer)) {bottomMove = move; movesMade++;}
 		
-		if (topMove != -1 && bottomMove != -1) {
+		/*if (topMove != -1 && bottomMove != -1) {
 			//makes sure no invalid energy values are used
 			topMove = topPlayer.useEnergy(topMove);
 			bottomMove = bottomPlayer.useEnergy(bottomMove);
+			evaluateTurn();
+		}*/
+		if (movesMade == 2) {
+			topMove = topPlayer.useEnergy(topMove);
+			bottomMove = bottomPlayer.useEnergy(bottomMove);
+			movesMade = 0;
+			System.out.println("Top used: " + topMove);
+			System.out.println("Bottom used: " + bottomMove);
 			evaluateTurn();
 		}
 	}
@@ -73,10 +84,14 @@ public class GameMaster {
 		printStatus();
 		roundNumber++;
 		//System.out.println(gameMaster);
-		if (isFinnished()){
+		if (isFinnished()) {
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
 			topPlayer.gameOver(topPlayerScore);
+			System.out.println("Finishing round: " + roundNumber++);
+			System.out.println("Finishing position: " + currentPosition);
+			System.out.println("Top has: " + topPlayer.getEnergy());
+			System.out.println("Bottom has: " + bottomPlayer.getEnergy());
 		} else {
 			
 			if (topMove > bottomMove) {
@@ -85,14 +100,16 @@ public class GameMaster {
 				currentPosition--;
 			}
 			
+			
 			//Reset moves
-			topMove = -1;
-			bottomMove = -1;
+			//topMove = -1;
+			//bottomMove = -1;
 			System.out.println("bleep");
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			System.out.println(" bloop");
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
+			
 			System.out.println("doop");
 		}
 	}
