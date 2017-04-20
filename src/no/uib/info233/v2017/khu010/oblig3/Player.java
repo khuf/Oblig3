@@ -96,6 +96,10 @@ abstract public class Player {
 	public String getName(){
 		return name;
 	}
+	
+	public int getGoal() {
+		return this.goal;
+	}
 
 	/**
 	 * Returns the game master instance

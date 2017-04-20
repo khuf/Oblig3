@@ -28,6 +28,10 @@ public class DefensivePlayer extends Player{
 		
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
+		
+		/*
+		 * 
+		 */
 	}
 	
 }

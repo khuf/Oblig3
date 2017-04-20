@@ -43,5 +43,6 @@ public class AggressivePlayer extends Player {
 		}
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
+		
 	}
 }
