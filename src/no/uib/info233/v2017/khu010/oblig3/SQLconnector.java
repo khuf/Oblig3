@@ -16,12 +16,12 @@ import java.util.logging.Logger;
  */
 public class SQLconnector {
 	
-    Connection con = null;
-    PreparedStatement pst = null;
+    private Connection con = null;
+    private PreparedStatement pst = null;
 
-    String url = "jdbc:mysql://bigfoot.uib.no/phpMyAdmin";
-    String user = "Khuna";
-    String password = "'mr{6)9m5wHfS3*";
+    private String url = "jdbc:mysql://bigfoot.uib.no/phpMyAdmin";
+    private String user = "Khuna";
+    private String password = "'mr{6)9m5wHfS3*";
 	
     /**
      * Updates the ranking table with the new score from

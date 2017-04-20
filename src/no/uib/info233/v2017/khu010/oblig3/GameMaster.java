@@ -122,8 +122,7 @@ public class GameMaster {
 		System.out.println(status);
 	}
 	
-	private Player getLeadingPlayer(){
-
+	private Player getLeadingPlayer() {		
 		if (currentPosition < 0){
 			return topPlayer;
 		} else if (currentPosition > 0){
