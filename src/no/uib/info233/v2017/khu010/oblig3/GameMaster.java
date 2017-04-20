@@ -9,15 +9,15 @@ public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
 	private static GameMaster gameMaster = new GameMaster();
+	private SQLconnector server = new SQLconnector();
+
+	//Game settings
 	private Player bottomPlayer, topPlayer;
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
 	private float topPlayerScore, bottomPlayerScore;
-	private SQLconnector server = new SQLconnector();
-	private int roundNumber = 0;
-	
-	//TEST
 	private int movesMade = 0;
+	private int roundNumber = 0;
 	
 	private GameMaster() {}
 	
@@ -59,18 +59,10 @@ public class GameMaster {
 		if (player.equals(topPlayer)) {topMove = move; movesMade++;}
 		if (player.equals(bottomPlayer)) {bottomMove = move; movesMade++;}
 		
-		/*if (topMove != -1 && bottomMove != -1) {
-			//makes sure no invalid energy values are used
-			topMove = topPlayer.useEnergy(topMove);
-			bottomMove = bottomPlayer.useEnergy(bottomMove);
-			evaluateTurn();
-		}*/
 		if (movesMade == 2) {
 			topMove = topPlayer.useEnergy(topMove);
 			bottomMove = bottomPlayer.useEnergy(bottomMove);
 			movesMade = 0;
-			System.out.println("Top used: " + topMove);
-			System.out.println("Bottom used: " + bottomMove);
 			evaluateTurn();
 		}
 	}
@@ -83,15 +75,12 @@ public class GameMaster {
 	public void evaluateTurn() {
 		printStatus();
 		roundNumber++;
-		//System.out.println(gameMaster);
 		if (isFinnished()) {
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
 			topPlayer.gameOver(topPlayerScore);
 			System.out.println("Finishing round: " + roundNumber++);
 			System.out.println("Finishing position: " + currentPosition);
-			System.out.println("Top has: " + topPlayer.getEnergy());
-			System.out.println("Bottom has: " + bottomPlayer.getEnergy());
 		} else {
 			
 			if (topMove > bottomMove) {
@@ -100,17 +89,9 @@ public class GameMaster {
 				currentPosition--;
 			}
 			
-			
-			//Reset moves
-			//topMove = -1;
-			//bottomMove = -1;
-			System.out.println("bleep");
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
-			System.out.println(" bloop");
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
-			
-			System.out.println("doop");
 		}
 	}
 	
@@ -164,14 +145,17 @@ public class GameMaster {
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
 
+		//It's a tie
 		if (getLeadingPlayer() == null) {
 			topPlayerScore = bonus;
 			bottomPlayerScore = bonus;
 		}
+		//Top won
 		else if (getLeadingPlayer().equals(topPlayer)) {
 			topPlayerScore += bonus;
 			bottomPlayerScore -= bonus;
 		}
+		//Bottom won
 		else {
 			topPlayerScore -= bonus;
 			bottomPlayerScore += bonus;
