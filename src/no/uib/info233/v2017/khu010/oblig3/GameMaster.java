@@ -88,10 +88,12 @@ public class GameMaster {
 			//Reset moves
 			topMove = -1;
 			bottomMove = -1;
-			
+			System.out.println("bleep");
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
+			System.out.println(" bloop");
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
+			System.out.println("doop");
 		}
 	}
 	
