@@ -51,7 +51,7 @@ public class GameMaster {
 	
 	/**
 	 * Listens to the players moves and evaluates the round once
-	 * both players have made its move.
+	 * both players have made their move.
 	 * @param player The player that does a move
 	 * @param move The move that the player chose.
 	 */
@@ -106,6 +106,11 @@ public class GameMaster {
 		return (hasWon || hasNoEnergy);
 	}
 	
+	/**
+	 * Prints the status of the current game to the console.
+	 * This includes information such as the leading player if the
+	 * game is ongoing or a game over message if the game has ended.
+	 */
 	private void printStatus() {
 
 		Player leadingPlayer = getLeadingPlayer();
@@ -122,17 +127,24 @@ public class GameMaster {
 		System.out.println(status);
 	}
 	
+	/**
+	 * Gets the leading player in an ongoing game.
+	 * @return the leading player.
+	 */
 	private Player getLeadingPlayer() {		
-		if (currentPosition < 0){
-			return topPlayer;
-		} else if (currentPosition > 0){
-			return bottomPlayer;
-		} else return null;
+		Player result = null;
+		
+		if (currentPosition < 0) {
+			result = topPlayer;
+		} else if (currentPosition > 0) {
+			result = bottomPlayer;
+		} 
+		
+		return result;
 	}
 	
 	/**
 	 * Calculates the score for each player from a finished game.
-	 * @return sum of both players score (1).
 	 */
 	private void calculateScores() {
 		topPlayerScore = 0.5f;
@@ -161,7 +173,7 @@ public class GameMaster {
 			bottomPlayerScore += bonus;
 		}
 	}
-	
+
 	/**
 	 * Updates the ranking table with new scores from a finished game.
 	 * @return
