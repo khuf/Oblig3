@@ -30,6 +30,7 @@ public class AggressivePlayer extends Player {
 	 * @param opponentEnergy the energy level of the enemy.
 	 */
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+		
 		int energyToUse = 0;
 		Random rng = new Random();
 		

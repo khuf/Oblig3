@@ -14,6 +14,7 @@ public class GameMaster {
 	private int currentPosition = 0;
 	private float topPlayerScore, bottomPlayerScore;
 	private SQLconnector server = new SQLconnector();
+	private int roundNumber = 0;
 	
 	private GameMaster() {}
 	
@@ -69,10 +70,13 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
-
+		printStatus();
+		roundNumber++;
+		//System.out.println(gameMaster);
 		if (isFinnished()){
 			updateRanking();
-			System.out.println(gameMaster);
+			bottomPlayer.gameOver(bottomPlayerScore);
+			topPlayer.gameOver(topPlayerScore);
 		} else {
 			
 			if (topMove > bottomMove) {
@@ -92,17 +96,56 @@ public class GameMaster {
 	}
 	
 	/**
+	 * Checks whether the game has ended by checking if either player is in a
+	 * winning position or if both players are out of energy.
+	 * @return
+	 */
+	private boolean isFinnished() {
+		boolean hasWon = Math.abs(currentPosition) == 3;
+		boolean hasNoEnergy = topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0;
+		return (hasWon || hasNoEnergy);
+	}
+	
+	private void printStatus() {
+
+		Player leadingPlayer = getLeadingPlayer();
+		String status = "";
+		if (roundNumber == 0){
+			status = "Game is starting";
+		} else if (isFinnished()){
+			status = "Game over";
+		} else if (leadingPlayer != null) {
+			status = "Round #" + roundNumber + "\n" + leadingPlayer.getName() + " is in the lead";
+		} else {
+			status = "Round #" + roundNumber + "\nPlayers are tied";
+		}
+		System.out.println(status);
+	}
+	
+	private Player getLeadingPlayer(){
+
+		if (currentPosition < 0){
+			return topPlayer;
+		} else if (currentPosition > 0){
+			return bottomPlayer;
+		} else return null;
+	}
+	
+	/**
 	 * Calculates the score for each player from a finished game.
 	 * @return sum of both players score (1).
 	 */
-	private float calculateScores() {
-		
-		float bonus = 0.5f;
+	private void calculateScores() {
+		topPlayerScore = 0.5f;
+		bottomPlayerScore = 0.5f;
+
+		float bonus = 0;
 		int endPos = Math.abs(currentPosition);
+
 		if (endPos > 0){bonus += 0.25;}
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
-		
+
 		if (currentPosition > 0){ //bottom won
 			topPlayerScore -= bonus;
 			bottomPlayerScore += bonus;
@@ -113,8 +156,6 @@ public class GameMaster {
 			topPlayerScore = bonus;
 			bottomPlayerScore = bonus;
 		}
-
-		return (topPlayerScore + bottomPlayerScore);
 	}
 	
 	/**
@@ -122,24 +163,12 @@ public class GameMaster {
 	 * @return
 	 */
 	public boolean updateRanking() {
-		System.out.println(calculateScores());
-		if (calculateScores() == 1.0f) {
-			System.out.println("updaterating");
-		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
+		calculateScores();
+		return true;
+		/*
+		 * return (server.addScore(topPlayer.getName(), topPlayerScore) &&
 				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
-		}
-		return false;
-	}
-	
-	/**
-	 * Checks whether the game has ended by checking if either player is in a
-	 * winning position or if both players are out of energy.
-	 * @return
-	 */
-	private boolean isFinnished() {
-		boolean hasWon = Math.abs(currentPosition) == 3;
-		boolean hasNoEnergy = topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0;
-		return (hasWon || hasNoEnergy);
+		 */
 	}
 	
 	@Override
@@ -157,7 +186,7 @@ public class GameMaster {
 			else {
 				String winner = topPlayerScore > bottomPlayerScore ? topPlayer.getName() : bottomPlayer.getName();
 				float points = Math.abs(topPlayerScore - bottomPlayerScore);
-				result = winner + " has won by " + points + " points";
+				result = winner + " has won and recieved " + points + " point(s)";
 			}
 		}
 		return result;
