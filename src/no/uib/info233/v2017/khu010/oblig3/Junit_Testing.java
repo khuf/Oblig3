@@ -21,6 +21,7 @@ public class Junit_Testing {
 		agrRobot = new AggressivePlayer("agrRobot", -3);
 		master.setPlayers(defRobot, agrRobot);
 		master.startGame();
+		System.out.println(master.toString());
 	}
 	
 	/**
