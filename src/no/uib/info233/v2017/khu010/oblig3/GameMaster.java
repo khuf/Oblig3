@@ -131,8 +131,17 @@ public class GameMaster {
 	 * Gets the leading player in an ongoing game.
 	 * @return the leading player.
 	 */
-	private Player getLeadingPlayer() {		
-		Player result = null;
+	private Player getLeadingPlayer() {				
+		if (currentPosition < 0) {
+			return topPlayer;
+		} else if (currentPosition > 0) {
+			return bottomPlayer;
+		} 
+		
+		return null;
+		
+		/*
+		 Player result = null;
 		
 		if (currentPosition < 0) {
 			result = topPlayer;
@@ -141,6 +150,7 @@ public class GameMaster {
 		} 
 		
 		return result;
+		 */
 	}
 	
 	/**
