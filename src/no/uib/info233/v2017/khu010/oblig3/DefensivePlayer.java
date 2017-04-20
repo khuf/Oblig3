@@ -19,7 +19,6 @@ public class DefensivePlayer extends Player{
 	} 
 	
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
-		
 		int energyToUse;
 		if (getEnergy() > 20){
 			energyToUse = 20;

@@ -41,6 +41,7 @@ public class GameMaster {
 	 */
 	public void startGame() {
 		System.out.println("The two players meet each other in the middle circle and prepares to fight");
+		System.out.println("nextMove");
 		topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 		bottomPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 	}
@@ -52,6 +53,7 @@ public class GameMaster {
 	 * @param move The move that the player chose.
 	 */
 	public void listenToPlayerMove(Player player, int move) {
+		System.out.println("testing");
 		if (player.equals(topPlayer)) {topMove = move;}
 		if (player.equals(bottomPlayer)) {bottomMove = move;}
 		
@@ -69,8 +71,11 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
+		
+		System.out.println("evaulating");
 
 		if (isFinnished()){
+			System.out.println("testt");
 			updateRanking();
 			System.out.println(gameMaster);
 		} else {
@@ -96,13 +101,13 @@ public class GameMaster {
 	 * @return sum of both players score (1).
 	 */
 	private float calculateScores() {
-		
+
 		float bonus = 0.5f;
 		int endPos = Math.abs(currentPosition);
 		if (endPos > 0){bonus += 0.25;}
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
-		
+
 		if (currentPosition > 0){ //bottom won
 			topPlayerScore -= bonus;
 			bottomPlayerScore += bonus;
@@ -122,7 +127,8 @@ public class GameMaster {
 	 * @return
 	 */
 	public boolean updateRanking() {
-		System.out.println(calculateScores());
+		System.out.println(currentPosition);
+		
 		if (calculateScores() == 1.0f) {
 			System.out.println("updaterating");
 		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
