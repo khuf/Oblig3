@@ -164,15 +164,17 @@ public class GameMaster {
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
 
-		if (currentPosition > 0){ //bottom won
-			topPlayerScore -= bonus;
-			bottomPlayerScore += bonus;
-		} else if (currentPosition < 0){ //top won
-			topPlayerScore += bonus;
-			bottomPlayerScore -= bonus;
-		} else {
+		if (getLeadingPlayer() == null) {
 			topPlayerScore = bonus;
 			bottomPlayerScore = bonus;
+		}
+		else if (getLeadingPlayer().equals(topPlayer)) {
+			topPlayerScore += bonus;
+			bottomPlayerScore -= bonus;
+		}
+		else {
+			topPlayerScore -= bonus;
+			bottomPlayerScore += bonus;
 		}
 	}
 	
@@ -202,9 +204,8 @@ public class GameMaster {
 				result =  "Game has ended in a tie";
 			}
 			else {
-				String winner = topPlayerScore > bottomPlayerScore ? topPlayer.getName() : bottomPlayer.getName();
 				float points = Math.abs(topPlayerScore - bottomPlayerScore);
-				result = winner + " has won and recieved " + points + " point(s)";
+				result = getLeadingPlayer() + " has won and recieved " + points + " point(s)";
 			}
 		}
 		return result;
