@@ -49,8 +49,15 @@ abstract public class Player {
 	 * much points was earned this round.
 	 * @param earnedPoints the points earned by the player
 	 */
-	public void gameOver(float earnedPoints){
-		System.out.println(name + " got " + earnedPoints + " points");
+	public void gameOver(float points){
+		String result = "";
+		if (points > 0) {
+			result = " won ";
+		} else if (points < 0) {
+			result = " lost ";
+		} else result = " got ";
+		points = Math.abs(points);
+		System.out.println(this.name + result + points + " points");
 	}
 	
 	/**

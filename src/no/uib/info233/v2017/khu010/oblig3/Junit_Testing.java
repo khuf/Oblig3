@@ -42,5 +42,4 @@ public class Junit_Testing {
 		assertEquals(0, defRobot.useEnergy(101));
 		assertEquals(0, agrRobot.useEnergy(101));
 	}
-
 }
