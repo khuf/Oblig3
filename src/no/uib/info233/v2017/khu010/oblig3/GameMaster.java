@@ -73,25 +73,16 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
-<<<<<<< HEAD
-		//printStatus();
-		roundNumber++;
-=======
+
 		printStatus();
-		
->>>>>>> origin/master
+
 		if (isFinnished()) {
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
 			topPlayer.gameOver(topPlayerScore);
-<<<<<<< HEAD
-			System.out.println("Finishing round: " + roundNumber++);
-			System.out.println("Finishing position: " + currentPosition);
-			this.roundNumber = 0;
-=======
 			//System.out.println("Finishing round: " + roundNumber++);
 			//System.out.println("Finishing position: " + currentPosition);
->>>>>>> origin/master
+			this.roundNumber = 0;
 		} else {
 			roundNumber++;
 			
