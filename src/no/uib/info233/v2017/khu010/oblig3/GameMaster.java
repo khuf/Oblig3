@@ -107,7 +107,7 @@ public class GameMaster {
 	/**
 	 * Checks whether the game has ended by checking if either player is in a
 	 * winning position or if both players are out of energy.
-	 * @return
+	 * @return true if the game has ended. Otherwise, false.
 	 */
 	private boolean isFinnished() {
 		boolean hasWon = Math.abs(currentPosition) == 3;
