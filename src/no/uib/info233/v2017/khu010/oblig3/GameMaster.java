@@ -121,12 +121,13 @@ public class GameMaster {
 		Player leadingPlayer = getLeadingPlayer();
 		String status = "";
 		
+		System.out.println("Round #" + roundNumber);
+		System.out.println(topPlayer.getName() + ": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove);
+		
 		if (isFinnished()){
 			status = "Game over" + "\n" + "Finishing position:" + currentPosition;
-
 		} else {
-			System.out.println("Round #" + roundNumber);
-			System.out.println(topPlayer.getName() + ": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove);
+			
 			if (leadingPlayer != null) {
 			status = leadingPlayer.getName() + " is in the lead";
 			} else {
@@ -164,18 +165,15 @@ public class GameMaster {
 		if (endPos > 1){bonus += 0.25;}
 		if (endPos > 2){bonus += 1.0;}
 
-		//It's a tie
-		if (getLeadingPlayer() == null) {
-			topPlayerScore = bonus;
-			bottomPlayerScore = bonus;
-		}
+		if (getLeadingPlayer() == null){return;}
+		
 		//Top won
 		else if (getLeadingPlayer().equals(topPlayer)) {
 			topPlayerScore += bonus;
 			bottomPlayerScore -= bonus;
 		}
 		//Bottom won
-		else {
+		else if (getLeadingPlayer().equals(bottomPlayer)){
 			topPlayerScore -= bonus;
 			bottomPlayerScore += bonus;
 		}

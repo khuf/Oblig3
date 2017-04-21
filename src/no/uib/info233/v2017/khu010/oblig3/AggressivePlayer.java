@@ -42,17 +42,14 @@ public class AggressivePlayer extends Player {
 			// If we're 1 step from winning; use remaining energy
 			if (distanceFromGoal == 1) {
 				energyToUse = getEnergy();
-			} else  if (distanceFromGoal > 3 && yourEnergy > opponentEnergy){
-				//energyToUse = yourEnergy/distanceFromGoal;
-				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
 			} else if (yourEnergy >= 30) {
 				// Use energy between 30 and 20 (inclusive).
 				energyToUse = rng.nextInt(30 - 20 + 1) + 20;
-				debug("agr using max 30");
+
 			} else if (opponentEnergy <= 0) {
 				energyToUse = yourEnergy/distanceFromGoal;
 			} else {
-				debug("agr using remaining");
+				debug("Agressive player is pinned into a corner and used all his energy");
 				energyToUse = yourEnergy;
 			}
 		}

@@ -29,24 +29,38 @@ public class DefensivePlayer extends Player{
 
 		if (hasEnergy) {
 			
-			// If we're 1 step from winning; use remaining energy
-			if (distanceFromGoal == 1) {
+			//Tries to trick opponent to drain his energy first round
+			if (yourEnergy == 100 && opponentEnergy == 100){
+				if (rng.nextBoolean()){
+					energyToUse = 0;
+				} else {
+					energyToUse = rng.nextInt(35 - 15 + 1) + 15;
+				}
+			}
+			//If its 1 step from losing; use remaining energy
+			else if (distanceFromGoal == 5) {
 				energyToUse = getEnergy();
-			} else  if (distanceFromGoal > 3 && yourEnergy > opponentEnergy){
-				//energyToUse = yourEnergy/distanceFromGoal;
+			} 
+			//If its 2 steps from losing but has more enery than opponent
+			else  if (distanceFromGoal == 4 && yourEnergy > opponentEnergy){
+				debug("crawltogoal");
 				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
-			} else if (yourEnergy >= 20) {
-				// Use energy between 25 and 20 (inclusive).
+			} 
+			//default energyUse, use between 20 and 25 (inclusive).
+			else if (yourEnergy >= 20) {
+				
 				energyToUse = rng.nextInt(25 - 20 + 1) + 20;
 				debug("def using max 25");
-			} else if (opponentEnergy <= 0) {
+			} 
+			else if (opponentEnergy <= 0) {
 				energyToUse = yourEnergy/distanceFromGoal;
-			} else {
+			} 
+			else {
 				debug("def using remaining");
 				energyToUse = yourEnergy;
 			}
 		}
-		
+
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
 	}
