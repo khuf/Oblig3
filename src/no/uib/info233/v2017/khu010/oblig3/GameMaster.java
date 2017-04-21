@@ -185,11 +185,8 @@ public class GameMaster {
 	 */
 	public boolean updateRanking() {
 		calculateScores();
-		return true;
-		/*
-		 * return (server.addScore(topPlayer.getName(), topPlayerScore) &&
+		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
 				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
-		 */
 	}
 	
 	@Override

@@ -43,14 +43,11 @@ public class DefensivePlayer extends Player{
 			} 
 			//If its 2 steps from losing but has more enery than opponent
 			else  if (distanceFromGoal == 4 && yourEnergy > opponentEnergy){
-				debug("crawltogoal");
 				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
 			} 
 			//default energyUse, use between 20 and 25 (inclusive).
 			else if (yourEnergy >= 20) {
-				
 				energyToUse = rng.nextInt(25 - 20 + 1) + 20;
-				debug("def using max 25");
 			} 
 			else if (opponentEnergy <= 0) {
 				energyToUse = yourEnergy/distanceFromGoal;

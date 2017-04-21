@@ -19,9 +19,9 @@ public class SQLconnector {
     private Connection con = null;
     private PreparedStatement pst = null;
 
-    private String url = "jdbc:mysql://bigfoot.uib.no/phpMyAdmin";
+    private String url = "jdbc:mysql://wildboy.uib.no/Khuna";
     private String user = "Khuna";
-    private String password = "'mr{6)9m5wHfS3*";
+    private String password = "\"'mr{6)9m5wHfS3*";
 	
     /**
      * Updates the ranking table with the new score from
