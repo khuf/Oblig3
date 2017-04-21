@@ -17,7 +17,7 @@ public class GameMaster {
 	private int currentPosition = 0;
 	private float topPlayerScore, bottomPlayerScore;
 	private int movesMade = 0;
-	private int roundNumber = 0;
+	private int roundNumber = 1;
 	
 	private GameMaster() {}
 	
@@ -74,24 +74,22 @@ public class GameMaster {
 	 */
 	public void evaluateTurn() {
 
-		printStatus();
-
 		if (isFinnished()) {
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
 			topPlayer.gameOver(topPlayerScore);
-			//System.out.println("Finishing round: " + roundNumber++);
-			//System.out.println("Finishing position: " + currentPosition);
-			this.roundNumber = 0;
+			this.roundNumber = 1;
 		} else {
-			roundNumber++;
-			
+						
 			if (topMove < bottomMove) {
 				currentPosition++;
 			} else {
 				currentPosition--;
 			}
-			System.out.println(topPlayer.getName() + ": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove + "\nRound number: " + roundNumber + "\nPosition: " + currentPosition);
+			
+			printStatus();
+			roundNumber++;
+			
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
@@ -118,16 +116,21 @@ public class GameMaster {
 
 		Player leadingPlayer = getLeadingPlayer();
 		String status = "";
-		if (roundNumber == 0){
-			status = "Game is starting";
-		} else if (isFinnished()){
-			status = "Game over";
-		} else if (leadingPlayer != null) {
-			status = "Round #" + roundNumber + " result:\n" + leadingPlayer.getName() + " is in the lead";
+		
+		if (isFinnished()){
+			status = "Game over" + "\n" + "Finishing position:" + currentPosition;
+
 		} else {
-			status = "Round #" + roundNumber + "\nPlayers are tied";
+			System.out.println("Round #" + roundNumber);
+			System.out.println(topPlayer.getName() + ": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove);
+			if (leadingPlayer != null) {
+			status = leadingPlayer.getName() + " is in the lead";
+			} else {
+				status =  "Players are tied";
+			}
 		}
-		System.out.println(status);
+		
+		System.out.println(status + "\n");
 	}
 	
 	/**
@@ -140,7 +143,6 @@ public class GameMaster {
 		} else if (currentPosition > 0) {
 			return bottomPlayer;
 		} 
-		
 		return null;
 	}
 	
