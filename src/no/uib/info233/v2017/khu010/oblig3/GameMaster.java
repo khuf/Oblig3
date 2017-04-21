@@ -76,14 +76,9 @@ public class GameMaster {
 	 */
 	public void evaluateTurn() {
 		
-		if (topMove < bottomMove) {
-			currentPosition++;
-		} else if (topMove > bottomMove){
-			currentPosition--;
-		}
+		//moves currentPosition in the winning players direction
+		movePlayers();
 		
-		printStatus();
-
 		if (isFinnished()) {
 			
 			updateRanking();
@@ -93,7 +88,6 @@ public class GameMaster {
 			
 		} else {
 
-			roundNumber++;
 			
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
@@ -110,6 +104,14 @@ public class GameMaster {
 		boolean hasWon = Math.abs(currentPosition) == 3;
 		boolean hasNoEnergy = topPlayer.getEnergy() == 0 && bottomPlayer.getEnergy() == 0;
 		return (hasWon || hasNoEnergy);
+	}
+	
+	private void movePlayers() {
+		if (topMove < bottomMove) { currentPosition++; } 
+		else if (topMove > bottomMove) { currentPosition--;}
+		
+		printStatus();
+		roundNumber++;
 	}
 	
 	/**
@@ -130,7 +132,7 @@ public class GameMaster {
 		} else {
 			
 			if (leadingPlayer != null) {
-			status = leadingPlayer.getName() + " is in the lead";
+				status = leadingPlayer.getName() + " is in the lead";
 			} else {
 				status =  "Players are tied";
 			}
@@ -143,11 +145,8 @@ public class GameMaster {
 	 * @return the leading player.
 	 */
 	private Player getLeadingPlayer() {		
-		if (currentPosition < 0) {
-			return topPlayer;
-		} else if (currentPosition > 0) {
-			return bottomPlayer;
-		} 
+		if (currentPosition < 0) { return topPlayer; } 
+		else if (currentPosition > 0) { return bottomPlayer; } 
 		return null;
 	}
 	
@@ -165,12 +164,14 @@ public class GameMaster {
 
 	/**
 	 * Updates the ranking table with new scores from a finished game.
-	 * @return
+	 * @return status of completed sync to server
 	 */
 	public boolean updateRanking() {
-		
-		return (server.addScore(topPlayer.getName(), getScore(topPlayer)) &&
-				server.addScore(bottomPlayer.getName(), getScore(bottomPlayer)) );
+		boolean syncStatus = (
+				server.addScore(topPlayer.getName(), getScore(topPlayer)) &&
+				server.addScore(bottomPlayer.getName(), getScore(bottomPlayer)) 
+				);
+		return syncStatus;
 	}
 	
 	@Override

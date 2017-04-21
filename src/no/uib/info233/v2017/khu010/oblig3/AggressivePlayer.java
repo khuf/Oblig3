@@ -37,21 +37,24 @@ public class AggressivePlayer extends Player {
 		Random rng = new Random();
 
 		if (hasEnergy) {
-			
-			// If we're 1 step from winning; use remaining energy
+
+			// If its 1 step from winning; use remaining energy
 			if (distanceFromGoal == 1) {
 				energyToUse = getEnergy();
-			} else if (yourEnergy >= 30) {
-				// Use energy between 30 and 20 (inclusive).
+			} 
+			// uses the minimal energy possible if opponent is empty
+			else if (opponentEnergy == 0) {
+				energyToUse = 1;
+			}
+			// default energyUse, use between 20 and 30 (inclusive).
+			else if (yourEnergy >= 30){
 				energyToUse = rng.nextInt(30 - 20 + 1) + 20;
-
-			} else if (opponentEnergy <= 0) {
-				energyToUse = yourEnergy/distanceFromGoal;
-			} else {
-				debug("Agressive player is pinned into a corner and used all his energy");
+			} 
+			//Uses rest of energy if almost empty
+			else {
 				energyToUse = yourEnergy;
 			}
-		}
+		} 
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
 	}
