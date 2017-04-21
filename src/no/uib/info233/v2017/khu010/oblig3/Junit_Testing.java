@@ -40,7 +40,7 @@ public class Junit_Testing {
 	
 	@Test
 	public void NoDamageWhenNoEnergy(){
-		assertEquals(0, defRobot.useEnergy(101));
+		assertEquals(0, defRobot.useEnergy(-1));
 		assertEquals(0, agrRobot.useEnergy(101));
 	}
 }

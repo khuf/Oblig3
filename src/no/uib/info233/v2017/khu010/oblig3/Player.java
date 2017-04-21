@@ -66,6 +66,7 @@ abstract public class Player {
 	 */
 	public int useEnergy(int energyUsage) {
 		int result = 0;
+		if (energyUsage < 0) {energyUsage = 0;};
 		if (this.energy >= energyUsage) {
 			this.energy -= energyUsage;
 			result = energyUsage;

@@ -81,10 +81,11 @@ public class GameMaster {
 			topPlayer.gameOver(topPlayerScore);
 			System.out.println("Finishing round: " + roundNumber++);
 			System.out.println("Finishing position: " + currentPosition);
+			this.roundNumber = 0;
 		} else {
 			roundNumber++;
 			
-			if (topMove > bottomMove) {
+			if (topMove < bottomMove) {
 				currentPosition++;
 			} else {
 				currentPosition--;
@@ -140,18 +141,6 @@ public class GameMaster {
 		} 
 		
 		return null;
-		
-		/*
-		 Player result = null;
-		
-		if (currentPosition < 0) {
-			result = topPlayer;
-		} else if (currentPosition > 0) {
-			result = bottomPlayer;
-		} 
-		
-		return result;
-		 */
 	}
 	
 	/**
