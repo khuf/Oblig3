@@ -3,13 +3,13 @@ package no.uib.info233.v2017.khu010.oblig3;
 /**
  * A singleton GameMaster class.
  * @author knu010 && xeq003
- * @version 0.0.1 (06.04.2017).
+ * @version 0.3.8 (21.04.2017).
  */
 public class GameMaster {
 	
 	//Static ensures it belongs to the class rather than an instance of this class.
 	private static GameMaster gameMaster = new GameMaster();
-	private SQLconnector server = new SQLconnector();
+	private SQLConnector server = SQLConnector.getConnection();
 
 	//Game settings
 	private Player bottomPlayer, topPlayer;
@@ -18,7 +18,6 @@ public class GameMaster {
 	private int movesMade = 0;
 	private int roundNumber = 1;
 	private float[] points = {-1.0f, 0f, 0.25f, 0.5f, 0.75f, 1.0f, 2.0f};
-	
 	
 	private GameMaster() {}
 	
@@ -45,8 +44,8 @@ public class GameMaster {
 	 * with their next move.
 	 */
 	public void startGame() {
-
 		System.out.println("The two players meet each other in the middle circle and prepares to fight");
+		
 		topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 		bottomPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 	}
@@ -75,21 +74,18 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
-		
-		//moves currentPosition in the winning players direction
+		// moves currentPosition in the winning players direction
 		movePlayers();
-		
+
 		if (isFinnished()) {
-			
+
 			updateRanking();
 			bottomPlayer.gameOver(getScore(bottomPlayer));
 			topPlayer.gameOver(getScore(topPlayer));
 			this.roundNumber = 1;
-			
-		} else {
 
-			
-			//Make next move
+		} else {
+			// Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
 		}
@@ -106,10 +102,15 @@ public class GameMaster {
 		return (hasWon || hasNoEnergy);
 	}
 	
+	/**
+	 * Helpmethod which changes the currentPosition by 1 towards the losing players direction
+	 * Prints the status of the game via printStatus
+	 * Adds 1 to the roundNumber counter
+	 * 
+	 */
 	private void movePlayers() {
 		if (topMove < bottomMove) { currentPosition++; } 
 		else if (topMove > bottomMove) { currentPosition--;}
-		
 		printStatus();
 		roundNumber++;
 	}
@@ -124,17 +125,17 @@ public class GameMaster {
 		Player leadingPlayer = getLeadingPlayer();
 		String status = "";
 		
-		System.out.println("Round #" + roundNumber);
-		System.out.println(topPlayer.getName() + ": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove);
+		status = "Round #" + roundNumber + "\n" + topPlayer.getName() + 
+				": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove;
 		
 		if (isFinnished()){
-			status = "Game over" + "\n" + "Finishing position:" + currentPosition;
+			status += "\nGame over\nFinishing position:" + currentPosition;
 		} else {
 			
 			if (leadingPlayer != null) {
-				status = leadingPlayer.getName() + " is in the lead";
+				status += "\n" + leadingPlayer.getName() + " is in the lead";
 			} else {
-				status =  "Players are tied";
+				status += "\nPlayers are tied";
 			}
 		}
 		System.out.println(status + "\n");

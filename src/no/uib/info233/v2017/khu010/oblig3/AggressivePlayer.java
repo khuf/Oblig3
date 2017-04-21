@@ -3,14 +3,12 @@ package no.uib.info233.v2017.khu010.oblig3;
 import java.util.Random;
 
 
-//import khu010.Player;
-
 /**
  * Class representing an aggressive player.
  * An aggressive player will try to win the match
  * within 3 rounds.
- * @author khuf010 && xeq003
- * @version 0.0.1 (08.04.2017).
+ * @author knu010 && xeq003
+ * @version 0.3.8 (21.04.2017).
  */
 public class AggressivePlayer extends Player {
 

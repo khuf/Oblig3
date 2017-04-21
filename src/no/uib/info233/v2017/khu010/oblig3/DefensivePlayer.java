@@ -5,8 +5,8 @@ import java.util.Random;
 /**
  * A class representing a defensive minded player.
  * A defensive player makes his choice...
- * @author khu010 && xeq003
- * @version 0.0.2 (14.04.2017)
+ * @author knu010 && xeq003
+ * @version 0.3.8 (21.04.2017).
  *
  */
 public class DefensivePlayer extends Player{
@@ -44,7 +44,7 @@ public class DefensivePlayer extends Player{
 			else if (distanceFromGoal == 5) {
 				energyToUse = yourEnergy;
 			}
-			// If its 2 steps from losing but has more enery than opponent
+			// If its 2 steps from losing but has more energy than opponent
 			else if (distanceFromGoal == 4 && yourEnergy > opponentEnergy) {
 				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
 			}

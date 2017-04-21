@@ -2,8 +2,8 @@ package no.uib.info233.v2017.khu010.oblig3;
 
 /**
  * Base class for a Player.
- * @author khuf010 && xeq003
- * @version 0.0.1 (11.04.2017)
+ * @author knu010 && xeq003
+ * @version 0.3.8 (21.04.2017).
  */
 abstract public class Player {
 	
