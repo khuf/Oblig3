@@ -1,5 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+import java.util.Random;
+
 /**
  * A class representing a defensive minded player.
  * A defensive player makes his choice...
@@ -19,11 +21,24 @@ public class DefensivePlayer extends Player{
 	} 
 	
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
-		int energyToUse;
-		if (getEnergy() > 20){
-			energyToUse = 20;
-		} else {
-			energyToUse = getEnergy();
+		int energyToUse = 0;
+		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
+		Random rng = new Random();
+		boolean hasEnergy = getEnergy() > 0;
+
+		if (hasEnergy) {
+			if (distanceFromGoal == 1) {
+				energyToUse = yourEnergy;
+			}
+			else if (distanceFromGoal == 3 && yourEnergy > 80) {
+				// Use energy between 5 and 15 (inclusive).
+				energyToUse = rng.nextInt(35 - 23 + 1) + 23;
+			}
+			else if (getEnergy() > 20) {
+				energyToUse = 20;
+			} else {
+				energyToUse = getEnergy();
+			}
 		}
 		
 		getGameMaster().listenToPlayerMove(this, energyToUse);

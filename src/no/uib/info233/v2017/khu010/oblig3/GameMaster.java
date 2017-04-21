@@ -73,15 +73,25 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
+<<<<<<< HEAD
+		//printStatus();
+		roundNumber++;
+=======
 		printStatus();
 		
+>>>>>>> origin/master
 		if (isFinnished()) {
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
 			topPlayer.gameOver(topPlayerScore);
+<<<<<<< HEAD
 			System.out.println("Finishing round: " + roundNumber++);
 			System.out.println("Finishing position: " + currentPosition);
 			this.roundNumber = 0;
+=======
+			//System.out.println("Finishing round: " + roundNumber++);
+			//System.out.println("Finishing position: " + currentPosition);
+>>>>>>> origin/master
 		} else {
 			roundNumber++;
 			
@@ -90,7 +100,7 @@ public class GameMaster {
 			} else {
 				currentPosition--;
 			}
-			
+			System.out.println(topPlayer.getName() + ": " + topMove + "\n" + bottomPlayer.getName() + ": " + bottomMove + "\nRound number: " + roundNumber + "\nPosition: " + currentPosition);
 			//Make next move
 			topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 			bottomPlayer.makeNextMove(currentPosition, bottomPlayer.getEnergy(), topPlayer.getEnergy());
@@ -133,7 +143,7 @@ public class GameMaster {
 	 * Gets the leading player in an ongoing game.
 	 * @return the leading player.
 	 */
-	private Player getLeadingPlayer() {				
+	private Player getLeadingPlayer() {		
 		if (currentPosition < 0) {
 			return topPlayer;
 		} else if (currentPosition > 0) {
