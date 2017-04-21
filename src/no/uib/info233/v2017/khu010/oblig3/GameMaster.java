@@ -73,8 +73,13 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
+<<<<<<< HEAD
 		//printStatus();
 		roundNumber++;
+=======
+		printStatus();
+		
+>>>>>>> origin/master
 		if (isFinnished()) {
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
@@ -82,6 +87,7 @@ public class GameMaster {
 			//System.out.println("Finishing round: " + roundNumber++);
 			//System.out.println("Finishing position: " + currentPosition);
 		} else {
+			roundNumber++;
 			
 			if (topMove < bottomMove) {
 				currentPosition++;
@@ -120,7 +126,7 @@ public class GameMaster {
 		} else if (isFinnished()){
 			status = "Game over";
 		} else if (leadingPlayer != null) {
-			status = "Round #" + roundNumber + "\n" + leadingPlayer.getName() + " is in the lead";
+			status = "Round #" + roundNumber + " result:\n" + leadingPlayer.getName() + " is in the lead";
 		} else {
 			status = "Round #" + roundNumber + "\nPlayers are tied";
 		}
