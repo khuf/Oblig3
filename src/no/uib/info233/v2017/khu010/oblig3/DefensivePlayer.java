@@ -18,7 +18,7 @@ public class DefensivePlayer extends Player{
 	 */
 	public DefensivePlayer(String name, int goal) {
 		super(name, goal);
-	} 
+	}
 	
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		int energyToUse = 0;
@@ -41,9 +41,7 @@ public class DefensivePlayer extends Player{
 				energyToUse = rng.nextInt(yourEnergy - min + 1) + min;
 			} 
 		}
-		
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
 	}
-	
 }
