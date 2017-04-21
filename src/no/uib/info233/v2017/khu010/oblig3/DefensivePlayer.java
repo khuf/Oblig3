@@ -23,6 +23,7 @@ public class DefensivePlayer extends Player{
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
+		int enemyDistanceFromGoal = Math.abs((getGoal() * -1) - currentPosition);
 		Random rng = new Random();
 		boolean hasEnergy = getEnergy() > 0;
 
@@ -34,11 +35,11 @@ public class DefensivePlayer extends Player{
 				// Use energy between 5 and 15 (inclusive).
 				energyToUse = rng.nextInt(35 - 23 + 1) + 23;
 			}
-			else if (getEnergy() > 20) {
-				energyToUse = 20;
-			} else {
-				energyToUse = getEnergy();
-			}
+			else if (yourEnergy > opponentEnergy) {
+				//energyToUse = 20;
+				int min = opponentEnergy/enemyDistanceFromGoal;
+				energyToUse = rng.nextInt(yourEnergy - min + 1) + min;
+			} 
 		}
 		
 		getGameMaster().listenToPlayerMove(this, energyToUse);

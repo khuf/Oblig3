@@ -33,6 +33,7 @@ public class AggressivePlayer extends Player {
 		
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
+		int enemyDistanceFromGaol = Math.abs((getGoal() * -1) - currentPosition);
 		boolean hasEnergy = getEnergy() > 0;
 		Random rng = new Random();
 
@@ -41,13 +42,18 @@ public class AggressivePlayer extends Player {
 			if (distanceFromGoal == 1) {
 				energyToUse = getEnergy();
 			}
-			else  if (distanceFromGoal > 3){
+			else  if (distanceFromGoal > 3 && yourEnergy >= opponentEnergy){
+				//energyToUse = yourEnergy/distanceFromGoal;
+				System.out.println("dkdkd");
+				energyToUse = opponentEnergy / enemyDistanceFromGaol;
+			}
+			else if (yourEnergy >= 35) {
+				// Use energy between 5 and 15 (inclusive).
+				energyToUse = rng.nextInt(35 - 20 + 1) + 20;
+			} 
+			if (opponentEnergy <= 0) {
 				energyToUse = yourEnergy/distanceFromGoal;
 			}
-			else if (yourEnergy >= 15) {
-				// Use energy between 5 and 15 (inclusive).
-				energyToUse = rng.nextInt(15 - 5 + 1) + 5;
-			} 
 		}
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
