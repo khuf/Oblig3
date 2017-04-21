@@ -64,6 +64,7 @@ abstract public class Player {
 	/**
 	 * Uses a specified amount of energy from the player
 	 * @param energyUsage how much energy to use
+	 * @return Energy used
 	 */
 	public int useEnergy(int energyUsage) {
 		int result = 0;

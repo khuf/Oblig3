@@ -15,9 +15,10 @@ public class GameMaster {
 	private Player bottomPlayer, topPlayer;
 	private int topMove, bottomMove;
 	private int currentPosition = 0;
-	private float topPlayerScore, bottomPlayerScore;
 	private int movesMade = 0;
 	private int roundNumber = 1;
+	private float[] points = {-1.0f, 0f, 0.25f, 0.5f, 0.75f, 1.0f, 2.0f};
+	
 	
 	private GameMaster() {}
 	
@@ -86,8 +87,8 @@ public class GameMaster {
 		if (isFinnished()) {
 			
 			updateRanking();
-			bottomPlayer.gameOver(bottomPlayerScore);
-			topPlayer.gameOver(topPlayerScore);
+			bottomPlayer.gameOver(getScore(bottomPlayer));
+			topPlayer.gameOver(getScore(topPlayer));
 			this.roundNumber = 1;
 			
 		} else {
@@ -134,7 +135,6 @@ public class GameMaster {
 				status =  "Players are tied";
 			}
 		}
-		
 		System.out.println(status + "\n");
 	}
 	
@@ -151,31 +151,15 @@ public class GameMaster {
 		return null;
 	}
 	
-	/**
-	 * Calculates the score for each player from a finished game.
-	 */
-	private void calculateScores() {
-		topPlayerScore = 0.5f;
-		bottomPlayerScore = 0.5f;
-
-		float bonus = 0;
-		int endPos = Math.abs(currentPosition);
-
-		if (endPos > 0){bonus += 0.25;}
-		if (endPos > 1){bonus += 0.25;}
-		if (endPos > 2){bonus += 1.0;}
-
-		if (getLeadingPlayer() == null){return;}
+	private float getScore(Player player){
 		
-		//Top won
-		else if (getLeadingPlayer().equals(topPlayer)) {
-			topPlayerScore += bonus;
-			bottomPlayerScore -= bonus;
-		}
-		//Bottom won
-		else if (getLeadingPlayer().equals(bottomPlayer)){
-			topPlayerScore -= bonus;
-			bottomPlayerScore += bonus;
+		if (player == null) {return 0;}
+		int position = Math.abs(currentPosition);
+		
+		if ( player.equals(getLeadingPlayer()) ){
+			return points[3 + position];
+		} else {
+			return points[3 - position];
 		}
 	}
 
@@ -184,9 +168,9 @@ public class GameMaster {
 	 * @return
 	 */
 	public boolean updateRanking() {
-		calculateScores();
-		return (server.addScore(topPlayer.getName(), topPlayerScore) &&
-				server.addScore(bottomPlayer.getName(), bottomPlayerScore));
+		
+		return (server.addScore(topPlayer.getName(), getScore(topPlayer)) &&
+				server.addScore(bottomPlayer.getName(), getScore(bottomPlayer)) );
 	}
 	
 	@Override
@@ -194,15 +178,15 @@ public class GameMaster {
 		String result = "";
 		
 		if (!isFinnished()) {
-			result = "Current standings:\n" + topPlayer.getName() + ": " + topPlayerScore + "\n" +
-					bottomPlayer.getName() + ": " + bottomPlayerScore;
+			result = "Current standings:\n" + topPlayer.getName() + ": " + getScore(topPlayer) + "\n" +
+					bottomPlayer.getName() + ": " + getScore(bottomPlayer);
 		}
 		else {
-			if (topPlayerScore == bottomPlayerScore) {
+			if (getScore(topPlayer) == getScore(bottomPlayer)) {
 				result =  "Game has ended in a tie";
 			}
 			else {
-				float points = Math.abs(topPlayerScore - bottomPlayerScore);
+				float points = Math.abs(getScore(topPlayer) - getScore(bottomPlayer));
 				result = getLeadingPlayer() + " has won and recieved " + points + " point(s)";
 			}
 		}

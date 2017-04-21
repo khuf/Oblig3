@@ -53,7 +53,7 @@ public class DefensivePlayer extends Player{
 				energyToUse = yourEnergy/distanceFromGoal;
 			} 
 			else {
-				debug("def using remaining");
+				debug("Defensive player is pinned into a corner and used all his energy");
 				energyToUse = yourEnergy;
 			}
 		}

@@ -33,7 +33,6 @@ public class AggressivePlayer extends Player {
 
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
-		int enemyDistanceFromGoal = Math.abs((getGoal() * -1) - currentPosition);
 		boolean hasEnergy = getEnergy() > 0;
 		Random rng = new Random();
 

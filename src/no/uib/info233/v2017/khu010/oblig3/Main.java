@@ -4,9 +4,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		GameMaster master = GameMaster.getGameMaster();
-		//master.setPlayers(new DefensivePlayer("defRobot", 3), new AggressivePlayer("agrRobot", -3));
+		master.setPlayers(new DefensivePlayer("defRobot", 3), new AggressivePlayer("agrRobot", -3));
 		//master.setPlayers(new DefensivePlayer("defRobot", 3), new DefensivePlayer("defRobot2", -3));
-		master.setPlayers(new AggressivePlayer("agrRobot", 3), new AggressivePlayer("agrRobot2", -3));
+		//master.setPlayers(new AggressivePlayer("agrRobot", 3), new AggressivePlayer("agrRobot2", -3));
 		master.startGame();
 
 	}
