@@ -28,19 +28,25 @@ public class DefensivePlayer extends Player{
 		boolean hasEnergy = getEnergy() > 0;
 
 		if (hasEnergy) {
+			
+			// If we're 1 step from winning; use remaining energy
 			if (distanceFromGoal == 1) {
+				energyToUse = getEnergy();
+			} else  if (distanceFromGoal > 3 && yourEnergy > opponentEnergy){
+				//energyToUse = yourEnergy/distanceFromGoal;
+				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
+			} else if (yourEnergy >= 20) {
+				// Use energy between 25 and 20 (inclusive).
+				energyToUse = rng.nextInt(25 - 20 + 1) + 20;
+				debug("def using max 25");
+			} else if (opponentEnergy <= 0) {
+				energyToUse = yourEnergy/distanceFromGoal;
+			} else {
+				debug("def using remaining");
 				energyToUse = yourEnergy;
 			}
-			else if (distanceFromGoal == 3 && yourEnergy > 80) {
-				// Use energy between 5 and 15 (inclusive).
-				energyToUse = rng.nextInt(35 - 23 + 1) + 23;
-			}
-			else if (yourEnergy > opponentEnergy) {
-				//energyToUse = 20;
-				int min = opponentEnergy/enemyDistanceFromGoal;
-				energyToUse = rng.nextInt(yourEnergy - min + 1) + min;
-			} 
 		}
+		
 		getGameMaster().listenToPlayerMove(this, energyToUse);
 		return energyToUse;
 	}

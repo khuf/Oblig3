@@ -44,6 +44,7 @@ public class GameMaster {
 	 * with their next move.
 	 */
 	public void startGame() {
+
 		System.out.println("The two players meet each other in the middle circle and prepares to fight");
 		topPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());
 		bottomPlayer.makeNextMove(currentPosition, topPlayer.getEnergy(), bottomPlayer.getEnergy());

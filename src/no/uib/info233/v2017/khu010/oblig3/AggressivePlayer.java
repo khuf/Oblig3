@@ -30,29 +30,30 @@ public class AggressivePlayer extends Player {
 	 * @param opponentEnergy the energy level of the enemy.
 	 */
 	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
-		
+
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
-		int enemyDistanceFromGaol = Math.abs((getGoal() * -1) - currentPosition);
+		int enemyDistanceFromGoal = Math.abs((getGoal() * -1) - currentPosition);
 		boolean hasEnergy = getEnergy() > 0;
 		Random rng = new Random();
 
 		if (hasEnergy) {
+			
 			// If we're 1 step from winning; use remaining energy
 			if (distanceFromGoal == 1) {
 				energyToUse = getEnergy();
-			}
-			else  if (distanceFromGoal > 3 && yourEnergy >= opponentEnergy){
+			} else  if (distanceFromGoal > 3 && yourEnergy > opponentEnergy){
 				//energyToUse = yourEnergy/distanceFromGoal;
-				System.out.println("dkdkd");
-				energyToUse = opponentEnergy / enemyDistanceFromGaol;
-			}
-			else if (yourEnergy >= 35) {
-				// Use energy between 5 and 15 (inclusive).
-				energyToUse = rng.nextInt(35 - 20 + 1) + 20;
-			} 
-			if (opponentEnergy <= 0) {
+				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
+			} else if (yourEnergy >= 30) {
+				// Use energy between 30 and 20 (inclusive).
+				energyToUse = rng.nextInt(30 - 20 + 1) + 20;
+				debug("agr using max 30");
+			} else if (opponentEnergy <= 0) {
 				energyToUse = yourEnergy/distanceFromGoal;
+			} else {
+				debug("agr using remaining");
+				energyToUse = yourEnergy;
 			}
 		}
 		getGameMaster().listenToPlayerMove(this, energyToUse);

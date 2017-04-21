@@ -11,6 +11,7 @@ abstract public class Player {
 	private GameMaster gameMaster;
 	private int energy;
 	private int goal;
+	private boolean debug = true;
 	
 	/**
 	 * Creates a Player with a specified name
@@ -155,6 +156,10 @@ abstract public class Player {
 		} else if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+	
+	public void debug(String s) {
+		System.out.println(s);
 	}
 	
 }
