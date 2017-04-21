@@ -73,21 +73,24 @@ public class GameMaster {
 	 * Otherwise the game ends and both players are notified of their score.
 	 */
 	public void evaluateTurn() {
+		
+		if (topMove < bottomMove) {
+			currentPosition++;
+		} else if (topMove > bottomMove){
+			currentPosition--;
+		}
+		
+		printStatus();
 
 		if (isFinnished()) {
+			
 			updateRanking();
 			bottomPlayer.gameOver(bottomPlayerScore);
 			topPlayer.gameOver(topPlayerScore);
 			this.roundNumber = 1;
-		} else {
-						
-			if (topMove < bottomMove) {
-				currentPosition++;
-			} else {
-				currentPosition--;
-			}
 			
-			printStatus();
+		} else {
+
 			roundNumber++;
 			
 			//Make next move
