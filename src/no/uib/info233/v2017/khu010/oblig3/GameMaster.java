@@ -194,4 +194,8 @@ public class GameMaster {
 		}
 		return result;
 	}
+	
+	public boolean makeNextMove(Player player) {
+		
+	}
 }
