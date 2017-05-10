@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.players;
 
 import java.util.Random;
 
@@ -27,7 +27,7 @@ public class AggressivePlayer extends Player {
 	 * @param yourEnergy the energy level of this robot.
 	 * @param opponentEnergy the energy level of the enemy.
 	 */
-	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int opponentEnergy) {
 
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
@@ -45,15 +45,16 @@ public class AggressivePlayer extends Player {
 				energyToUse = 1;
 			}
 			// default energyUse, use between 20 and 30 (inclusive).
-			else if (yourEnergy >= 30){
+			else if (getEnergy() >= 30){
 				energyToUse = rng.nextInt(30 - 20 + 1) + 20;
 			} 
 			//Uses rest of energy if almost empty
 			else {
-				energyToUse = yourEnergy;
+				energyToUse = getEnergy();
 			}
 		} 
 		getGameMaster().listenToPlayerMove(this, energyToUse);
+		//setMove(energyToUse);
 		return energyToUse;
 	}
 }

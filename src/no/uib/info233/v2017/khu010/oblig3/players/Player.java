@@ -1,4 +1,6 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.players;
+
+import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 
 /**
  * Base class for a Player.
@@ -8,9 +10,10 @@ package no.uib.info233.v2017.khu010.oblig3;
 abstract public class Player {
 	
 	private String name;
-	private GameMaster gameMaster;
+	private PlayerControllerInterface gameMaster;
 	private int energy;
 	private int goal;
+	private int move;
 	private boolean debug = true;
 	
 	/**
@@ -28,11 +31,19 @@ abstract public class Player {
 	 * @param gameMaster
 	 * @throws IllegalArgumentException if the GM has not been instantiated.
 	 */
-	public void registerGameMaster(GameMaster gameMaster) throws IllegalArgumentException {
-		if (gameMaster == null) {
+	public void registerGameMaster(PlayerControllerInterface controller) throws IllegalArgumentException {
+		if (controller == null) {
 			throw new IllegalArgumentException("Gamemaster has not been instanciated");
 		}
-		this.gameMaster = gameMaster;
+		this.gameMaster = controller;
+	}
+	
+	public PlayerControllerInterface getGameMaster() {
+		return gameMaster;
+	}
+	
+	private void setMove(int move) {
+		this.move = move;
 	}
 	
 	/**
@@ -43,7 +54,7 @@ abstract public class Player {
 	 * @param opponentEnergy Opponents current energy level.
 	 * @return energy to spend this round.
 	 */
-	abstract int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy);
+	public abstract int makeNextMove(int currentPosition, int opponentEnergy);
 	
 	/**
 	 * Informs the player that the game has come to an end and how 
@@ -102,14 +113,6 @@ abstract public class Player {
 	
 	public int getGoal() {
 		return this.goal;
-	}
-
-	/**
-	 * Returns the game master instance
-	 * @return gameMaster the registered game master.
-	 */
-	public GameMaster getGameMaster() {
-		return gameMaster;
 	}
 	
 	/**

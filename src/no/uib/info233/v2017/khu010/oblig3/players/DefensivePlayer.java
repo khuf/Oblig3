@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.players;
 
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public class DefensivePlayer extends Player{
 		super(name, goal);
 	}
 	
-	public int makeNextMove(int currentPosition, int yourEnergy, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int opponentEnergy) {
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
 		int enemyDistanceFromGoal = Math.abs((getGoal() * -1) - currentPosition);
@@ -30,7 +30,7 @@ public class DefensivePlayer extends Player{
 		if (hasEnergy) {
 
 			// Tries to trick opponent to drain his energy first round
-			if (yourEnergy == 100 && opponentEnergy == 100) {
+			if (getEnergy() == 100 && opponentEnergy == 100) {
 				if (rng.nextBoolean()) {
 					energyToUse = 0;
 				} else {
@@ -42,19 +42,19 @@ public class DefensivePlayer extends Player{
 			}
 			// If its 1 step from losing; use remaining energy
 			else if (distanceFromGoal == 5) {
-				energyToUse = yourEnergy;
+				energyToUse = getEnergy();
 			}
 			// If its 2 steps from losing but has more energy than opponent
-			else if (distanceFromGoal == 4 && yourEnergy > opponentEnergy) {
+			else if (distanceFromGoal == 4 && getEnergy() > opponentEnergy) {
 				energyToUse = (opponentEnergy / enemyDistanceFromGoal) + 1;
 			}
 			// default energyUse, use between 20 and 25 (inclusive).
-			else if (yourEnergy >= 20) {
+			else if (getEnergy() >= 20) {
 				energyToUse = rng.nextInt(25 - 20 + 1) + 20;
 			}
 			//Uses rest of energy if almost empty
 			else {
-				energyToUse = yourEnergy;
+				energyToUse = getEnergy();
 			}
 		} 
 		getGameMaster().listenToPlayerMove(this, energyToUse);
