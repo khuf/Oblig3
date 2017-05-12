@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import no.uib.info233.v2017.khu010.oblig3.game.GameMaster;
+
 public class Gladiators extends JFrame {
 
 	/**
@@ -19,7 +21,8 @@ public class Gladiators extends JFrame {
 		this.setSize(500, 300);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		setUp();
+		//setUp();
+		this.add(new MainMenuPanel());
 		this.setVisible(true);
 	}
 	
@@ -30,7 +33,6 @@ public class Gladiators extends JFrame {
 		JButton loadButton = new JButton("Load game");
 		JButton saveButton = new JButton("Save game");
 		JTextField field = new JTextField();
-		gameMaster.
 		panel.add(hostButton);
 		panel.add(saveButton);
 		panel.add(loadButton);

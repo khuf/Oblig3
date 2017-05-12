@@ -34,18 +34,18 @@ abstract public class Game {
 		}
 	}
 	
-	abstract public boolean isFinnished() {
+	public boolean isFinnished() {
 		return gameState.getCurrentPosition() == 3 || gameState.getCurrentPosition() == -3;
 	}
 	
-	abstract public void setGameState(GameState gameState) throws IllegalArgumentException {
+	public void setGameState(GameState gameState) throws IllegalArgumentException {
 		if (gameState != null) {
 			this.gameState = gameState;
 		}
 		throw new IllegalArgumentException("The GameState cannot be null");
 	}
 	
-	abstract public boolean setPlayers(Player playerA, Player playerB) {
+	public boolean setPlayers(Player playerA, Player playerB) {
 		boolean result = false;
 		
 		if (playerA != null && playerB != null) {

@@ -21,7 +21,7 @@ public class GameMaster implements GameManagerInterface {
 	private Map<Integer, Game> gameList;
 	
 	public GameMaster() {
-		game = new Game();
+		game = new SinglePlayerGame();
 	}
 	
 	/**
