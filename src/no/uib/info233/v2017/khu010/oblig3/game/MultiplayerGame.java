@@ -1,25 +1,52 @@
 package no.uib.info233.v2017.khu010.oblig3.game;
 
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
+import no.uib.info233.v2017.khu010.oblig3.players.*;
 
-public class MultiplayerGame extends Game {
-
-	@Override
-	public boolean isFinnished() {
-		// TODO Auto-generated method stub
-		return false;
+public class MultiPlayerGame extends Game {
+	
+	private String playerAId;
+	private String playerBId;
+	private String game_id;
+	
+	public MultiPlayerGame(String playerName, int goal) {
+		super(new HumanPlayer(playerName, goal));
 	}
-
-	@Override
-	public void setGameState(GameState gameState) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	
+	/**
+	 * Sets the player id of player A. We need to verify
+	 * that the specified string is of length 10.
+	 * @param playerId used to identify player A.
+	 */
+	public void setPlayerAId(String playerId) {
+		if (playerId.length() == 10) {
+			playerAId = playerId;
+		}
 	}
-
-	@Override
-	public boolean setPlayers(Player playerA, Player playerB) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	/**
+	 * Sets the player id of player B. We need to verify
+	 * that the specified string is of length 10.
+	 * @param playerId used to identify player B.
+	 */
+	public void setplayerBId(String playerId) {
+		if (playerId.length() == 10) {
+			playerBId = playerId;
+		}
 	}
-
+	
+	/**
+	 * Returns the identification string for player A.
+	 * @return
+	 */
+	public String getPlayerAId() {
+		return playerAId;
+	}
+	
+	/**
+	 * Returns the identification string for player B.
+	 * @return
+	 */
+	public String getPlayerBId() {
+		return playerBId;
+	}
 }

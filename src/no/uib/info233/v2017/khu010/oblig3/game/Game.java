@@ -17,6 +17,11 @@ abstract public class Game {
 		setGameState(gameState);
 	}
 	
+	public Game(Player playerA) {
+		gameState = new GameState();
+		gameState.setPlayerA(playerA);
+	}
+	
 	public void performMoves() {
 		if (gameState.requestMoves()) {
 			evaluateTurn();
@@ -54,5 +59,9 @@ abstract public class Game {
 			result = true;
 		}
 		return result;
+	}
+	
+	public GameState getGameState() {
+		return gameState;
 	}
 }

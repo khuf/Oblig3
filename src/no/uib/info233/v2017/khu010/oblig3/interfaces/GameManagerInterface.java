@@ -6,7 +6,7 @@ public interface GameManagerInterface {
 	
 	void loadGame(GameState state);
 	
-	void hostGame(GameState state);
+	void hostGame(String playerName);
 	
 	void saveGameState();
 	

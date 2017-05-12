@@ -2,10 +2,13 @@ package no.uib.info233.v2017.khu010.oblig3.game;
 
 import java.util.Map;
 
+
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
+import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * A singleton GameMaster class.
@@ -16,24 +19,30 @@ public class GameMaster implements GameManagerInterface {
 	
 	private SQLManager server = SQLManager.getConnection();
 
-	private Game game;
+	private SinglePlayerGame singlePlayer;
+	
+	private MultiPlayerGame multiPlayer;
 	
 	private Map<Integer, Game> gameList;
 	
 	public GameMaster() {
-		game = new SinglePlayerGame();
+		singlePlayer = new SinglePlayerGame();
 	}
 	
 	/**
 	 * Starts the game by sending a request to both players to come up 
 	 * with their next move.
 	 */
-	public void startGame() {
-		while (!game.isFinnished()) {
-			game.performMoves();
+	public void startSinglePlayer() {
+		while (!singlePlayer.isFinnished()) {
+			singlePlayer.performMoves();
 		}
-		System.out.println(game.isFinnished());
+		System.out.println(singlePlayer.isFinnished());
 		//Update ranking....
+	}
+	
+	public void startMultiPlayer() {
+		
 	}
 
 	@Override
@@ -45,7 +54,10 @@ public class GameMaster implements GameManagerInterface {
 	}
 
 	@Override
-	public void hostGame(GameState state) {
+	public void hostGame(String playerName) {
+		multiPlayer = new MultiPlayerGame(playerName, 3);
+		multiPlayer.setPlayerAId(RandomStringUtils.random(10));
+		
 		
 	}
 
