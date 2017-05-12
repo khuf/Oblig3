@@ -3,6 +3,7 @@ package no.uib.info233.v2017.khu010.oblig3.gui;
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainMenuPanel extends JPanel {

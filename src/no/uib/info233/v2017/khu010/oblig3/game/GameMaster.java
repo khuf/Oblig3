@@ -50,7 +50,7 @@ public class GameMaster implements GameManagerInterface {
 		if (state == null) {
 			throw new IllegalArgumentException("Game cannot be loaded. Invalid game state");
 		}
-		game.setGameState(state);
+		//Set gamestate to game
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class GameMaster implements GameManagerInterface {
 	}
 	
 	public void registerPlayers(Player playerA, Player playerB) {
-		game.setPlayers(playerA, playerB);
+		//game.setPlayers(playerA, playerB);
 	}
 	
 }

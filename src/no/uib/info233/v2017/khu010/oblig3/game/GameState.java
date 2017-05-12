@@ -8,12 +8,15 @@ import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 import java.util.Map;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class GameState implements PlayerControllerInterface {
 	
 	private Player playerA;
 	private Player playerB;
-	private int playerAMove, playerBMove = -1;
-	private int currentPosition;
+	private SimpleIntegerProperty playerAMove = new SimpleIntegerProperty(-1);
+	private SimpleIntegerProperty playerBMove = new SimpleIntegerProperty(-1);
+	private SimpleIntegerProperty currentPosition = new SimpleIntegerProperty(0);
 	private Map<Integer, Reward> scores;
 	
 	public GameState() {
@@ -64,27 +67,53 @@ public class GameState implements PlayerControllerInterface {
 	}
 	
 	public boolean requestMoves() {
-		playerA.makeNextMove(currentPosition, playerB.getEnergy());
-		playerB.makeNextMove(currentPosition, playerA.getEnergy());
-
 		return true;
 	}
 	
+	/**
+	 * @return the latest move from Player A.
+	 */
+	public int getPlayerAMove() {
+		return playerAMove.get();
+	}
+	
+	/**
+	 * @return the latest move from Player B
+	 */
+	public int getPlayerBMove() {
+		return playerBMove.get();
+	}
+	
+	/**
+	 * @return the current round.
+	 */
 	public int getCurrentPosition() {
+		return currentPosition.get();
+	}
+	
+	public SimpleIntegerProperty currentPositionProperty() {
 		return currentPosition;
 	}
 	
+	public SimpleIntegerProperty playerAMoveProperty() {
+		return playerAMove;
+	}
+	
+	public SimpleIntegerProperty playerBMoveProperty() {
+		return playerBMove;
+	}
+	
 	private void setPlayerAMove(int move) {
-		playerAMove = 0;
+		playerAMove.set(0);
 		if (Utility.isValidMove(playerA, move)) {
-			playerAMove = move;
+			playerAMove.set(move);
 		}
 	}
 	
 	private void setPlayerBMove(int move) {
-		playerBMove = 0;
+		playerBMove.set(0);
 		if (Utility.isValidMove(playerB, move)) {
-			playerBMove = move;
+			playerBMove.set(move);
 		}
 	}
 	
@@ -92,13 +121,13 @@ public class GameState implements PlayerControllerInterface {
 		Player result = null;
 		System.out.println("Player A move: " + playerAMove);
 		System.out.println("Player B move: " + playerBMove);
-		if (playerAMove > playerBMove) {
+		if (playerAMove.get() > playerBMove.get()) {
 			System.out.println(playerAMove + " " + playerBMove);
-			currentPosition++;
+			currentPosition.set(currentPosition.get() + 1);;
 			result = playerA;
 		}
-		else if (playerBMove > playerAMove) {
-			currentPosition--;
+		else if (playerBMove.get() > playerAMove.get()) {
+			currentPosition.set(currentPosition.get() -1 );;
 			result = playerB;
 		}
 		return result;
