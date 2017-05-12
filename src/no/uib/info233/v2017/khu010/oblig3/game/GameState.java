@@ -1,6 +1,8 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.game;
 
 import java.util.HashMap;
+
+import no.uib.info233.v2017.khu010.oblig3.Utility;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 

@@ -1,6 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
 import no.uib.info233.v2017.khu010.oblig3.players.AggressivePlayer;
+import no.uib.info233.v2017.khu010.oblig3.gui.*;
 import no.uib.info233.v2017.khu010.oblig3.players.DefensivePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.*;
 
@@ -12,7 +13,7 @@ import no.uib.info233.v2017.khu010.oblig3.players.*;
 public class Main {
 	
 	public static void main(String[] args) {
-		GameMaster master = new GameMaster();
+		/*GameMaster master = new GameMaster();
 		//Player player = new HumanPlayer("John", 3);
 		//new DefensivePlayer("defRobot", 3)
 		master.registerPlayers(new DefensivePlayer("defRobot", 3), new AggressivePlayer("agrRobot", -3));
@@ -20,7 +21,8 @@ public class Main {
 		//master.setPlayers(new AggressivePlayer("agrRobot", 3), new AggressivePlayer("agrRobot2", -3));
 		master.startGame();
 
-		Utility.debug("hei");
+		Utility.debug("hei");*/
+		Gladiators game = new Gladiators();
 	}
 
 }

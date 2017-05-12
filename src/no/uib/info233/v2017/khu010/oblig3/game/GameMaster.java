@@ -1,10 +1,11 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.game;
 
 import java.util.Map;
 
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
+import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 
 /**
  * A singleton GameMaster class.
@@ -56,6 +57,7 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void listOnlineGames() {
+		
 	}
 	
 	private void updateRanking() {
@@ -65,4 +67,5 @@ public class GameMaster implements GameManagerInterface {
 	public void registerPlayers(Player playerA, Player playerB) {
 		game.setPlayers(playerA, playerB);
 	}
+	
 }

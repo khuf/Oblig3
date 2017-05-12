@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -53,4 +53,11 @@ public class SQLManager {
             return false;
         }
 	}
+	
+	public static boolean hostGame(String playerName) {
+  	  
+  	  return false;
+    }
+	
+	
 }

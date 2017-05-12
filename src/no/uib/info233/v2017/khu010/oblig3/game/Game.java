@@ -1,9 +1,8 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig3.game;
 
-import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
-public class Game {
+abstract public class Game {
 	
 	private GameState gameState;
 	
@@ -35,18 +34,18 @@ public class Game {
 		}
 	}
 	
-	public boolean isFinnished() {
+	abstract public boolean isFinnished() {
 		return gameState.getCurrentPosition() == 3 || gameState.getCurrentPosition() == -3;
 	}
 	
-	public void setGameState(GameState gameState) throws IllegalArgumentException {
+	abstract public void setGameState(GameState gameState) throws IllegalArgumentException {
 		if (gameState != null) {
 			this.gameState = gameState;
 		}
 		throw new IllegalArgumentException("The GameState cannot be null");
 	}
 	
-	public boolean setPlayers(Player playerA, Player playerB) {
+	abstract public boolean setPlayers(Player playerA, Player playerB) {
 		boolean result = false;
 		
 		if (playerA != null && playerB != null) {
