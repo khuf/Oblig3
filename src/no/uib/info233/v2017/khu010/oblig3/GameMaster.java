@@ -1,5 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
+import java.util.Map;
+
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
@@ -14,6 +16,8 @@ public class GameMaster implements GameManagerInterface {
 	private SQLManager server = SQLManager.getConnection();
 
 	private Game game;
+	
+	private Map<Integer, Game> gameList;
 	
 	public GameMaster() {
 		game = new Game();
@@ -52,8 +56,6 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void listOnlineGames() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	private void updateRanking() {
