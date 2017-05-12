@@ -11,7 +11,7 @@ import no.uib.info233.v2017.khu010.oblig3.players.Player;
  */
 public class GameMaster implements GameManagerInterface {
 	
-	private SQLConnector server = SQLConnector.getConnection();
+	private SQLManager server = SQLManager.getConnection();
 
 	private Game game;
 	

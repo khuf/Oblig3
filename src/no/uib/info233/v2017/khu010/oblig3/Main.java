@@ -20,6 +20,7 @@ public class Main {
 		//master.setPlayers(new AggressivePlayer("agrRobot", 3), new AggressivePlayer("agrRobot2", -3));
 		master.startGame();
 
+		Utility.debug("hei");
 	}
 
 }

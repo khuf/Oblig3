@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  * @version 0.3.8 (21.04.2017).
  *
  */
-public class SQLConnector {
+public class SQLManager {
 	
-	private static SQLConnector server = new SQLConnector();
+	private static SQLManager server = new SQLManager();
 	
     private Connection con = null;
     private PreparedStatement pst = null;
@@ -25,9 +25,9 @@ public class SQLConnector {
     private String user = "Khuna";
     private String password = "\"'mr{6)9m5wHfS3*";
     
-    private SQLConnector() {}
+    private SQLManager() {}
     
-    public static SQLConnector getConnection() {
+    public static SQLManager getConnection() {
     	return server;
     }
 	
@@ -48,7 +48,7 @@ public class SQLConnector {
             pst.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            Logger lgr = Logger.getLogger(SQLConnector.class.getName());
+            Logger lgr = Logger.getLogger(SQLManager.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
             return false;
         }
