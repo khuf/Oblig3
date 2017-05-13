@@ -17,50 +17,28 @@ import no.uib.info233.v2017.khu010.oblig3.game.GameMaster;
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 
 public class Gladiators extends JFrame {
-	
-	private JMenuBar menuBar;
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private GameMaster gameMaster;
-	private GameState gameState;
 	
-	public Gladiators(GameState state) {
-		this.setSize(500, 300);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setLayout(new BorderLayout());
-		gameState = state;
-		//setUp();
-		this.add(new MainMenuPanel());
-		createMenuToolBar();
-		this.setVisible(true);
+	public Gladiators() {
+		setUp();
 	}
 	
 	private void setUp() {
-		JPanel panel = new JPanel();
-		JPanel multiPlayerPanel = new JPanel();
-		JButton hostButton = new JButton("Host game");
-		JButton loadButton = new JButton("Load game");
-		JButton saveButton = new JButton("Save game");
-		JTextField field = new JTextField();
-		JLabel lbl = new JLabel("Hello");
-		gameState.currentPositionProperty().addListener((observable, oldValue, newValue) -> {
-			  lbl.setText(newValue.toString());
-		});
-		panel.add(lbl);
-		hostButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				gameState.currentPositionProperty().set(5);
-			}
-		});
-		panel.add(hostButton);
-		panel.add(saveButton);
-		panel.add(loadButton);
-		this.getContentPane().add(panel, BorderLayout.PAGE_END);
+		//Sets the size of the window
+		this.setSize(500, 300);
+		//Sets the default behavior of the windows exit button
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//Sets the window layout
+		this.setLayout(new BorderLayout());
+		
+		createMenuToolBar();
+		createMainMenu();
+		
+		this.setVisible(true);
 	}
 	
 	/**
@@ -72,39 +50,18 @@ public class Gladiators extends JFrame {
 		JMenuItem saveGame = new JMenuItem("Save Game");
 		JMenuItem loadGame = new JMenuItem("Load Game");
 		
-		hostGame.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Host Game button was clicked");
-			}
-			
-		});
-		
-		saveGame.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Save Game button was clicked");
-			}
-			
-		});
-		
-		loadGame.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Load Game button was clicked");
-			}
-			
-		});
 		
 		menu.add(hostGame);
 		menu.add(saveGame);
 		menu.add(loadGame);
 	
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(menu);
 		this.setJMenuBar(menuBar);
+	}
+	
+	private void createMainMenu() {
+		this.getContentPane().add(new MainMenuPanel());
 	}
 }

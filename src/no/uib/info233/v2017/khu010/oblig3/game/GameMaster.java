@@ -19,7 +19,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  */
 public class GameMaster implements GameManagerInterface {
 	
-	private SQLManager server = SQLManager.getConnection();
+	//private SQLManager server = new SQLManager();
 
 	private SinglePlayerGame singlePlayer;
 	

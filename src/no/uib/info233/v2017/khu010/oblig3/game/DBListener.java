@@ -11,7 +11,7 @@ import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 public class DBListener implements Runnable {
 	
 	private GameState gameState;
-	private SQLManager manager = SQLManager.getConnection();
+	//private SQLManager manager = SQLManager.getConnection();
 	
 	public DBListener(GameState state) {
 		gameState = state;

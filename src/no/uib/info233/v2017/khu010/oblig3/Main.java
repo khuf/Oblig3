@@ -23,10 +23,10 @@ public class Main {
 		master.startGame();
 
 		Utility.debug("hei");*/
-		GameState state = new GameState();
-		Thread t1 = new Thread(new DBListener(state));
-		t1.start();
-		//Gladiators game = new Gladiators(state);
+		//GameState state = new GameState();
+		//Thread t1 = new Thread(new DBListener(state));
+		//t1.start();
+		Gladiators game = new Gladiators();
 	}
 
 }
