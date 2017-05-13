@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -14,6 +17,8 @@ import no.uib.info233.v2017.khu010.oblig3.game.GameMaster;
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 
 public class Gladiators extends JFrame {
+	
+	private JMenuBar menuBar;
 
 	/**
 	 * 
@@ -27,7 +32,9 @@ public class Gladiators extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
 		gameState = state;
-		setUp();
+		//setUp();
+		this.add(new MainMenuPanel());
+		createMenuToolBar();
 		this.setVisible(true);
 	}
 	
@@ -56,10 +63,48 @@ public class Gladiators extends JFrame {
 		this.getContentPane().add(panel, BorderLayout.PAGE_END);
 	}
 	
-	private void createGameControls() {
-		JButton hostButton = new JButton("Host game");
-		JButton loadButton = new JButton("Load game");
-		this.getLayout().addLayoutComponent("hostButton", hostButton);
-		this.getLayout().addLayoutComponent("loadButton", loadButton);
+	/**
+	 * Creates the menu strip at the top of the window.
+	 */
+	private void createMenuToolBar() {
+		JMenu menu = new JMenu("File");
+		JMenuItem hostGame = new JMenuItem("Host Game");
+		JMenuItem saveGame = new JMenuItem("Save Game");
+		JMenuItem loadGame = new JMenuItem("Load Game");
+		
+		hostGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Host Game button was clicked");
+			}
+			
+		});
+		
+		saveGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Save Game button was clicked");
+			}
+			
+		});
+		
+		loadGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Load Game button was clicked");
+			}
+			
+		});
+		
+		menu.add(hostGame);
+		menu.add(saveGame);
+		menu.add(loadGame);
+	
+		menuBar = new JMenuBar();
+		menuBar.add(menu);
+		this.setJMenuBar(menuBar);
 	}
 }
