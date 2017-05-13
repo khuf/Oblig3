@@ -34,29 +34,28 @@ public class SQLManager {
     //private String user = "Khuna";
     //private String password = "\"'mr{6)9m5wHfS3*";
     
-
+	private static String url = "jdbc:mysql://localhost:8889/barinfo";
+    private static String user = "root";
+    private static String password = "root";
+   
     
 	public static void main(String[] args) {
 		
 		try {
-			con = connect();
+			con = server.connect();
 		} catch (Exception e) {
 			System.out.println("connection failed");
 		}
-		server.hostGame(new Player("john"));
+		server.read();
 			
 	}
     
     private SQLManager() { connect(); }
     
-    private static Connection connect(){
-    	try {
-    		String url = "jdbc:mysql://localhost:8889/barinfo";
-            String user = "root";
-            String password = "root";
-        	
+    private Connection connect(){
+    	try {        	
             //create connection
-            con = DriverManager.getConnection(url, user, password);
+            DriverManager.getConnection(url, user, password);
             
             //create statement from connection
             stmt = con.createStatement();
@@ -132,12 +131,14 @@ public class SQLManager {
 	public boolean addScore(String playerName, float playerScore){
 
         try {
-            //pst = con.prepareStatement("INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)");
-        	System.out.println(con);
-        	Statement stmt = con.createStatement();
-            System.out.println(rs);
+        	//create an SQL insert query
+        	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
+        	//prepare statement
+            PreparedStatement pst = con.prepareStatement(insertQuery);
+            //set statement values
             pst.setString(1, playerName);
             pst.setFloat(2, playerScore);
+            //execute update
             pst.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -147,7 +148,6 @@ public class SQLManager {
         }
 	}
 	
-<<<<<<< Updated upstream
 	/**
 	 * Creates an entry for an open game in the database in which other players
 	 * can join.
@@ -158,8 +158,8 @@ public class SQLManager {
 		boolean result = false;
 		
 		try { 
-			con = DriverManager.getConnection(url, user, password);
-			pst = con.prepareStatement("INSERT INTO `open_games` (`player_1`, `player_1_random`) VALUES (?, ?)");
+			String insertQuery = "INSERT INTO `open_games` (`player_1`, `player_1_random`) VALUES (?, ?)";
+			PreparedStatement pst = con.prepareStatement(insertQuery);
 			pst.setString(1, game.getGameState().getPlayerA().getName());
 			pst.setString(2, game.getPlayerAId());
 			pst.executeUpdate();
@@ -183,8 +183,9 @@ public class SQLManager {
 		MultiPlayerGame result = null;
 		
 		try {
-			con = DriverManager.getConnection(url, user, password);
-			pst = con.prepareStatement("UPDATE `open_games` SET `player_2` = ?, `player_2_random` = ?, WHERE `player_1` = ? AND `player_2` IS NULL AND `player_2_random` IS NULL");
+			String updateQuery = "UPDATE `open_games` SET `player_2` = ?, `player_2_random` = ?, "
+					+ "WHERE `player_1` = ? AND `player_2` IS NULL AND `player_2_random` IS NULL";
+			PreparedStatement pst = con.prepareStatement(updateQuery);
 			pst.setString(1, game.getGameState().getPlayerB().getName());
 			pst.setString(2, game.getPlayerBId());
 			pst.setString(3, enemyPlayer);
@@ -197,19 +198,11 @@ public class SQLManager {
 				game.getGameState().getPlayerB().setName(enemyPlayer);
 			}
 
-		}
-		catch (SQLException ex) {
+		} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		
 		return result;
-	}
-=======
-	public static boolean hostGame(String playerName) {
-		return false;
-    }
->>>>>>> Stashed changes
-	
+	}	
 	
 }
