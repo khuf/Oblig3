@@ -11,6 +11,8 @@ import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
+ * This is the class that the GUI will interact with. The GUI will interact with
+ * the GameState class through this class (getGameState()).
  * A singleton GameMaster class.
  * @author knu010 && xeq003
  * @version 0.3.8 (21.04.2017).
@@ -37,6 +39,9 @@ public class GameMaster implements GameManagerInterface {
 		
 	}
 	
+	/**
+	 * Starts a multiplayer game...
+	 */
 	public void startMultiPlayer() {
 		
 	}

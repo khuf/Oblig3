@@ -2,6 +2,14 @@ package no.uib.info233.v2017.khu010.oblig3.game;
 
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
+/**
+ * This is the base class for a game. The class can not be instanciated
+ * and is extended by both SingelPlayerGame and MultiPlayerGame.
+ * It implements a couple of methods that are common for both singel player
+ * and multiplayer.
+ * @author knuhuf
+ *
+ */
 abstract public class Game {
 	
 	private GameState gameState;
@@ -27,10 +35,6 @@ abstract public class Game {
 	abstract public boolean performMoves();
 	
 	abstract public void evaluateTurn();
-	
-	public boolean isFinnished() {
-		return gameState.getCurrentPosition() == 3 || gameState.getCurrentPosition() == -3;
-	}
 	
 	public void setGameState(GameState gameState) throws IllegalArgumentException {
 		if (gameState != null) {

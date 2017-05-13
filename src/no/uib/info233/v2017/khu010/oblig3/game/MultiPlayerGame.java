@@ -4,9 +4,13 @@ import no.uib.info233.v2017.khu010.oblig3.players.*;
 
 public class MultiPlayerGame extends Game {
 	
+	//This is the random string that will be generated for both players in an online game.
 	private String playerAId;
 	private String playerBId;
 	private String game_id;
+	//This is the class that listens for changes to the game in another thread every
+	//2 seconds.
+	//The thread should be started in the runGame metod below...
 	private DBListener listener;
 	
 	public MultiPlayerGame(String playerName, int goal) {
