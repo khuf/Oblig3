@@ -22,22 +22,11 @@ abstract public class Game {
 		gameState.setPlayerA(playerA);
 	}
 	
-	public void performMoves() {
-		if (gameState.requestMoves()) {
-			evaluateTurn();
-		}
-	}
+	abstract public void runGame();
 	
-	public void evaluateTurn() {
-		Player roundWinner = gameState.evaluateMoves();
-		
-		if (roundWinner != null) {
-			System.out.println(roundWinner + " has won the round");
-		}
-		else {
-			System.out.println("Round ended in a draw");
-		}
-	}
+	abstract public boolean performMoves();
+	
+	abstract public void evaluateTurn();
 	
 	public boolean isFinnished() {
 		return gameState.getCurrentPosition() == 3 || gameState.getCurrentPosition() == -3;

@@ -7,6 +7,7 @@ public class MultiPlayerGame extends Game {
 	private String playerAId;
 	private String playerBId;
 	private String game_id;
+	private DBListener listener;
 	
 	public MultiPlayerGame(String playerName, int goal) {
 		super(new HumanPlayer(playerName, goal));
@@ -48,5 +49,23 @@ public class MultiPlayerGame extends Game {
 	 */
 	public String getPlayerBId() {
 		return playerBId;
+	}
+
+	@Override
+	public void runGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean performMoves() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void evaluateTurn() {
+		// TODO Auto-generated method stub
+		
 	}
 }

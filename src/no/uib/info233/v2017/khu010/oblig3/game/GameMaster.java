@@ -34,11 +34,7 @@ public class GameMaster implements GameManagerInterface {
 	 * with their next move.
 	 */
 	public void startSinglePlayer() {
-		while (!singlePlayer.isFinnished()) {
-			singlePlayer.performMoves();
-		}
-		System.out.println(singlePlayer.isFinnished());
-		//Update ranking....
+		
 	}
 	
 	public void startMultiPlayer() {

@@ -50,24 +50,37 @@ public class GameState implements PlayerControllerInterface {
 		this.playerB.registerGameMaster(this);
 	}
 	
-	public float getPlayerAReward() {
-		return scores.get(currentPosition).getPlayerAScore();
+	/**
+	 * Checks whether the game is in a winning position.
+	 * This has been moved from Game to GameState because the thread that is
+	 * observing changes in the database, uses this method to determine when the thread
+	 * should end.
+	 * @return true for a finished game, otherwise it returns false.
+	 */
+	public boolean isFinnished() {
+		return getCurrentPosition() == 3 || getCurrentPosition() == -3;
 	}
 	
-	public float getPlayerBReward() {
-		return scores.get(currentPosition).getPlayerBScore();
+	/**
+	 * Retrieves the reward for both of the players.
+	 * @return Reward representing both players reward.
+	 */
+	public Reward getPlayerRewards() {
+		return scores.get(currentPosition);
 	}
 	
+	/**
+	 * @return Player A
+	 */
 	public Player getPlayerA() {
 		return playerA;
 	}
 	
+	/**
+	 * @return Player B
+	 */
 	public Player getPlayerB() {
 		return playerB;
-	}
-	
-	public boolean requestMoves() {
-		return true;
 	}
 	
 	/**
@@ -91,18 +104,35 @@ public class GameState implements PlayerControllerInterface {
 		return currentPosition.get();
 	}
 	
+	/**
+	 * Retrieves a property that a view can observe for changes.
+	 * @return
+	 */
 	public SimpleIntegerProperty currentPositionProperty() {
 		return currentPosition;
 	}
 	
+	/**
+	 * Retrieves a property that a view can observe for changes.
+	 * @return
+	 */
 	public SimpleIntegerProperty playerAMoveProperty() {
 		return playerAMove;
 	}
 	
+	/**
+	 * Retrieves a property that a view can observe for changes.
+	 * @return
+	 */
 	public SimpleIntegerProperty playerBMoveProperty() {
 		return playerBMove;
 	}
 	
+	/**
+	 * Sets the move of player A and ensures that the specified move is a valid move, i.e. 
+	 * player A can afford the move.
+	 * @param move
+	 */
 	private void setPlayerAMove(int move) {
 		playerAMove.set(0);
 		if (Utility.isValidMove(playerA, move)) {
@@ -110,27 +140,16 @@ public class GameState implements PlayerControllerInterface {
 		}
 	}
 	
+	/**
+	 * Sets the move of player B and ensures that the specified move is a valid move, i.e. 
+	 * player B can afford the move.
+	 * @param move
+	 */
 	private void setPlayerBMove(int move) {
 		playerBMove.set(0);
 		if (Utility.isValidMove(playerB, move)) {
 			playerBMove.set(move);
 		}
-	}
-	
-	public Player evaluateMoves() {
-		Player result = null;
-		System.out.println("Player A move: " + playerAMove);
-		System.out.println("Player B move: " + playerBMove);
-		if (playerAMove.get() > playerBMove.get()) {
-			System.out.println(playerAMove + " " + playerBMove);
-			currentPosition.set(currentPosition.get() + 1);;
-			result = playerA;
-		}
-		else if (playerBMove.get() > playerAMove.get()) {
-			currentPosition.set(currentPosition.get() -1 );;
-			result = playerB;
-		}
-		return result;
 	}
 	
 	@Override

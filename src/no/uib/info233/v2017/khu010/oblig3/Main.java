@@ -1,7 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3;
 
 import no.uib.info233.v2017.khu010.oblig3.players.AggressivePlayer;
-import no.uib.info233.v2017.khu010.oblig3.game.GameState;
+import no.uib.info233.v2017.khu010.oblig3.game.*;
 import no.uib.info233.v2017.khu010.oblig3.gui.*;
 import no.uib.info233.v2017.khu010.oblig3.players.DefensivePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.*;
@@ -24,7 +24,9 @@ public class Main {
 
 		Utility.debug("hei");*/
 		GameState state = new GameState();
-		Gladiators game = new Gladiators(state);
+		Thread t1 = new Thread(new DBListener(state));
+		t1.start();
+		//Gladiators game = new Gladiators(state);
 	}
 
 }
