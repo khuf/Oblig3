@@ -26,7 +26,9 @@ public class Main {
 		//GameState state = new GameState();
 		//Thread t1 = new Thread(new DBListener(state));
 		//t1.start();
-		Gladiators game = new Gladiators();
+		//Gladiators game = new Gladiators();
+		GameMaster gm = new GameMaster();
+		gm.startSinglePlayer();
 	}
 
 }

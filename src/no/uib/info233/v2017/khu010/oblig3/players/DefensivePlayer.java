@@ -20,7 +20,7 @@ public class DefensivePlayer extends Player{
 		super(name, goal);
 	}
 	
-	public int makeNextMove(int currentPosition, int opponentEnergy) {
+	public boolean makeNextMove(int currentPosition, int opponentEnergy) {
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
 		int enemyDistanceFromGoal = Math.abs((getGoal() * -1) - currentPosition);
@@ -57,7 +57,7 @@ public class DefensivePlayer extends Player{
 				energyToUse = getEnergy();
 			}
 		} 
-		getGameMaster().listenToPlayerMove(this, energyToUse);
-		return energyToUse;
+		
+		return getGameMaster().listenToPlayerMove(this, energyToUse);
 	}
 }

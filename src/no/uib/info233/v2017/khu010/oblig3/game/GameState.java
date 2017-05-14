@@ -14,12 +14,13 @@ public class GameState implements PlayerControllerInterface {
 	
 	private Player playerA;
 	private Player playerB;
-	private SimpleIntegerProperty playerAMove = new SimpleIntegerProperty(-1);
-	private SimpleIntegerProperty playerBMove = new SimpleIntegerProperty(-1);
+	private SimpleIntegerProperty playerAMove = new SimpleIntegerProperty(0);
+	private SimpleIntegerProperty playerBMove = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty currentPosition = new SimpleIntegerProperty(0);
 	private Map<Integer, Reward> scores;
 	
 	public GameState() {
+		System.out.println("Yes");
 		createScoreboard();
 	}
 	public GameState(Player firstPlayer, Player secondPlayer) {
@@ -133,11 +134,13 @@ public class GameState implements PlayerControllerInterface {
 	 * player A can afford the move.
 	 * @param move
 	 */
-	private void setPlayerAMove(int move) {
-		playerAMove.set(0);
+	private boolean setPlayerAMove(int move) {
+		boolean result = false;
 		if (Utility.isValidMove(playerA, move)) {
 			playerAMove.set(move);
+			result = true;
 		}
+		return result;
 	}
 	
 	/**
@@ -145,22 +148,36 @@ public class GameState implements PlayerControllerInterface {
 	 * player B can afford the move.
 	 * @param move
 	 */
-	private void setPlayerBMove(int move) {
-		playerBMove.set(0);
+	private boolean setPlayerBMove(int move) {
+		boolean result = false;
 		if (Utility.isValidMove(playerB, move)) {
 			playerBMove.set(move);
+			result = true;
 		}
+		return result;
+	}
+	
+	public boolean requestMoves() {
+		boolean result = false;
+		if (playerA.makeNextMove(currentPosition.get(), playerB.getEnergy())) {
+			if (playerB.makeNextMove(currentPosition.get(), getPlayerA().getEnergy() )) {
+				result = true;
+			}
+		}
+		return result;
 	}
 	
 	@Override
-	public void listenToPlayerMove(Player player, int move) {
+	public boolean listenToPlayerMove(Player player, int move) {
+		boolean result = false;
 		if (player != null) {
 			if (player.equals(playerA)) {
-				setPlayerAMove(move);
+				result = setPlayerAMove(move);
 			}
-			else {
-				setPlayerBMove(move);
+			else if (player.equals(playerB)) {
+				result = setPlayerBMove(move);
 			}
 		}
+		return result;
 	}
 }

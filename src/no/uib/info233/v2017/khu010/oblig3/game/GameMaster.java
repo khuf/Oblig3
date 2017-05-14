@@ -36,7 +36,7 @@ public class GameMaster implements GameManagerInterface {
 	 * with their next move.
 	 */
 	public void startSinglePlayer() {
-		
+		singlePlayer.runGame();
 	}
 	
 	/**
@@ -78,7 +78,7 @@ public class GameMaster implements GameManagerInterface {
 	}
 	
 	public void registerPlayers(Player playerA, Player playerB) {
-		//game.setPlayers(playerA, playerB);
+		//.setPlayers(playerA, playerB);
 	}
 	
 }

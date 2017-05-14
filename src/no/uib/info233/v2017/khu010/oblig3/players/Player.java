@@ -54,7 +54,7 @@ abstract public class Player {
 	 * @param opponentEnergy Opponents current energy level.
 	 * @return energy to spend this round.
 	 */
-	public abstract int makeNextMove(int currentPosition, int opponentEnergy);
+	public abstract boolean makeNextMove(int currentPosition, int opponentEnergy);
 	
 	/**
 	 * Informs the player that the game has come to an end and how 
