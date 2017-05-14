@@ -6,15 +6,18 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Statement;
 
+import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
-
+import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
+import no.uib.info233.v2017.khu010.oblig3.players.AggressivePlayer;
+import no.uib.info233.v2017.khu010.oblig3.players.HumanPlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
-
-import java.sql.Statement;
 
 /**
  * Handles the SQL connection for updating
@@ -23,12 +26,10 @@ import java.sql.Statement;
  * @version 0.3.8 (21.04.2017).
  *
  */
-public class SQLManager {
+public class SQLManager implements SQLManagerInterface{
 	
     private static Connection con = null;
     private static Statement stmt = null;
-    
-    private static SQLManager server = new SQLManager();
 
     //private String url = "jdbc:mysql://wildboy.uib.no/Khuna";
     //private String user = "Khuna";
@@ -41,168 +42,191 @@ public class SQLManager {
     
 	public static void main(String[] args) {
 		
-		try {
-			con = server.connect();
-		} catch (Exception e) {
-			System.out.println("connection failed");
-		}
-		server.read();
+		SQLManager server = new SQLManager();
+		HashMap <String, String> opengames = server.findOpenGames();
+		System.out.println(opengames.size());
 			
 	}
     
     private SQLManager() { connect(); }
     
-    private Connection connect(){
+    private void connect(){
     	try {        	
             //create connection
-            DriverManager.getConnection(url, user, password);
+            this.con = DriverManager.getConnection(url, user, password);
             
             //create statement from connection
-            stmt = con.createStatement();
-            
-            //return connection
-            return con;
+            this.stmt = con.createStatement();
             
     	} catch (SQLException ex){
     		System.out.println("connection failed");
-    		return null;
     	}
     	
     }
-    
-    public boolean hostGame(Player player) { 
-    	try {
+
+	@Override
+	//creates a random id which is 10 characters long
+	public String createRandomPlayerID() {
+		String randomID = "";
+		
+		for (int i = 0; i < 10; i++){
+			//create a new random
+			Random r = new Random();
+			//add new character to id from random
+			randomID += (char)(r.nextInt(26) + 'a');
+		}
+		return randomID;
+	}
+
+	@Override
+	public String hostOnlineGame(Player hostplayer) {
+		
+		try {
+			//Create query
     		String insertQuery = "INSERT INTO open_games " +
-    	"(player_1, player_1_random, player_2, player_2_random) VALUES (?, ?, ?, ?)";
+    				"(player_1, player_1_random, player_2, player_2_random) VALUES (?, ?, 'NULL', 'NULL')";
     		PreparedStatement pst = con.prepareStatement(insertQuery);
     		
+    		//set hostplayers random id
+    		String hostplayerID = createRandomPlayerID();
+    		
     		//Set values
-    		pst.setString(1, player.getName());
-    		pst.setString(2, "random1234");
-    		pst.setString(3, null);
-    		pst.setString(4, null);
+    		pst.setString(1, hostplayer.getName());
+    		pst.setString(2, hostplayerID);
     		
     		//Execute update
     		pst.executeUpdate();
     		
-			return true;
+			return hostplayerID;
 			
-    	} catch (Exception e){
-    		System.out.println("Could not connect because: " + e);
-    		
-    		return false;
-    	}
-	}
-    
-  	public ResultSet read() {
-
-    	try {
-    		
-    		PreparedStatement pst = con.prepareStatement("select * from open_games");
-    		ResultSet rs = pst.executeQuery();
-    		
-
-			while (rs.next()) {
-				System.out.println(rs.getString(2));
-				String player = rs.getString("player");
-				String score = rs.getString("score");
-
-				System.out.println("userid : " + player);
-				System.out.println("username : " + score);
-
-			}
-			return rs;
-    	} catch (Exception e){
-    		System.out.println("Could not connect because: " + e);
-    		return null;
-    	}
-    	
-    	//clear ranking table
-    	//stmt.executeUpdate("DELETE FROM ranking");
-    }
-	
-    /**
-     * Updates the ranking table with the new score from
-     * a finished game.
-     * @param playerName The player's name.
-     * @param playerScore The player's score
-     * @return true if the update was successful. Otherwise, false.
-     */
-	public boolean addScore(String playerName, float playerScore){
-
-        try {
-        	//create an SQL insert query
-        	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
-        	//prepare statement
-            PreparedStatement pst = con.prepareStatement(insertQuery);
-            //set statement values
-            pst.setString(1, playerName);
-            pst.setFloat(2, playerScore);
-            //execute update
-            pst.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger lgr = Logger.getLogger(SQLManager.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-            return false;
-        }
-	}
-	
-	/**
-	 * Creates an entry for an open game in the database in which other players
-	 * can join.
-	 * @param game the game that is being added.
-	 * @return true if the insertion was successful, false otherwise.
-	 */
-	public boolean hostGame(MultiPlayerGame game) {
-		boolean result = false;
-		
-		try { 
-			String insertQuery = "INSERT INTO `open_games` (`player_1`, `player_1_random`) VALUES (?, ?)";
-			PreparedStatement pst = con.prepareStatement(insertQuery);
-			pst.setString(1, game.getGameState().getPlayerA().getName());
-			pst.setString(2, game.getPlayerAId());
-			pst.executeUpdate();
-			result = true;
-		}
-		catch (SQLException ex) {
+    	} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		return result;
-	}
-	
-	/**
-	 * Joins an open multiplayer game against a player if the game
-	 * is still available.
-	 * @param game
-	 * @param enemyPlayer
-	 * @return
-	 */
-	public MultiPlayerGame joinGame(MultiPlayerGame game, String enemyPlayer) {
-		MultiPlayerGame result = null;
+		return null;
 		
+	}
+
+	@Override
+	public boolean hasOpponent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getOpponentMove() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	//used when this player is hosting a game online
+	public void newRound() {
+		if (move_number == "NULL") {
+			game_position = 0;
+		}
+		
+		//set player_1_move && player_2_move to NULL
+		
+		//increase move_number by 1
+		
+	}
+
+	@Override
+	public void saveGame(GameState gamestate) {
 		try {
-			String updateQuery = "UPDATE `open_games` SET `player_2` = ?, `player_2_random` = ?, "
-					+ "WHERE `player_1` = ? AND `player_2` IS NULL AND `player_2_random` IS NULL";
-			PreparedStatement pst = con.prepareStatement(updateQuery);
-			pst.setString(1, game.getGameState().getPlayerB().getName());
-			pst.setString(2, game.getPlayerBId());
-			pst.setString(3, enemyPlayer);
-			
-			if (pst.executeUpdate() == 1) {
-				Statement stmt = con.createStatement();
-				String query = "SELECT `player_1`, `player_1_random` FROM `open_games` WHERE `player_1` = '" + enemyPlayer + "'";
-				ResultSet rs = stmt.executeQuery(query);
-				game.setplayerBId(rs.getString(0));
-				game.getGameState().getPlayerB().setName(enemyPlayer);
+        	//create an SQL insert query
+        	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
+        	//prepare statement
+        	
+            PreparedStatement pst = con.prepareStatement(insertQuery);
+            //set statement values for player a
+            pst.setString(1, "playera");
+            pst.setFloat(2, 2.0f);
+            //execute update for player a
+            pst.executeUpdate();
+            
+            //set statement values for player b
+            pst.setString(1, "playerb");
+            pst.setFloat(2, -1.0f);
+            //execute update for player b
+            pst.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(SQLManager.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+		
+	}
+
+	@Override
+	public void endGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	//returns a hashmap with opponent ids as keys, opponent names as values
+	public HashMap<String, String> findOpenGames() {
+    	try {
+    		
+    		//create a statement which gets all open games
+    		PreparedStatement pst = con.prepareStatement("select * from open_games");
+    		//execute query and save results to rs
+    		ResultSet rs = pst.executeQuery();
+    		
+    		//create a hashmap to save open games
+    		HashMap<String, String> results = new HashMap<String, String>();
+    		
+    		//select next result as long as there is one
+			while (rs.next()) {
+				//confirms the selected game has an open spot
+				if (rs.getString("player_2").equals("NULL")) {
+					//add result to result hashmap
+					System.out.println(rs.getString("player_1"));
+					results.put(rs.getString("player_1_random"), rs.getString("player_1"));
+				}
 			}
+			return results;
+
+    	} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(SQLManager.class.getName());
+			lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return null;
+	}
+
+	@Override
+	public String joinOnlineGame(String playername, String opponentID) {
+		String playerid = null;
+		try {
+			String updateQuery = "UPDATE `open_games` WHERE `player_1_random` = ? "
+					+ "AND `player_2` IS NULL AND `player_2_random` IS NULL"
+					+ "SET `player_2` = ?, `player_2_random` = ?, ";
+			
+			PreparedStatement pst = con.prepareStatement(updateQuery);
+			//player_1_random (host)
+			pst.setString(1, opponentID);
+			//player_2 name (player)
+			pst.setString(2, playername);
+			
+			//create id for our player
+			playerid = createRandomPlayerID();
+			//player_2_random (player id)
+			pst.setString(3, playerid);
 
 		} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		return result;
+		//return game id
+		return opponentID + playerid;
+	}
+
+	@Override
+	public void sendMove() {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 }

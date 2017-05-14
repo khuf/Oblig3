@@ -3,35 +3,33 @@ package no.uib.info233.v2017.khu010.oblig3.interfaces;
 import java.util.HashMap;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
+import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 public interface SQLManagerInterface {
 	
-	//establishes a connection to the database. only needs to be run once
-	void connect();
-	
 	//create random player id 10 characters long
-	int createRandomPlayerID();
+	String createRandomPlayerID();
 	
 	//-------------hosting-------------
 	
 	//creates a new game in open_games
-	void hostOnlineGame();
+	//returns hostplayer´s random player id 
+	String hostOnlineGame(Player hostplayer);
 	
+	//run every 2 seconds in another thread
 	//checks if your hosted game in open_games has an opponent
 	boolean hasOpponent();
 	
-	//checks every 2 seconds if opponent has sent his move to database
+	//run every 2 seconds in another thread
+	//checks if opponent has sent his move to database
 	//returns -1 if no move is set yet
 	int getOpponentMove();
 	
-	//updates round result to games_in_progress
-	void updateRoundResult(GameState newState);
-	
-	//increased the move_number
+	//creates a new instance of the game in games_in_progress
 	void newRound();
 	
-	//saves the results to saved_gaves
-	void saveGame();
+	//saves the results to saved_games
+	void saveGame(GameState gamestate);
 	
 	//ends an online game session by removing the game from games_in_progress
 	void endGame();
@@ -43,7 +41,7 @@ public interface SQLManagerInterface {
 	
 	//joins a game from open_games
 	//returns the game id
-	String joinOnlineGame(String opponentID);
+	String joinOnlineGame(String playername, String opponentID);
 	
 	//sends your move to the current game you´re playing
 	void sendMove();
