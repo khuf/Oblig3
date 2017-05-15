@@ -38,6 +38,8 @@ public class SQLManager implements SQLManagerInterface{
 	private static String url = "jdbc:mysql://localhost:8889/barinfo";
     private static String user = "root";
     private static String password = "root";
+    
+    private GameState gamestate;
    
     
 	public static void main(String[] args) {
@@ -79,7 +81,9 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public String hostOnlineGame(Player hostplayer) {
+	public boolean hostOnlineGame(GameState gamestate) {
+		
+		Player hostplayer = gamestate.getPlayerA();
 		
 		try {
 			//Create query
@@ -97,20 +101,36 @@ public class SQLManager implements SQLManagerInterface{
     		//Execute update
     		pst.executeUpdate();
     		
-			return hostplayerID;
+			return true;
 			
     	} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		return null;
+		return false;
 		
 	}
 
 	@Override
-	public boolean hasOpponent() {
-		// TODO Auto-generated method stub
-		return false;
+	public String getOpponent() {
+		try {
+    		String selectOpponentQuery = "SELECT `player_2`, `player_2_random` FROM `open_games` WHERE player_1_random = ? LIMIT 1";
+    		//create a statement which gets all open games
+    		PreparedStatement pst = con.prepareStatement(selectOpponentQuery);
+    		//search for games where you are host
+    		pst.setString(1, this.gamestate.getHostID());
+    		//execute query and save results to rs
+    		ResultSet rs = pst.executeQuery();
+    		
+    		//return player 2 name or NULL
+    		return rs.getString("player_2");
+
+    	} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(SQLManager.class.getName());
+			lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		
+		return "NULL";
 	}
 
 	@Override
@@ -121,7 +141,7 @@ public class SQLManager implements SQLManagerInterface{
 
 	@Override
 	//used when this player is hosting a game online
-	public void newRound() {
+	public void newRound(String gameID) {
 		//if (move_number == "NULL") {
 		//	game_position = 0;
 		//}
@@ -160,8 +180,8 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public void endGame() {
-		// TODO Auto-generated method stub
+	public void endGame(String gameID) {
+		//delete every game_in_progress where game_id = 
 		
 	}
 

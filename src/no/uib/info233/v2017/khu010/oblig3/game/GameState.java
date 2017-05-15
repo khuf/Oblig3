@@ -19,6 +19,10 @@ public class GameState {
 	private SimpleIntegerProperty currentPosition = new SimpleIntegerProperty(0);
 	private Map<Integer, Reward> scores;
 	
+	//add getters and setters for this plz
+	private String hostID;
+	private String onlineGameID;
+	
 	public GameState() {
 		System.out.println("Yes");
 		createScoreboard();
@@ -27,6 +31,14 @@ public class GameState {
 		playerA = firstPlayer;
 		playerB = secondPlayer;
 		createScoreboard();
+	}
+	
+	public String getHostID() {
+		return this.hostID;
+	}
+	
+	public void setHostID(String id) {
+		this.hostID = id;
 	}
 	
 	public void createScoreboard() {

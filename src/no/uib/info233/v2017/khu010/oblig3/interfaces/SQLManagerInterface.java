@@ -12,13 +12,21 @@ public interface SQLManagerInterface {
 	
 	//-------------hosting-------------
 	
+	//requires a gamestate where player a is set
+	//saves gamestate to local variable
 	//creates a new game in open_games
-	//returns hostplayer´s random player id 
-	String hostOnlineGame(Player hostplayer);
+	//starts a new dblistener for getOpponent
+	boolean hostOnlineGame(GameState gamestate);
 	
 	//run every 2 seconds in another thread
 	//checks if your hosted game in open_games has an opponent
-	boolean hasOpponent();
+	//returns opponents name, else returns null
+	String getOpponent();
+	
+	//uses a gamestate to create a new game
+	//moves game from open_games to games_in_progress
+	//returns game_id
+	String startGame();
 	
 	//run every 2 seconds in another thread
 	//checks if opponent has sent his move to database
@@ -28,11 +36,12 @@ public interface SQLManagerInterface {
 	//creates a new instance of the game in games_in_progress
 	void newRound();
 	
+	//ends an online game session by removing the game from games_in_progress
+	//also calls saveGame
+	void endGame();
+	
 	//saves the results to saved_games
 	void saveGame(GameState gamestate);
-	
-	//ends an online game session by removing the game from games_in_progress
-	void endGame();
 	
 	//-------------joining-------------
 	
@@ -40,8 +49,8 @@ public interface SQLManagerInterface {
 	HashMap<String, String> findOpenGames();
 	
 	//joins a game from open_games
-	//returns the game id
-	String joinOnlineGame(String playername, String opponentID);
+	//sets our players name as playername
+	void joinOnlineGame(String playername, String hostID);
 	
 	//sends your move to the current game you´re playing
 	void sendMove();
