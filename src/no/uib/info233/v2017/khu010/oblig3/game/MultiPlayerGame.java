@@ -14,7 +14,12 @@ public class MultiPlayerGame extends Game {
 	private DBListener listener;
 	
 	public MultiPlayerGame(String playerName, int goal) {
+		//creates a new Game, sets new player as player A
 		super(new HumanPlayer(playerName, goal));
+	}
+	
+	public String getGameID() {
+		return this.game_id;
 	}
 	
 	/**

@@ -39,14 +39,18 @@ public class SQLManager implements SQLManagerInterface{
     private static String user = "root";
     private static String password = "root";
     
-    private GameState gamestate;
+    private static MultiPlayerGame mpgame;
    
     
 	public static void main(String[] args) {
 		
+		mpgame = new MultiPlayerGame("THismeTHo", -3);
+
 		SQLManager server = new SQLManager();
-		HashMap <String, String> opengames = server.findOpenGames();
-		System.out.println(opengames.size());
+		//HashMap <String, String> opengames = server.findOpenGames();
+		
+		//server.hostOnlineGame(new MultiPlayerGame("THismeTHo", -3));
+		System.out.println(server.getOpponent());
 			
 	}
     
@@ -81,9 +85,9 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public boolean hostOnlineGame(GameState gamestate) {
-		
-		Player hostplayer = gamestate.getPlayerA();
+	public boolean hostOnlineGame(MultiPlayerGame mpgame) {
+		//save mpgame locally
+		this.mpgame = mpgame;
 		
 		try {
 			//Create query
@@ -91,15 +95,17 @@ public class SQLManager implements SQLManagerInterface{
     				"(player_1, player_1_random, player_2, player_2_random) VALUES (?, ?, 'NULL', 'NULL')";
     		PreparedStatement pst = con.prepareStatement(insertQuery);
     		
-    		//set hostplayers random id
-    		String hostplayerID = createRandomPlayerID();
-    		
-    		//Set values
-    		pst.setString(1, hostplayer.getName());
-    		pst.setString(2, hostplayerID);
+    		//player_1
+    		pst.setString(1, mpgame.getGameState().getPlayerA().getName());
+    		//player_1_random
+    		String player1ID = createRandomPlayerID();
+    		pst.setString(2, player1ID);
     		
     		//Execute update
     		pst.executeUpdate();
+    		
+    		//update mpgame
+    		this.mpgame.setPlayerAId(player1ID);
     		
 			return true;
 			
@@ -108,7 +114,19 @@ public class SQLManager implements SQLManagerInterface{
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
 		return false;
+	}
+	
+	//uses a gamestate to create a new game
+	//moves game from open_games to games_in_progress
+	//returns game_id
+	public String startGame() {
+
+		String gameID = this.mpgame.getPlayerAId() + this.mpgame.getPlayerBId();
 		
+		
+		//delete * from open_games where player_1_random = 
+		
+		return "s";
 	}
 
 	@Override
@@ -118,30 +136,58 @@ public class SQLManager implements SQLManagerInterface{
     		//create a statement which gets all open games
     		PreparedStatement pst = con.prepareStatement(selectOpponentQuery);
     		//search for games where you are host
-    		pst.setString(1, this.gamestate.getHostID());
+    		pst.setString(1, this.mpgame.getPlayerAId());
     		//execute query and save results to rs
     		ResultSet rs = pst.executeQuery();
     		
-    		//return player 2 name or NULL
-    		return rs.getString("player_2");
+    		String opponentName = rs.getString("player_2");
+    		String opponentID = rs.getString("player_2_random");
+    		if (opponentID != "NULL")
+    		{
+    			//updates mpgame
+    			this.mpgame.setplayerBId(opponentID);
+    			this.mpgame.getGameState().setPlayerB(new HumanPlayer(opponentName, 3));
+    			//returns opponents name
+    			return opponentName;
+    		} else {
+    			System.out.println("No opponent found yet");
+    		}
 
     	} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		
 		return "NULL";
 	}
 
 	@Override
-	public int getOpponentMove() {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean hasOpponentMove() {
+		try {
+    		String selectOpponentQuery = "SELECT `player_2_move` FROM `games_in_progress` WHERE `game_id` = ? LIMIT 1";
+    		//create a statement which gets all open games
+    		PreparedStatement pst = con.prepareStatement(selectOpponentQuery);
+    		//search for games where you are host
+    		pst.setString(1, this.mpgame.getGameID());
+    		//execute query and save results to rs
+    		ResultSet rs = pst.executeQuery();
+    		
+    		//save opponents move locally
+    		int opponentMove = rs.getInt("player_2_move");
+    		//return true if its not 0
+    		if (opponentMove != 0) {
+    			return true;
+    		}
+
+    	} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(SQLManager.class.getName());
+			lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return false;
 	}
 
 	@Override
 	//used when this player is hosting a game online
-	public void newRound(String gameID) {
+	public void newRound() {
 		//if (move_number == "NULL") {
 		//	game_position = 0;
 		//}
@@ -203,7 +249,6 @@ public class SQLManager implements SQLManagerInterface{
 				//confirms the selected game has an open spot
 				if (rs.getString("player_2").equals("NULL")) {
 					//add result to result hashmap
-					System.out.println(rs.getString("player_1"));
 					results.put(rs.getString("player_1_random"), rs.getString("player_1"));
 				}
 			}

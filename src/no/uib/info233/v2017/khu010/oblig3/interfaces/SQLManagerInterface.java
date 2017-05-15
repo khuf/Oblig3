@@ -3,6 +3,7 @@ package no.uib.info233.v2017.khu010.oblig3.interfaces;
 import java.util.HashMap;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
+import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 public interface SQLManagerInterface {
@@ -16,7 +17,7 @@ public interface SQLManagerInterface {
 	//saves gamestate to local variable
 	//creates a new game in open_games
 	//starts a new dblistener for getOpponent
-	boolean hostOnlineGame(GameState gamestate);
+	boolean hostOnlineGame(MultiPlayerGame mpgame);
 	
 	//run every 2 seconds in another thread
 	//checks if your hosted game in open_games has an opponent
@@ -30,10 +31,11 @@ public interface SQLManagerInterface {
 	
 	//run every 2 seconds in another thread
 	//checks if opponent has sent his move to database
-	//returns -1 if no move is set yet
-	int getOpponentMove();
+	//if true, updates gamestate and returns true
+	boolean hasOpponentMove();
 	
 	//creates a new instance of the game in games_in_progress
+	//uses the updated gamestate
 	void newRound();
 	
 	//ends an online game session by removing the game from games_in_progress
@@ -50,8 +52,9 @@ public interface SQLManagerInterface {
 	
 	//joins a game from open_games
 	//sets our players name as playername
-	void joinOnlineGame(String playername, String hostID);
+	//returns gameID
+	String joinOnlineGame(String playername, String hostID);
 	
 	//sends your move to the current game you´re playing
-	void sendMove();
+	void sendMove(int move, String gameID);
 }
