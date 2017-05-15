@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class GameState implements PlayerControllerInterface {
+public class GameState {
 	
 	private Player playerA;
 	private Player playerB;
@@ -43,12 +43,12 @@ public class GameState implements PlayerControllerInterface {
 	
 	public void setPlayerA(Player playerA) {
 		this.playerA = playerA;
-		this.playerA.registerGameMaster(this);
+		//this.playerA.registerGameMaster(this);
 	}
 	
 	public void setPlayerB(Player playerB) {
 		this.playerB = playerB;
-		this.playerB.registerGameMaster(this);
+		//this.playerB.registerGameMaster(this);
 	}
 	
 	/**
@@ -59,7 +59,15 @@ public class GameState implements PlayerControllerInterface {
 	 * @return true for a finished game, otherwise it returns false.
 	 */
 	public boolean isFinnished() {
-		return getCurrentPosition() == 3 || getCurrentPosition() == -3;
+		return playersHasEnergy() || Math.abs(getCurrentPosition()) == 3;
+	}
+	
+	/**
+	 * Checks if either player is out of energy.
+	 * @return true/false if either of the players are out of energy.
+	 */
+	private boolean playersHasEnergy() {
+		return playerA.getEnergy() > 0 && playerB.getEnergy() > 0;
 	}
 	
 	/**
@@ -158,26 +166,10 @@ public class GameState implements PlayerControllerInterface {
 	}
 	
 	public boolean requestMoves() {
-		boolean result = false;
-		if (playerA.makeNextMove(currentPosition.get(), playerB.getEnergy())) {
-			if (playerB.makeNextMove(currentPosition.get(), getPlayerA().getEnergy() )) {
-				result = true;
-			}
-		}
-		return result;
-	}
-	
-	@Override
-	public boolean listenToPlayerMove(Player player, int move) {
-		boolean result = false;
-		if (player != null) {
-			if (player.equals(playerA)) {
-				result = setPlayerAMove(move);
-			}
-			else if (player.equals(playerB)) {
-				result = setPlayerBMove(move);
-			}
-		}
-		return result;
+		
+		int moveA = playerA.makeNextMove();
+		int moveB = playerB.makeNextMove(currentPosition.get(), playerA.getEnergy());
+		
+		return setPlayerAMove(moveA) && setPlayerBMove(moveB);
 	}
 }

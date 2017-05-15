@@ -27,7 +27,7 @@ public class AggressivePlayer extends Player {
 	 * @param yourEnergy the energy level of this robot.
 	 * @param opponentEnergy the energy level of the enemy.
 	 */
-	public boolean makeNextMove(int currentPosition, int opponentEnergy) {
+	public int makeNextMove(int currentPosition, int opponentEnergy) {
 
 		int energyToUse = 0;
 		int distanceFromGoal = Math.abs(getGoal() - currentPosition);
@@ -53,6 +53,12 @@ public class AggressivePlayer extends Player {
 				energyToUse = getEnergy();
 			}
 		} 
-		return getGameMaster().listenToPlayerMove(this, energyToUse);
+		return energyToUse;
+	}
+
+	@Override
+	public int makeNextMove() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

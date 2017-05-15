@@ -1,6 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3.game;
 
 import no.uib.info233.v2017.khu010.oblig3.players.*;
+import java.util.Random;
 
 /**
  * This is the class representing a singel player game. 
@@ -9,19 +10,36 @@ import no.uib.info233.v2017.khu010.oblig3.players.*;
  */
 public class SinglePlayerGame extends Game {
 	
-	//Tempoary constructor...
-	public SinglePlayerGame() {
-		setPlayers(new AggressivePlayer("John", 3), new DefensivePlayer("Bob", -3));
+	/**
+	 * Creates a singel player game against a random opponent.
+	 * @param playerName
+	 */
+	public SinglePlayerGame(String playerName) {
+		setPlayer(new HumanPlayer(playerName, 3));
+		setRandomOpponent();
+	}
+	
+	/**
+	 * Sets the human player
+	 * @param player
+	 */
+	public void setPlayer(Player player) {
+		getGameState().setPlayerA(player);
+	}
+	
+	public void setRandomOpponent() {
+		Random rng = new Random();
+		String name = "Bot" + rng.nextInt(30);
+		if (rng.nextBoolean()) {
+			getGameState().setPlayerB(new DefensivePlayer(name, -3));
+		}
+		getGameState().setPlayerB(new AggressivePlayer(name, -3));
 	}
 
-	@Override
-	public boolean setPlayers(Player playerA, Player playerB) {
-		boolean result = false;
-		getGameState().setPlayerA(playerA);
-		getGameState().setPlayerB(playerB);
-		return result;
-	}
-
+	/**
+	 * Runs the game in a loop. A game ends when either player is in a winning position
+	 * or if both have run out of energy.
+	 */
 	@Override
 	public void runGame() {
 		while (!getGameState().isFinnished()) {
@@ -29,17 +47,20 @@ public class SinglePlayerGame extends Game {
 				evaluateTurn();
 			}
 		}
-		System.out.println(getGameState().getCurrentPosition());
-		System.out.println("Game was finnished");
-		
+		System.out.println(this);
 	}
-
+	
+	/**
+	 * Sends a request to both player to come up with their next move by calling
+	 * the method requestMoves which returns a boolean value when both players
+	 * have made their move.
+	 */
 	@Override
 	public boolean performMoves() {
 		boolean result = false;
 		
 		if (getGameState().requestMoves()) {
-			evaluateTurn();
+			result = true;
 		}
 		
 		return result;

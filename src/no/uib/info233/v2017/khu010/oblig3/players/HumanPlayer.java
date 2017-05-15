@@ -1,6 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3.players;
 
 import java.text.NumberFormat;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,8 +15,19 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public boolean makeNextMove(int currentPosition, int opponentEnergy) {
+	public int makeNextMove() {
+		int energyToUse = 0;
 		
-		return getGameMaster().listenToPlayerMove(this, 0);
+		Scanner sc = new Scanner(System.in);
+		
+		energyToUse = sc.nextInt();
+		
+		sc.close();
+		
+		return energyToUse;
+	}
+	
+	public int makeNextMove(int curr, int opp) {
+		return 0;
 	}
 }

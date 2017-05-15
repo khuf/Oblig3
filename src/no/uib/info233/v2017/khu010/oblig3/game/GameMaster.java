@@ -25,10 +25,10 @@ public class GameMaster implements GameManagerInterface {
 	
 	private MultiPlayerGame multiPlayer;
 	
-	private Map<Integer, Game> gameList;
+	private Map<Integer, String> gameList;
 	
 	public GameMaster() {
-		singlePlayer = new SinglePlayerGame();
+		singlePlayer = new SinglePlayerGame("Bob");
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void listOnlineGames() {
-		
+		//findOpenGames();
 	}
 	
 	private void updateRanking() {

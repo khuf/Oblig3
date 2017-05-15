@@ -122,9 +122,9 @@ public class SQLManager implements SQLManagerInterface{
 	@Override
 	//used when this player is hosting a game online
 	public void newRound() {
-		if (move_number == "NULL") {
-			game_position = 0;
-		}
+		//if (move_number == "NULL") {
+		//	game_position = 0;
+		//}
 		
 		//set player_1_move && player_2_move to NULL
 		

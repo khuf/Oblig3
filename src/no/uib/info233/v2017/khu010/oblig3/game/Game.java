@@ -43,17 +43,6 @@ abstract public class Game {
 		throw new IllegalArgumentException("The GameState cannot be null");
 	}
 	
-	public boolean setPlayers(Player playerA, Player playerB) {
-		boolean result = false;
-		
-		if (playerA != null && playerB != null) {
-			gameState.setPlayerA(playerA);
-			gameState.setPlayerB(playerB);
-			result = true;
-		}
-		return result;
-	}
-	
 	public GameState getGameState() {
 		return gameState;
 	}
