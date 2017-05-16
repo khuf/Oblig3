@@ -21,14 +21,12 @@ public class GameMaster implements GameManagerInterface {
 	
 	//private SQLManager server = new SQLManager();
 
-	private SinglePlayerGame singlePlayer;
-	
-	private MultiPlayerGame multiPlayer;
+	private Game game;
 	
 	private Map<Integer, String> gameList;
 	
 	public GameMaster() {
-		singlePlayer = new SinglePlayerGame("Bob");
+		game = new SinglePlayerGame("Bob");
 	}
 	
 	/**
@@ -36,7 +34,8 @@ public class GameMaster implements GameManagerInterface {
 	 * with their next move.
 	 */
 	public void startSinglePlayer() {
-		singlePlayer.runGame();
+		game = new SinglePlayerGame("Bob");
+		game.runGame();
 	}
 	
 	/**
@@ -56,8 +55,8 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void hostGame(String playerName) {
-		multiPlayer = new MultiPlayerGame(playerName, 3);
-		multiPlayer.setPlayerAId(RandomStringUtils.random(10));
+		//multiPlayer = new MultiPlayerGame(playerName, 3);
+		//multiPlayer.setPlayerAId(RandomStringUtils.random(10));
 		
 		
 	}
@@ -79,6 +78,9 @@ public class GameMaster implements GameManagerInterface {
 	
 	public void registerPlayers(Player playerA, Player playerB) {
 		//.setPlayers(playerA, playerB);
-	}
+	}	
 	
+	public Game getGame() {
+		return game;
+	}
 }

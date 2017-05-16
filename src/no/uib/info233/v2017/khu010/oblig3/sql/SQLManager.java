@@ -289,9 +289,21 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
+	public void endGame() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendMove(int move, String gameID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/*@Override
 	public void sendMove() {
 		// TODO Auto-generated method stub
 		
-	}	
+	}	*/
 	
 }

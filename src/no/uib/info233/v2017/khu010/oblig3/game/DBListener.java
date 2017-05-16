@@ -26,9 +26,9 @@ public class DBListener implements Runnable {
 		try {
 			System.out.println("Checking database for changes...");
 			
-			if (gameState.getPlayerBMove() != SQLManager.getGameState().getPlayerBMove()) { 
+			/*if (gameState.getPlayerBMove() != SQLManager.getGameState().getPlayerBMove()) { 
 				//Update move...
-			}
+			}*/
 			//Alternative
 			//gameState.setPlayerB(SQLManager.getGameState().getPlayerBMove());
 			
