@@ -176,6 +176,8 @@ public class GameState {
 	
 	//only used when offline?
 	public boolean requestMoves() {
+		
+		//while (movesMade )
 		int moveA = playerA.makeNextMove();
 		int moveB = playerB.makeNextMove(currentPosition.get(), playerA.getEnergy());
 		
