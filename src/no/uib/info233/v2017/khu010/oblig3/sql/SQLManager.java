@@ -54,6 +54,7 @@ public class SQLManager implements SQLManagerInterface{
 		System.out.println("getOpponent");
 		server.getOpponent();
 		server.startGame();
+		GameState gstat = server.getGameState(mpgame.getGameID());
 			
 	}
     
@@ -91,14 +92,15 @@ public class SQLManager implements SQLManagerInterface{
 	//only use if you are joining a game!
 	public GameState getGameState(String gameID) {
 		//create new gamestate
-		GameState gamestate = null;
+		GameState gamestate = new GameState();
 		try {
-    		String selectOpponentQuery = "SELECT * FROM `games_in_progress` WHERE game_id = ? LIMIT 1";
+			
+    		String selectGameInProgress = "SELECT * FROM `games_in_progress` WHERE `game_id` = ? LIMIT 1";
     		//create a statement which gets all open games
-    		PreparedStatement pst = con.prepareStatement(selectOpponentQuery);
+    		PreparedStatement pst = con.prepareStatement(selectGameInProgress);
 
     		//search for games where you are host
-    		pst.setString(1, this.mpgame.getPlayerAId());
+    		pst.setString(1, gameID);
     		//execute query and save results to rs
 
     		ResultSet rs = pst.executeQuery();
@@ -139,7 +141,7 @@ public class SQLManager implements SQLManagerInterface{
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		return gamestate;
+		return null;
 	}
 	
 	@Override
@@ -180,24 +182,26 @@ public class SQLManager implements SQLManagerInterface{
 	public boolean startGame() {
 
 		GameState gamestate = this.mpgame.getGameState();
-		String gameID = this.mpgame.getPlayerAId() + this.mpgame.getPlayerBId();
+		String hostID = this.mpgame.getPlayerAId();
+		String gameID = hostID + this.mpgame.getPlayerBId();
 		
-		//delete * from open_games where player_1_random = 
-		String deleteQuery = "DELETE FROM `open_game` "
+		String deleteQuery = "DELETE FROM `open_games` WHERE player_1_random = ?";
 		
 		String insertQuery = "INSERT INTO games_in_progress "
 				+ "(game_id, player_1, player_2, game_position, player_1_energy, player_2_energy, player_1_move, player_2_move, move_number) "
 				+ "VALUES (?, ?, ?, 0, 100, 100, 0, 0, 0)";
 		try {
+			//delete game from open_games
+			PreparedStatement pst = con.prepareStatement(deleteQuery);
+			pst.setString(1, hostID);
+			pst.executeUpdate();
 			
-			PreparedStatement pst = con.prepareStatement(insertQuery);
-			
+			//create game in games_in_progress
+			pst = con.prepareStatement(insertQuery);
 			pst.setString(1, gameID);
 			pst.setString(2, gamestate.getPlayerA().getName());
 			pst.setString(3, gamestate.getPlayerB().getName());
 			//SEVERE: Column 'player_1_move' cannot be null
-			
-			//Execute update
 			pst.executeUpdate();
 			
 			//save game id to mpgame

@@ -3,7 +3,6 @@ package no.uib.info233.v2017.khu010.oblig3.game;
 import java.util.HashMap;
 
 import no.uib.info233.v2017.khu010.oblig3.Utility;
-import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 import java.util.Map;
@@ -21,7 +20,6 @@ public class GameState {
 	private Map<Integer, Reward> scores;
 	
 	public GameState() {
-		System.out.println("Yes");
 		createScoreboard();
 	}
 	public GameState(Player firstPlayer, Player secondPlayer) {
