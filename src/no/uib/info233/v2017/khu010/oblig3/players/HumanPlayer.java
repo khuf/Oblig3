@@ -17,12 +17,13 @@ public class HumanPlayer extends Player {
 	@Override
 	public int makeNextMove() {
 		int energyToUse = 0;
-		
 		Scanner sc = new Scanner(System.in);
 		
-		energyToUse = sc.nextInt();
 		
-		sc.close();
+
+		energyToUse = sc.nextInt();
+		System.out.println(energyToUse);
+		
 		
 		return energyToUse;
 	}

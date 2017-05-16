@@ -14,6 +14,7 @@ public class GameState {
 	
 	private Player playerA;
 	private Player playerB;
+	private int movesMade;
 	private SimpleIntegerProperty playerAMove = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty playerBMove = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty currentPosition = new SimpleIntegerProperty(0);
@@ -59,7 +60,7 @@ public class GameState {
 	 * @return true for a finished game, otherwise it returns false.
 	 */
 	public boolean isFinnished() {
-		return playersHasEnergy() || Math.abs(getCurrentPosition()) == 3;
+		return !playersHasEnergy() || Math.abs(getCurrentPosition()) == 3;
 	}
 	
 	/**
@@ -146,6 +147,7 @@ public class GameState {
 		boolean result = false;
 		if (Utility.isValidMove(playerA, move)) {
 			playerAMove.set(move);
+			movesMade++;
 			result = true;
 		}
 		return result;
@@ -160,13 +162,13 @@ public class GameState {
 		boolean result = false;
 		if (Utility.isValidMove(playerB, move)) {
 			playerBMove.set(move);
+			movesMade++;
 			result = true;
 		}
 		return result;
 	}
 	
 	public boolean requestMoves() {
-		
 		int moveA = playerA.makeNextMove();
 		int moveB = playerB.makeNextMove(currentPosition.get(), playerA.getEnergy());
 		

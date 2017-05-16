@@ -1,6 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3.gui;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,20 @@ import javax.swing.JTextField;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameMaster;
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.Panel;
+import java.awt.Component;
 
 public class Gladiators extends JFrame {
 
@@ -22,6 +37,7 @@ public class Gladiators extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JPanel panelContainer;
 	
 	public Gladiators() {
 		setUp();
@@ -33,11 +49,18 @@ public class Gladiators extends JFrame {
 		//Sets the default behavior of the windows exit button
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//Sets the window layout
-		this.setLayout(new BorderLayout());
+		panelContainer = new JPanel();
+		panelContainer.setLayout(new CardLayout());
+		
 		
 		createMenuToolBar();
 		createMainMenu();
 		
+		getContentPane().add(panelContainer);
+		
+		JPanel mainMenuPanel = new JPanel();
+		panelContainer.add(mainMenuPanel, "name_196939946554603");
+		mainMenuPanel.setLayout(new BorderLayout(0, 0));
 		this.setVisible(true);
 	}
 	
@@ -62,6 +85,9 @@ public class Gladiators extends JFrame {
 	}
 	
 	private void createMainMenu() {
-		this.getContentPane().add(new MainMenuPanel());
+	}
+	
+	private void createGamePanel() {
+		
 	}
 }

@@ -11,7 +11,7 @@ import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 public class DBListener implements Runnable {
 	
 	private GameState gameState;
-	//private SQLManager manager = SQLManager.getConnection();
+	//private SQLManager manager = SQLManager();
 	
 	public DBListener(GameState state) {
 		gameState = state;
@@ -26,6 +26,11 @@ public class DBListener implements Runnable {
 		try {
 			System.out.println("Checking database for changes...");
 			
+			if (gameState.getPlayerBMove() != SQLManager.getGameState().getPlayerBMove()) { 
+				//Update move...
+			}
+			//Alternative
+			//gameState.setPlayerB(SQLManager.getGameState().getPlayerBMove());
 			
 			//if gameHasStarted ()
 				//getOpponentMove()

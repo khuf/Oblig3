@@ -44,6 +44,7 @@ public class SinglePlayerGame extends Game {
 	public void runGame() {
 		while (!getGameState().isFinnished()) {
 			if (performMoves()) {
+				System.out.println("lldl");
 				evaluateTurn();
 			}
 		}
@@ -58,7 +59,7 @@ public class SinglePlayerGame extends Game {
 	@Override
 	public boolean performMoves() {
 		boolean result = false;
-		
+		System.out.println("from perform move");
 		if (getGameState().requestMoves()) {
 			result = true;
 		}
@@ -73,12 +74,12 @@ public class SinglePlayerGame extends Game {
 		Player p2 = getGameState().getPlayerB();
 		if (getGameState().getPlayerAMove() > getGameState().getPlayerBMove()) {
 			getGameState().currentPositionProperty().set(getGameState().getCurrentPosition() + 1);
-			p1.useEnergy(getGameState().getPlayerAMove());
 		}
 		else if (getGameState().getPlayerBMove() > getGameState().getPlayerAMove()) {
-			p2.useEnergy(getGameState().getPlayerBMove());
 			getGameState().currentPositionProperty().set(getGameState().getCurrentPosition() - 1);
 		}
+		p2.useEnergy(getGameState().getPlayerBMove());
+		p1.useEnergy(getGameState().getPlayerAMove());
 		System.out.println(p1.getName() + " made the move " + getGameState().getPlayerAMove() + " with " + p1.getEnergy());
 		System.out.println(p2.getName() + " made the move " + getGameState().getPlayerBMove() + " with " + p2.getEnergy());
 		
