@@ -27,6 +27,9 @@ public interface SQLManagerInterface {
 	//returns opponents name, else returns null
 	String getOpponent();
 	
+	//checks if opponent has send his move
+	boolean hasOpponentMove();
+	
 	//uses a gamestate to create a new game
 	//moves game from open_games to games_in_progress
 	boolean startGame();
@@ -54,6 +57,4 @@ public interface SQLManagerInterface {
 	
 	//sends your move to the current game you´re playing
 	void sendMove(int move, String gameID);
-
-	void endGame(String gameID);
 }

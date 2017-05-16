@@ -8,10 +8,6 @@ public class MultiPlayerGame extends Game {
 	private String playerAId;
 	private String playerBId;
 	private String game_id;
-	//This is the class that listens for changes to the game in another thread every
-	//2 seconds.
-	//The thread should be started in the runGame metod below...
-	private DBListener listener;
 	
 	public MultiPlayerGame(String playerName, int goal) {
 		//creates a new Game, sets new player as player A

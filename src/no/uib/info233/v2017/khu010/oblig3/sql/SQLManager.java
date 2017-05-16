@@ -40,7 +40,6 @@ public class SQLManager implements SQLManagerInterface{
     private static String password = "root";
     
     private static MultiPlayerGame mpgame;
-   
     
 	public static void main(String[] args) {
 		
@@ -51,14 +50,15 @@ public class SQLManager implements SQLManagerInterface{
 		HashMap <String, String> opengames = server.findOpenGames();
 		String joinid = opengames.get("THismeTHo4");
 		server.joinOnlineGame("nigguh", joinid);
-		System.out.println("getOpponent");
 		server.getOpponent();
 		server.startGame();
 		GameState gstat = server.getGameState(mpgame.getGameID());
-			
 	}
     
-    private SQLManager() { connect(); }
+    private SQLManager(MultiPlayerGame mpgame) { 
+    	this.mpgame = mpgame;
+    	connect(); 
+    }
     
     private void connect(){
     	try {        	
@@ -92,7 +92,7 @@ public class SQLManager implements SQLManagerInterface{
 	//only use if you are joining a game!
 	public GameState getGameState(String gameID) {
 		//create new gamestate
-		GameState gamestate = new GameState();
+		GameState gamestate = null;
 		try {
 			
     		String selectGameInProgress = "SELECT * FROM `games_in_progress` WHERE `game_id` = ? LIMIT 1";
@@ -117,6 +117,7 @@ public class SQLManager implements SQLManagerInterface{
     			int moveNumber = rs.getInt("move_number");
     			
     			//update local gamestate with data from sqlserver
+    			gamestate = new GameState();
     			//create new players with same names
     			//host always tries to go to spot number 3
     			gamestate.setPlayerA(new HumanPlayer(opponentName, 3));
@@ -141,7 +142,7 @@ public class SQLManager implements SQLManagerInterface{
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		return null;
+		return gamestate;
 	}
 	
 	@Override
@@ -230,9 +231,7 @@ public class SQLManager implements SQLManagerInterface{
 
     		//search for games where you are host
     		pst.setString(1, this.mpgame.getPlayerAId());
-    		System.out.println(this.mpgame.getPlayerAId());
     		//execute query and save results to rs
-
     		ResultSet rs = pst.executeQuery();
 
     		if (rs.next()){
@@ -326,7 +325,7 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public void endGame(String gameID) {
+	public void endGame() {
 		//delete every game_in_progress where game_id = 
 		
 	}
