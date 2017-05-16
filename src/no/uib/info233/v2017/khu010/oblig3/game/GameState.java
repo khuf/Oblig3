@@ -169,6 +169,8 @@ public class GameState {
 	}
 	
 	public boolean requestMoves() {
+		
+		//while (movesMade )
 		int moveA = playerA.makeNextMove();
 		int moveB = playerB.makeNextMove(currentPosition.get(), playerA.getEnergy());
 		

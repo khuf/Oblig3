@@ -74,14 +74,41 @@ public class Gladiators extends JFrame {
 		JPanel panel = new JPanel();
 		panelContainer.add(mainMenuPanel, "MainMenuPanel");
 		
+		JPanel panel_2 = new JPanel();
+		mainMenuPanel.add("gamePanel", panel_2);
+		panel_2.setLayout(null);
+		
+		
+		JLabel lblPlayer = new JLabel("Player 1");
+		lblPlayer.setBounds(30, 30, 49, 16);
+		panel_2.add(lblPlayer);
+		
+		JLabel label = new JLabel("Player 1");
+		label.setBounds(415, 30, 49, 16);
+		panel_2.add(label);
+		
+		JLabel lblRoundNumber = new JLabel("0");
+		lblRoundNumber.setBounds(136, 68, 153, 19);
+		
+		// add listener for stringProperty
+        // to be called when stringProperty changed
+        gm.getGame().getGameState().currentPositionProperty().addListener((observable, oldValue, newValue) -> {
+        	lblRoundNumber.setText(newValue.toString());
+        	System.out.println("Label was changed from: " + oldValue.toString() + " to " + newValue.toString());
+        });
+        
+        
+		
+		panel_2.add(lblRoundNumber);
+		
+		JRadioButtonMenuItem rdbtnmntmNewRadioItem = new JRadioButtonMenuItem("New radio item");
+		rdbtnmntmNewRadioItem.setBounds(76, 111, 153, 19);
+		panel_2.add(rdbtnmntmNewRadioItem);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.YELLOW);
 		mainMenuPanel.add("mainMenu", panel_1);
 		panel_1.setLayout(null);
-		
-		JPanel panel_2 = new JPanel();
-		mainMenuPanel.add("gamePanel", panel_2);
-		panel_2.setLayout(null);
 		
 		JButton btnSinglePlayer = new JButton("Play singleplayer");
 		btnSinglePlayer.setBounds(209, 170, 117, 29);
@@ -111,28 +138,6 @@ public class Gladiators extends JFrame {
 		JLabel lblName = new JLabel("Name:");
 		lblName.setBounds(139, 92, 61, 16);
 		panel_1.add(lblName);
-		
-		
-		JLabel lblPlayer = new JLabel("Player 1");
-		lblPlayer.setBounds(30, 30, 49, 16);
-		panel_2.add(lblPlayer);
-		
-		JLabel label = new JLabel("Player 1");
-		label.setBounds(415, 30, 49, 16);
-		panel_2.add(label);
-		
-		JLabel lblRoundNumber = new JLabel("0");
-		lblRoundNumber.setBounds(136, 68, 153, 19);
-		
-		// add listener for stringProperty
-        // to be called when stringProperty changed
-        gm.getGame().getGameState().currentPositionProperty().addListener((observable, oldValue, newValue) -> {
-        	lblRoundNumber.setText(newValue.toString());
-        });
-        
-        
-		
-		panel_2.add(lblRoundNumber);
 		this.setResizable(false);
 		this.setVisible(true);
 	}

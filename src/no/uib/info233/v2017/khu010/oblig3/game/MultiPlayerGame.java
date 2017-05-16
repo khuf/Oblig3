@@ -68,8 +68,13 @@ public class MultiPlayerGame extends Game {
 
 	@Override
 	public boolean performMoves() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		System.out.println("from perform move");
+		if (getGameState().requestMoves()) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
