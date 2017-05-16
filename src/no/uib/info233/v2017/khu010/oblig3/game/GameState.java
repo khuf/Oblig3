@@ -30,6 +30,14 @@ public class GameState {
 		createScoreboard();
 	}
 	
+	public void SetMovesMade(int moves) {
+		this.movesMade = moves;
+	}
+	
+	public int getMovesMade() {
+		return movesMade;
+	}
+	
 	public void createScoreboard() {
 		scores = new HashMap<>();
 		
@@ -143,7 +151,7 @@ public class GameState {
 	 * player A can afford the move.
 	 * @param move
 	 */
-	private boolean setPlayerAMove(int move) {
+	public boolean setPlayerAMove(int move) {
 		boolean result = false;
 		if (Utility.isValidMove(playerA, move)) {
 			playerAMove.set(move);
@@ -158,7 +166,7 @@ public class GameState {
 	 * player B can afford the move.
 	 * @param move
 	 */
-	private boolean setPlayerBMove(int move) {
+	public boolean setPlayerBMove(int move) {
 		boolean result = false;
 		if (Utility.isValidMove(playerB, move)) {
 			playerBMove.set(move);
