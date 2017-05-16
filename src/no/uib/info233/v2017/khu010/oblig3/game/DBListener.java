@@ -25,18 +25,13 @@ public class DBListener implements Runnable {
 		while (!gameState.isFinnished()) {
 		try {
 			System.out.println("Checking database for changes...");
-			
-			/*if (gameState.getPlayerBMove() != SQLManager.getGameState().getPlayerBMove()) { 
-				//Update move...
-			}*/
-			//Alternative
-			//gameState.setPlayerB(SQLManager.getGameState().getPlayerBMove());
-			
-			//if gameHasStarted ()
-				//getOpponentMove()
-			//else
-				// if (getOpponent() != null) {
-					//GameHasStarted = startGame();
+
+			//if gameHasStarted
+				//getGameState()
+			//else if (getOpponent() != null) {
+				//GameHasStarted = startGame();
+			//else 
+				//System.out.println("waiting for opponent");
 			
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

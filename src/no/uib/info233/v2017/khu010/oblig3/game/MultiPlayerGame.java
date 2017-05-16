@@ -18,6 +18,10 @@ public class MultiPlayerGame extends Game {
 		super(new HumanPlayer(playerName, goal));
 	}
 	
+	public void setGameID(String id) {
+		this.game_id = id;
+	}
+	
 	public String getGameID() {
 		return this.game_id;
 	}

@@ -11,12 +11,15 @@ public interface SQLManagerInterface {
 	//create random player id 10 characters long
 	String createRandomPlayerID();
 	
+	//returns gamestate of game_in_progress
+	GameState getGameState(String gameID);
+	
 	//-------------hosting-------------
 	
 	//requires a gamestate where player a is set
 	//saves gamestate to local variable
 	//creates a new game in open_games
-	//starts a new dblistener for getOpponent
+	//starts a new dblistener for getOpponent && getOpponentMove
 	boolean hostOnlineGame(MultiPlayerGame mpgame);
 	
 	//run every 2 seconds in another thread
@@ -26,13 +29,7 @@ public interface SQLManagerInterface {
 	
 	//uses a gamestate to create a new game
 	//moves game from open_games to games_in_progress
-	//returns game_id
-	String startGame();
-	
-	//run every 2 seconds in another thread
-	//checks if opponent has sent his move to database
-	//if true, updates gamestate and returns true
-	boolean hasOpponentMove();
+	boolean startGame();
 	
 	//creates a new instance of the game in games_in_progress
 	//uses the updated gamestate
