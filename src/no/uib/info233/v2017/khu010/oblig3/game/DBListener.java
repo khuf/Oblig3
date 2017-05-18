@@ -26,49 +26,22 @@ public class DBListener implements Runnable {
 	 */
 	@Override
 	public void run() {
-		boolean gameHasStarted;
-		if (isHost){
-			gameHasStarted = false;
-		} else {
-			gameHasStarted = true;
-		}
-		
-		while (!mpgame.getGameState().isFinnished()) {
+		boolean gameHasStarted = false;
+		System.out.println("Checking database for changes...");
+		GameState gamestate = mpgame.getGameState();
+		//GUI.setGameState ?
+		while (!gamestate.isFinnished() && server.getOpponent() != null) {
 			try {
-				System.out.println("Checking database for changes...");
-				
-				if (isHost) {
-					if (gameHasStarted && server.hasOpponentMove()){
-						if (mpgame.performMoves()) {
-							mpgame.evaluateTurn();
-						}
-					} else if (!gameHasStarted){
-						if (server.getOpponent() != null) {
-							gameHasStarted = server.startGame();
-						}
+				if (isHost){
+					//start game if it has not started yet
+					if (!gameHasStarted) {
+						gameHasStarted = server.startGame();
 					}
-				} else {
-					String joinedGameID = 
-					mpgame.setGameState(server.getGameState());
-				}
-				
-				
-				
-				if (gameHasStarted) {
-					if (isHost){
-						if (server.hasOpponentMove()){
-							
-						}
-					} else {
-						
+					//check if opponent has sent his move and both moves are valid 
+					if (server.hasOpponentMove() && mpgame.performMoves()) {
+						mpgame.evaluateTurn();
 					}
-					
-				} else if (server.getOpponent() != null) {
-					GameHasStarted = server.startGame();
-				} else {
-					System.out.println("waiting for opponent");
 				}
-				
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
