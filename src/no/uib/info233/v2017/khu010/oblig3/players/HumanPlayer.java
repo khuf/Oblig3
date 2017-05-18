@@ -13,6 +13,10 @@ public class HumanPlayer extends Player {
 	public HumanPlayer(String name, int goal) {
 		super(name, goal);
 	}
+	
+	public HumanPlayer(String name, int energy, int goal) {
+		super(name, energy, goal);
+	}
 
 	@Override
 	public int makeNextMove() {

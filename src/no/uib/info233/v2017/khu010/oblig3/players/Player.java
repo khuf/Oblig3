@@ -13,7 +13,6 @@ abstract public class Player {
 	private PlayerControllerInterface gameMaster;
 	private int energy;
 	private int goal;
-	private int move;
 	private boolean debug = true;
 	
 	/**
@@ -23,6 +22,12 @@ abstract public class Player {
 	public Player(String name, int goal) {
 		this.name = name;
 		this.energy = 100;
+		this.goal = goal;
+	}
+	
+	public Player(String name, int energy, int goal) {
+		this.name = name;
+		this.energy = energy;
 		this.goal = goal;
 	}
 	
@@ -40,10 +45,6 @@ abstract public class Player {
 	
 	public PlayerControllerInterface getGameMaster() {
 		return gameMaster;
-	}
-	
-	private void setMove(int move) {
-		this.move = move;
 	}
 	
 	/**
@@ -87,6 +88,10 @@ abstract public class Player {
 			result = energyUsage;
 		}
 		return result;
+	}
+	
+	public void setEnergy(int energy) {
+		this.energy = energy;
 	}
 	
 	/**

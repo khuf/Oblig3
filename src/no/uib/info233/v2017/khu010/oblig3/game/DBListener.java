@@ -10,11 +10,11 @@ import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
  */
 public class DBListener implements Runnable {
 	
-	private GameState gameState;
-	//private SQLManager manager = SQLManager();
+	private MultiPlayerGame game;
+	private SQLManager manager = new SQLManager();
 	
-	public DBListener(GameState state) {
-		gameState = state;
+	public DBListener(MultiPlayerGame game) {
+		this.game = game;
 	}
 
 	/**
@@ -22,22 +22,11 @@ public class DBListener implements Runnable {
 	 */
 	@Override
 	public void run() {
-		while (!gameState.isFinnished()) {
+		while (!game.isFinnished()) {
 		try {
-			System.out.println("Checking database for changes...");
-			
-			/*if (gameState.getPlayerBMove() != SQLManager.getGameState().getPlayerBMove()) { 
-				//Update move...
-			}*/
-			//Alternative
-			//gameState.setPlayerB(SQLManager.getGameState().getPlayerBMove());
-			
-			//if gameHasStarted ()
-				//getOpponentMove()
-			//else
-				// if (getOpponent() != null) {
-					//GameHasStarted = startGame();
-			
+			System.out.println("Updating gamestate...");
+			game.setGameState(manager.getGameInProgress(game.getGameState().getGameID()));
+			game.setIsBothMovesMade(manager.isBothMovesMade(game.getGameId()));
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

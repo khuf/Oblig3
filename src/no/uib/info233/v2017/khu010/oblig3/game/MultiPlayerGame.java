@@ -1,69 +1,71 @@
 package no.uib.info233.v2017.khu010.oblig3.game;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import no.uib.info233.v2017.khu010.oblig3.players.*;
+import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 
 public class MultiPlayerGame extends Game {
 	
-	//This is the random string that will be generated for both players in an online game.
-	private String playerAId;
-	private String playerBId;
-	private String game_id;
-	//This is the class that listens for changes to the game in another thread every
-	//2 seconds.
-	//The thread should be started in the runGame metod below...
-	private DBListener listener;
+
+	private SQLManager manager = new SQLManager();
+	private boolean bothMovesMade = false;
 	
-	public MultiPlayerGame(String playerName, int goal) {
-		//creates a new Game, sets new player as player A
-		super(new HumanPlayer(playerName, goal));
+	public MultiPlayerGame(String playerName, int goal, boolean isHost) {
+		if (isHost == true) {
+			setPlayerA(new HumanPlayer(playerName, 3));
+			setPlayerAId(RandomStringUtils.randomAscii(10));
+			setIsHost(true);
+		}
+		else {
+			setPlayerB(new HumanPlayer(playerName, -3));
+			setPlayerBId(RandomStringUtils.randomAscii(10));
+		}
 	}
 	
-	public String getGameID() {
-		return this.game_id;
-	}
-	
-	/**
-	 * Sets the player id of player A. We need to verify
-	 * that the specified string is of length 10.
-	 * @param playerId used to identify player A.
-	 */
 	public void setPlayerAId(String playerId) {
-		if (playerId.length() == 10) {
-			playerAId = playerId;
-		}
+		getGameState().setPlayerAId(playerId);
 	}
 	
-	/**
-	 * Sets the player id of player B. We need to verify
-	 * that the specified string is of length 10.
-	 * @param playerId used to identify player B.
-	 */
-	public void setplayerBId(String playerId) {
-		if (playerId.length() == 10) {
-			playerBId = playerId;
-		}
+	public void setPlayerBId(String playerId) {
+		getGameState().setplayerBId(playerId);
 	}
 	
-	/**
-	 * Returns the identification string for player A.
-	 * @return
-	 */
 	public String getPlayerAId() {
-		return playerAId;
+		return getGameState().getPlayerAId();
 	}
 	
-	/**
-	 * Returns the identification string for player B.
-	 * @return
-	 */
 	public String getPlayerBId() {
-		return playerBId;
+		return getGameState().getPlayerBId();
+	}
+	
+	public String getGameId() {
+		return getGameState().getGameID();
 	}
 
 	@Override
-	public void runGame() {
-		// TODO Auto-generated method stub
-		
+	public void runGame(){
+		while(!isFinnished()) {
+			setGameState(manager.getGameInProgress(getGameState().getGameID()));
+			setIsBothMovesMade(manager.isBothMovesMade(getGameId()));
+
+			if (getIsHost()) {
+				if (bothMovesMade) {
+					System.out.println("Both moves were made....");
+				}
+			}
+			else {
+				if (getGameState().getPlayerBMove() == -1) {
+					System.out.println("You should perform a move...");
+				}
+			}
+			try {
+				Thread.sleep(2000);
+			}
+			catch (InterruptedException ex) {
+				System.out.println(ex.toString());
+			}
+		}
 	}
 
 	@Override
@@ -81,5 +83,9 @@ public class MultiPlayerGame extends Game {
 	public void evaluateTurn() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setIsBothMovesMade(boolean result) {
+		bothMovesMade = result;
 	}
 }

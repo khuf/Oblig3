@@ -5,6 +5,7 @@ import java.util.Map;
 
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
+import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
@@ -23,7 +24,15 @@ public class GameMaster implements GameManagerInterface {
 
 	private Game game;
 	
-	private Map<Integer, String> gameList;
+	private String status;
+	
+	private MultiPlayerGame gm = null;
+	
+	private boolean foundPlayer = false;
+	
+	private Map<String, String> gameList;
+	
+	private SQLManagerInterface server = new SQLManager();
 	
 	public GameMaster() {
 		game = new SinglePlayerGame("Bob");
@@ -42,7 +51,9 @@ public class GameMaster implements GameManagerInterface {
 	 * Starts a multiplayer game...
 	 */
 	public void startMultiPlayer() {
-		
+		if (gm != null) {
+			gm.runGame();
+		}
 	}
 
 	@Override
@@ -55,10 +66,26 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void hostGame(String playerName) {
-		//multiPlayer = new MultiPlayerGame(playerName, 3);
-		//multiPlayer.setPlayerAId(RandomStringUtils.random(10));
+		MultiPlayerGame mpGame = new MultiPlayerGame(playerName, 3, true);
+		String playerId = mpGame.getPlayerAId();
+		System.out.println(playerName + " " + mpGame.getPlayerAId());
 		
-		
+		if (server.createOpenGame(playerName, playerId)) {
+			if (server.waitForOpponent(mpGame.getPlayerAId())) {
+				String gameId = server.createGameInProgress(playerId);
+				if (!gameId.isEmpty()) {
+					System.out.println("Game in progress started!");
+					server.removeOpenGame(playerId);
+					GameState state = server.getGameInProgress(gameId);
+					if (state != null) {
+						System.out.println(mpGame.toString());
+						mpGame.setGameState(state);
+						gm = mpGame;
+						startMultiPlayer();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -68,8 +95,8 @@ public class GameMaster implements GameManagerInterface {
 	}
 
 	@Override
-	public void listOnlineGames() {
-		//findOpenGames();
+	public Map<String, String> listOnlineGames() {
+		return null;
 	}
 	
 	private void updateRanking() {
@@ -82,5 +109,10 @@ public class GameMaster implements GameManagerInterface {
 	
 	public Game getGame() {
 		return game;
+	}
+
+	@Override
+	public void joinOnlineGame(String playerName, String opponent_id) {
+	
 	}
 }

@@ -27,7 +27,10 @@ public class Main {
 		//Thread t1 = new Thread(new DBListener(state));
 		//t1.start();
 		Gladiators game = new Gladiators(new GameMaster());
-		//GameMaster gm = new GameMaster();
+		
+		GameMaster gm = new GameMaster();
+		//gm.joinOnlineGame("John", "bkqnH1n@T,");
+		gm.hostGame("RemoveMe");
 		//gm.startSinglePlayer();
 	}
 

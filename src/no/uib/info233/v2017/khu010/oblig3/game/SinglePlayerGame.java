@@ -15,34 +15,16 @@ public class SinglePlayerGame extends Game {
 	 * @param playerName
 	 */
 	public SinglePlayerGame(String playerName) {
-		setPlayer(new HumanPlayer(playerName, 3));
-		setRandomOpponent();
+		setPlayerA(new HumanPlayer(playerName, 3));
 	}
 	
-	/**
-	 * Sets the human player
-	 * @param player
-	 */
-	public void setPlayer(Player player) {
-		getGameState().setPlayerA(player);
-	}
-	
-	public void setRandomOpponent() {
-		Random rng = new Random();
-		String name = "Bot" + rng.nextInt(30);
-		if (rng.nextBoolean()) {
-			getGameState().setPlayerB(new DefensivePlayer(name, -3));
-		}
-		getGameState().setPlayerB(new AggressivePlayer(name, -3));
-	}
-
 	/**
 	 * Runs the game in a loop. A game ends when either player is in a winning position
 	 * or if both have run out of energy.
 	 */
 	@Override
 	public void runGame() {
-		while (!getGameState().isFinnished()) {
+		while (!isFinnished()) {
 			if (performMoves()) {
 				System.out.println("lldl");
 				evaluateTurn();
@@ -70,8 +52,8 @@ public class SinglePlayerGame extends Game {
 	//THIS METHOD NEEDS TO BE CLEANED UP...
 	@Override
 	public void evaluateTurn() {
-		Player p1 = getGameState().getPlayerA();
-		Player p2 = getGameState().getPlayerB();
+		Player p1 = getPlayerA();
+		Player p2 = getPlayerB();
 		if (getGameState().getPlayerAMove() > getGameState().getPlayerBMove()) {
 			getGameState().currentPositionProperty().set(getGameState().getCurrentPosition() + 1);
 		}
