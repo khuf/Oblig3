@@ -6,7 +6,7 @@ import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 
 public class HumanPlayer extends Player {
 	
-	private PlayerControllerInterface controller = new SQLManager();
+	//private PlayerControllerInterface controller = new SQLManager();
 	
 	public HumanPlayer(String name, int goal) {
 		super(name, goal);
@@ -18,7 +18,7 @@ public class HumanPlayer extends Player {
 		
 		if (Utility.isValidMove(this, move)) {
 			energyToUse = move;
-			controller.sendMove(getName(), move);
+			//controller.sendMove(getName(), move);
 		}
 		return energyToUse;
 	}

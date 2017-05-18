@@ -47,9 +47,9 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		
 		mpgame = new MultiPlayerGame("THismeTHo4", -3);
 		
-		SQLManager server = new SQLManager();
+		SQLManager server = new SQLManager(mpgame);
 		server.hostOnlineGame(mpgame);
-		HashMap <String, String> opengames = server.findOpenGames();
+		Map<String, String> opengames = server.findOpenGames();
 		String joinid = opengames.get("THismeTHo4");
 		server.joinOnlineGame("nigguh", joinid);
 		server.getOpponent();
@@ -127,7 +127,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     			//save results from sql server
     			String player1Name = rs.getString("player_1");
     			String player2Name = rs.getString("player_2");
-    			int gamePosition = rs.getInt("game_position")
+    			int gamePosition = rs.getInt("game_position");
     			int player1energy = rs.getInt("player_1_energy");
     			int player2energy = rs.getInt("player_2_energy");
     			int player1move = rs.getInt("player_1_move");
@@ -326,7 +326,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	 * Saves the current game in the database.
 	 */
 	@Override
-	public void saveGame() {
+	public void saveGame(GameState state) {
 		try {
         	//create an SQL insert query
         	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
@@ -425,14 +425,13 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		return opponentID + playerid;
 	}
 
+	/**
+	 * Updates a game in progress with a new player move.
+	 * @param move the players move
+	 * @param gameId the game id
+	 */
 	@Override
-	public void endGame() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendMove(int move, String gameId) {
+	public void sendMove(int move) {
 		String sqlString = "UPDATE `games_in_progress` SET ? = ? WHERE `game_id` = ? ORDER BY move_number DESC LIMIT 1";
 		String playerToSet = "";
 		if (hosting) {
@@ -446,11 +445,23 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 			PreparedStatement pst = con.prepareStatement(sqlString);
 			pst.setString(1, playerToSet);
 			pst.setInt(2, move);
-			pst.setString(3, gameId);
+			pst.setString(3, mpgame.getGameID());
 			pst.executeUpdate();
 		}
 		catch (SQLException ex) {
 			System.out.println(ex.toString());
 		}
+	}
+
+	@Override
+	public GameState getGameState(String gameID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean hostOnlineGame(MultiPlayerGame mpgame) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

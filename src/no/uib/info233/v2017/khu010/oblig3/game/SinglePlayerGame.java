@@ -4,14 +4,15 @@ import no.uib.info233.v2017.khu010.oblig3.players.*;
 import java.util.Random;
 
 /**
- * This is the class representing a singel player game. 
- * @author knuhuf
+ * A class representing a single player game
+ * @author khu010
+ * @version 0.0.1 (14.05.2017)
  *
  */
 public class SinglePlayerGame extends Game {
 	
 	/**
-	 * Creates a singel player game against a random opponent.
+	 * Creates a single player game against a random opponent.
 	 * @param playerName
 	 */
 	public SinglePlayerGame(String playerName) {
@@ -27,6 +28,9 @@ public class SinglePlayerGame extends Game {
 		getGameState().setPlayerA(player);
 	}
 	
+	/**
+	 * Assigns a random bot to the game.
+	 */
 	public void setRandomOpponent() {
 		Random rng = new Random();
 		String name = "Bot" + rng.nextInt(30);
@@ -44,7 +48,6 @@ public class SinglePlayerGame extends Game {
 	public void runGame() {
 		while (!getGameState().isFinnished()) {
 			if (performMoves()) {
-				System.out.println("lldl");
 				evaluateTurn();
 			}
 		}
@@ -55,22 +58,21 @@ public class SinglePlayerGame extends Game {
 	 * Sends a request to both player to come up with their next move by calling
 	 * the method requestMoves which returns a boolean value when both players
 	 * have made their move.
+	 * @return true if both players came up with valid moves, otherwise, false.
 	 */
 	@Override
 	public boolean performMoves() {
-		boolean validMoves = false;
-		System.out.println("from perform move");
+		/*boolean validMoves = false;
 		
 		Player p1 = getGameState().getPlayerA();
 		Player p2 = getGameState().getPlayerB();
-		int moveA = p1.makeNextMove();
 		int moveB = p2.makeNextMove(getGameState().getCurrentPosition(), p1.getEnergy());
 		
 		if (getGameState().setPlayerAMove(moveA) && getGameState().setPlayerBMove(moveB) ); {
 			validMoves = true;
 		}
 		
-		return validMoves;
+		return validMoves;*/
 	}
 	
 	//THIS METHOD NEEDS TO BE CLEANED UP...
