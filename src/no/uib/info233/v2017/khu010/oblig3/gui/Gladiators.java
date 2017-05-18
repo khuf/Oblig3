@@ -21,27 +21,7 @@ import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import java.awt.Panel;
-import java.awt.Component;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JRadioButton;
-import javax.swing.JList;
 import java.awt.Font;
 
 public class Gladiators extends JFrame {

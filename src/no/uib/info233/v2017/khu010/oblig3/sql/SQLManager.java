@@ -406,7 +406,6 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	}
 
 	@Override
-<<<<<<< HEAD
 	public void sendMove(int move, String gameId) {
 		String sqlString = "UPDATE `games_in_progress` SET ? = ? WHERE `game_id` = ? ORDER BY move_number DESC LIMIT 1";
 		String playerToSet = "";
@@ -427,11 +426,5 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		catch (SQLException ex) {
 			System.out.println(ex.toString());
 		}
-=======
-	public void sendMove(int move) {
-		//check if game has started, else try again laterz
-		
->>>>>>> origin/oblig4-branch
 	}
-	
 }
