@@ -56,7 +56,7 @@ abstract public class Player {
 	 */
 	public abstract int makeNextMove(int currentPosition, int opponentEnergy);
 	
-	public abstract int makeNextMove();
+	public abstract int makeNextMove(int move);
 	
 	/**
 	 * Informs the player that the game has come to an end and how 

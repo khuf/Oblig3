@@ -13,6 +13,7 @@ import java.sql.Statement;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
+import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.AggressivePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.HumanPlayer;
@@ -25,7 +26,7 @@ import no.uib.info233.v2017.khu010.oblig3.players.Player;
  * @version 0.3.8 (21.04.2017).
  *
  */
-public class SQLManager implements SQLManagerInterface{
+public class SQLManager implements SQLManagerInterface, PlayerControllerInterface {
 	
     private static Connection con = null;
     private Statement stmt;
@@ -404,9 +405,26 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public void sendMove(int move) {
-		// TODO Auto-generated method stub
-		
+	public void sendMove(int move, String gameId) {
+		String sqlString = "UPDATE `games_in_progress` SET ? = ? WHERE `game_id` = ? ORDER BY move_number DESC LIMIT 1";
+		String playerToSet = "";
+		if (hosting) {
+			playerToSet = "player_1_move";
+		}
+		else {
+			playerToSet = "player_2_move";
+		}
+		try {
+			con = DriverManager.getConnection(url, user, password);
+			PreparedStatement pst = con.prepareStatement(sqlString);
+			pst.setString(1, playerToSet);
+			pst.setInt(2, move);
+			pst.setString(3, gameId);
+			pst.executeUpdate();
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.toString());
+		}
 	}
 	
 }
