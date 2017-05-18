@@ -186,6 +186,7 @@ public class SQLManager implements SQLManagerInterface{
 	public boolean startGame() {
 
 		GameState gamestate = this.mpgame.getGameState();
+		
 		String hostID = this.mpgame.getPlayerAId();
 		String gameID = hostID + this.mpgame.getPlayerBId();
 		
@@ -368,7 +369,7 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	
-	@Override
+	//returns game id
 	public String joinOnlineGame(String playername, String opponentID) {
 		//create id for our player
 		String playerid = createRandomPlayerID();
@@ -405,7 +406,7 @@ public class SQLManager implements SQLManagerInterface{
 
 	@Override
 	public void sendMove(int move) {
-		// TODO Auto-generated method stub
+		//check if game has started, else try again laterz
 		
 	}
 	
