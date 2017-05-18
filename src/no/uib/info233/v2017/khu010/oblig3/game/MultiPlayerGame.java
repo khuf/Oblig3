@@ -1,5 +1,6 @@
 package no.uib.info233.v2017.khu010.oblig3.game;
 
+import no.uib.info233.v2017.khu010.oblig3.Utility;
 import no.uib.info233.v2017.khu010.oblig3.players.*;
 
 public class MultiPlayerGame extends Game {
@@ -68,13 +69,12 @@ public class MultiPlayerGame extends Game {
 
 	@Override
 	public boolean performMoves() {
-		boolean result = false;
-		System.out.println("from perform move");
-		if (getGameState().requestMoves()) {
-			result = true;
+		boolean validMoves;
+		if (Utility.isValidMove(getGameState().getPlayerA(), getGameState().getPlayerAMove()) &&
+			Utility.isValidMove(getGameState().getPlayerB(), getGameState().getPlayerBMove())); {
+			validMoves = true;
 		}
-		
-		return result;
+		return validMoves;
 	}
 
 	@Override

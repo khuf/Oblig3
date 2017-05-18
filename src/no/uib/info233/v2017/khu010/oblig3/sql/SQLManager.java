@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Random;
@@ -29,7 +28,7 @@ import no.uib.info233.v2017.khu010.oblig3.players.Player;
 public class SQLManager implements SQLManagerInterface{
 	
     private static Connection con = null;
-    private static Statement stmt = null;
+    private Statement stmt;
 
     //private String url = "jdbc:mysql://wildboy.uib.no/Khuna";
     //private String user = "Khuna";
@@ -40,6 +39,7 @@ public class SQLManager implements SQLManagerInterface{
     private static String password = "root";
     
     private static MultiPlayerGame mpgame;
+    private static boolean hosting;
     
 	public static void main(String[] args) {
 		
@@ -57,6 +57,11 @@ public class SQLManager implements SQLManagerInterface{
     
     private SQLManager(MultiPlayerGame mpgame) { 
     	this.mpgame = mpgame;
+    	if (mpgame.getGameState().getPlayerA() == null){
+    		this.hosting = false;
+    	} else {
+    		this.hosting = true;
+    	}
     	connect(); 
     }
     
@@ -74,7 +79,7 @@ public class SQLManager implements SQLManagerInterface{
     	
     }
 
-	@Override
+    
 	//creates a random id which is 10 characters long
 	public String createRandomPlayerID() {
 
@@ -90,9 +95,10 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	//only use if you are joining a game!
-	public GameState getGameState(String gameID) {
+	public GameState getGameState() {
 		//create new gamestate
 		GameState gamestate = null;
+		String gameID = mpgame.getGameID();
 		try {
 			
     		String selectGameInProgress = "SELECT * FROM `games_in_progress` WHERE `game_id` = ? LIMIT 1";
@@ -107,9 +113,9 @@ public class SQLManager implements SQLManagerInterface{
 
     		if (rs.next()){
     			//save results from sql server
-    			String opponentName = rs.getString("player_1");
-    			String playerName = rs.getString("player_2");
-    			int gamePosition = rs.getInt("game_position");
+    			String player1Name = rs.getString("player_1");
+    			String player2Name = rs.getString("player_2");
+    			int gamePosition = rs.getInt("game_position")
     			int player1energy = rs.getInt("player_1_energy");
     			int player2energy = rs.getInt("player_2_energy");
     			int player1move = rs.getInt("player_1_move");
@@ -120,9 +126,9 @@ public class SQLManager implements SQLManagerInterface{
     			gamestate = new GameState();
     			//create new players with same names
     			//host always tries to go to spot number 3
-    			gamestate.setPlayerA(new HumanPlayer(opponentName, 3));
-    			//joining player always tried to go to spot -3
-    			gamestate.setPlayerB(new HumanPlayer(playerName, -3));
+    			gamestate.setPlayerA(new HumanPlayer(player1Name, 3));
+    			//joining player always tries to go to spot -3
+    			gamestate.setPlayerB(new HumanPlayer(player2Name, -3));
     			//set new energy for player a
     			gamestate.getPlayerA().useEnergy(100 - player1energy);
     			//set updated energy for player b
@@ -145,10 +151,8 @@ public class SQLManager implements SQLManagerInterface{
 		return gamestate;
 	}
 	
-	@Override
-	public boolean hostOnlineGame(MultiPlayerGame mpgame) {
-		//save mpgame locally
-		this.mpgame = mpgame;
+	//method for hosting online game
+	public boolean hostOnlineGame() {
 		
 		try {
 			//Create query
@@ -179,7 +183,6 @@ public class SQLManager implements SQLManagerInterface{
 	
 	//uses a gamestate to create a new game
 	//moves game from open_games to games_in_progress
-	//returns game_id
 	public boolean startGame() {
 
 		GameState gamestate = this.mpgame.getGameState();
@@ -221,7 +224,6 @@ public class SQLManager implements SQLManagerInterface{
 	//run every 2 seconds in another thread
 	//checks if your hosted game in open_games has an opponent
 	//returns opponents name, else returns null
-	@Override
 	public String getOpponent() {
 		System.out.println("Checking if opponent has joined");
 		try {
@@ -274,6 +276,11 @@ public class SQLManager implements SQLManagerInterface{
     		int opponentMove = rs.getInt("player_2_move");
     		//return true if its not 0
     		if (opponentMove != 0) {
+    			if (this.hosting){
+    				this.mpgame.getGameState().setPlayerBMove(opponentMove);
+    			} else {
+    				this.mpgame.getGameState().setPlayerAMove(opponentMove);
+    			}
     			return true;
     		}
 
@@ -298,7 +305,7 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public void saveGame(GameState gamestate) {
+	public void saveGame() {
 		try {
         	//create an SQL insert query
         	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
@@ -397,15 +404,9 @@ public class SQLManager implements SQLManagerInterface{
 	}
 
 	@Override
-	public void sendMove(int move, String gameID) {
+	public void sendMove(int move) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	/*@Override
-	public void sendMove() {
-		// TODO Auto-generated method stub
-		
-	}	*/
 	
 }

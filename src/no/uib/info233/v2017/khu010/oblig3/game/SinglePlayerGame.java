@@ -58,13 +58,19 @@ public class SinglePlayerGame extends Game {
 	 */
 	@Override
 	public boolean performMoves() {
-		boolean result = false;
+		boolean validMoves = false;
 		System.out.println("from perform move");
-		if (getGameState().requestMoves()) {
-			result = true;
+		
+		Player p1 = getGameState().getPlayerA();
+		Player p2 = getGameState().getPlayerB();
+		int moveA = p1.makeNextMove();
+		int moveB = p2.makeNextMove(getGameState().getCurrentPosition(), p1.getEnergy());
+		
+		if (getGameState().setPlayerAMove(moveA) && getGameState().setPlayerBMove(moveB) ); {
+			validMoves = true;
 		}
 		
-		return result;
+		return validMoves;
 	}
 	
 	//THIS METHOD NEEDS TO BE CLEANED UP...
