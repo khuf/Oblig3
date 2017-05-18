@@ -1,6 +1,7 @@
 package no.uib.info233.v2017.khu010.oblig3.interfaces;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
@@ -48,7 +49,7 @@ public interface SQLManagerInterface {
 	//-------------joining-------------
 	
 	//returns a hashmap containing player names and ids who hosts open games;
-	HashMap<String, String> findOpenGames();
+	Map<String, String> findOpenGames();
 	
 	//joins a game from open_games
 	//sets our players name as playername

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +67,10 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     	connect(); 
     }
     
+    /**
+     * Establishes a connection to the database.
+     * @throws SQLException if the connection fails.
+     */
     private void connect(){
     	try {        	
             //create connection
@@ -75,13 +80,16 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
             this.stmt = con.createStatement();
             
     	} catch (SQLException ex){
-    		System.out.println("connection failed");
+    		System.out.println("Failed to connect to the database, " + ex.toString());
     	}
     	
     }
 
     
-	//creates a random id which is 10 characters long
+	/**
+	 * Creates a 'pseudo' random id for the player...
+	 * @return a random string
+	 */
 	public String createRandomPlayerID() {
 
 		String randomID = "";
@@ -95,7 +103,10 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		return randomID;
 	}
 
-	//only use if you are joining a game!
+	/**
+	 * Gets the game state of a game that the user is joining.
+	 * @return game state of a joined game
+	 */
 	public GameState getGameState() {
 		//create new gamestate
 		GameState gamestate = null;
@@ -182,8 +193,11 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		return false;
 	}
 	
-	//uses a gamestate to create a new game
-	//moves game from open_games to games_in_progress
+	/**
+	 * Starts a game of multiplayer by creating an entry to the games in progress table
+	 * and deleting the pending game request from open games.
+	 * @return true if the game starts successfully, false otherwise.
+	 */
 	public boolean startGame() {
 
 		GameState gamestate = this.mpgame.getGameState();
@@ -223,9 +237,11 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		return false;
 	}
 	
-	//run every 2 seconds in another thread
-	//checks if your hosted game in open_games has an opponent
-	//returns opponents name, else returns null
+	/**
+	 * Gets the name of the opponent in an open game, i.e. a game waiting
+	 * for another player to join (open_games).
+	 * @return name of the opponent or null if opponent player doesn't exist.
+	 */
 	public String getOpponent() {
 		System.out.println("Checking if opponent has joined");
 		try {
@@ -306,6 +322,9 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		
 	}
 
+	/**
+	 * Saves the current game in the database.
+	 */
 	@Override
 	public void saveGame() {
 		try {
@@ -333,15 +352,22 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		
 	}
 
+	/**
+	 * Ends the game by removing all entries in games in progress with the current 
+	 * game's game id.
+	 */
 	@Override
 	public void endGame() {
 		//delete every game_in_progress where game_id = 
 		
 	}
 
+	/**
+	 * Returns a HashMap of all open games with player id as key and player name as value.
+	 * @return 
+	 */
 	@Override
-	//returns a hashmap with opponent names as keys, opponent id´s as values
-	public HashMap<String, String> findOpenGames() {
+	public Map<String, String> findOpenGames() {
     	try {
     		
     		//create a statement which gets all open games
@@ -350,7 +376,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     		ResultSet rs = pst.executeQuery();
     		
     		//create a hashmap to save open games
-    		HashMap<String, String> results = new HashMap<String, String>();
+    		Map<String, String> results = new HashMap<String, String>();
     		
     		//select next result as long as there is one
 			while (rs.next()) {

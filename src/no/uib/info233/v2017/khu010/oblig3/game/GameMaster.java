@@ -23,7 +23,7 @@ public class GameMaster implements GameManagerInterface {
 
 	private Game game;
 	
-	private Map<Integer, String> gameList;
+	private Map<String, String> gameList;
 	
 	public GameMaster() {
 		game = new SinglePlayerGame("Bob");
@@ -69,7 +69,7 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void listOnlineGames() {
-		//findOpenGames();
+		 
 	}
 	
 	private void updateRanking() {
@@ -82,5 +82,9 @@ public class GameMaster implements GameManagerInterface {
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public Map<String, String> getGameList() {
+		return gameList;
 	}
 }
