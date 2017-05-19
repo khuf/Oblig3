@@ -42,21 +42,6 @@ public class SinglePlayerGame extends Game {
 		}
 		System.out.println("Playing vs " + getGameState().getPlayerB());
 	}
-
-	/**
-	 * Runs the game in a loop. A game ends when either player is in a winning position
-	 * or if both have run out of energy.
-	 */
-	@Override
-	public void runGame() {
-		System.out.println("Starting game");
-		while (!getGameState().isFinnished()) {
-			if (performMoves()) {
-				evaluateTurn();
-			}
-		}
-		System.out.println("Game over");
-	}
 	
 	/**
 	 * Used by the GUI to perform a move. Player B will also be 
