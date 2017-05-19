@@ -14,6 +14,7 @@ public class GameState {
 	private Player playerA;
 	private Player playerB;
 	private int movesMade;
+	private int roundNumber;
 	private SimpleIntegerProperty playerAMove = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty playerBMove = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty currentPosition = new SimpleIntegerProperty(0);
@@ -46,7 +47,7 @@ public class GameState {
 	}
 	
 	/**
-	 * @return number of moves made in the current round.
+	 * @return number of rounds so far.
 	 */
 	public int getMovesMade() {
 		return movesMade;
@@ -130,6 +131,17 @@ public class GameState {
 	 */
 	public Player getPlayerB() {
 		return playerB;
+	}
+	
+	public void setRoundNumber(int roundNumber) {
+		this.roundNumber = roundNumber;
+	}
+	
+	/**
+	 * @return number of rounds so far
+	 */
+	public int getRoundNumber() {
+		return roundNumber;
 	}
 	
 	/**
