@@ -127,10 +127,10 @@ public class RobotGame extends JFrame {
 
 		JLabel lblEnemyPlayerSP = new JLabel("Player2");
 		lblEnemyPlayerSP.setFont(new Font("Lucida Grande", Font.PLAIN, 24));
-		lblEnemyPlayerSP.setBounds(354, 51, 90, 27);
 		gm.getSinglePlayerGameState().getPlayerB().nameProperty().addListener((observable, oldValue, newValue) -> {
 			lblEnemyPlayerSP.setText(newValue.toString());
 		});
+		lblEnemyPlayerSP.setBounds(354, 51, 90, 27);
 		singlePlayerGamePanel.add(lblEnemyPlayerSP);
 
 		JLabel lblGamePositionSP = new JLabel("0");
