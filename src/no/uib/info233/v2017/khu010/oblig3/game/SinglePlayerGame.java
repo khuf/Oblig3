@@ -42,7 +42,6 @@ public class SinglePlayerGame extends Game {
 		}
 		System.out.println("Playing vs " + getGameState().getPlayerB());
 	}
-<<<<<<< HEAD
 
 	/**
 	 * Runs the game in a loop. A game ends when either player is in a winning position
@@ -58,8 +57,6 @@ public class SinglePlayerGame extends Game {
 		}
 		System.out.println("Game over");
 	}
-=======
->>>>>>> origin/oblig4-branch
 	
 	/**
 	 * Used by the GUI to perform a move. Player B will also be 

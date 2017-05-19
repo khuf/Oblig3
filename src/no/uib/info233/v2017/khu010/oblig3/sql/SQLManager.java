@@ -46,13 +46,12 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		mpgame = new MultiPlayerGame("THismeTHo4", -3);
 		
 		SQLManager server = new SQLManager(mpgame);
-		server.hostOnlineGame(mpgame);
+		server.hostOnlineGame();
 		Map<String, String> opengames = server.findOpenGames();
 		String joinid = opengames.get("THismeTHo4");
 		server.joinOnlineGame("nigguh", joinid);
 		server.getOpponent();
 		server.startGame();
-		GameState gstat = server.getGameState(mpgame.getGameID());
 	}
     
     private SQLManager(MultiPlayerGame mpgame) { 
@@ -324,7 +323,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	 * Saves the current game in the database.
 	 */
 	@Override
-	public void saveGame(GameState state) {
+	public void saveGame() {
 		try {
         	//create an SQL insert query
         	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
