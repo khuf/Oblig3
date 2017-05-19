@@ -16,9 +16,7 @@ import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
-import no.uib.info233.v2017.khu010.oblig3.players.AggressivePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.HumanPlayer;
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 /**
  * Handles the SQL connection
@@ -149,7 +147,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     			gamestate.setPlayerAMove(player1move);
     			gamestate.setPlayerBMove(player2move);
     			//update moves made
-    			gamestate.SetMovesMade(moveNumber);
+    			gamestate.setMovesMade(moveNumber);
     			//update game position
     			gamestate.currentPositionProperty().setValue(gamePosition);
     			

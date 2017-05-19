@@ -44,10 +44,6 @@ abstract public class Player {
 		return gameMaster;
 	}
 	
-	private void setMove(int move) {
-		this.move = move;
-	}
-	
 	/**
 	 * Figures out how much energy to spend this round and forwards the
 	 * information to the game master.

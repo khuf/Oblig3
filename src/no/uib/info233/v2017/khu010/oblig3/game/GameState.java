@@ -19,28 +19,51 @@ public class GameState {
 	private SimpleIntegerProperty currentPosition = new SimpleIntegerProperty(0);
 	private Map<Integer, Reward> scores;
 	
+	/**
+	 * Creates an empty game state with a scoreboard.
+	 */
 	public GameState() {
 		createScoreboard();
 	}
+	
+	/**
+	 * Creates a game state with the specified players.
+	 * @param firstPlayer player 1
+	 * @param secondPlayer player 2
+	 */
 	public GameState(Player firstPlayer, Player secondPlayer) {
 		playerA = firstPlayer;
 		playerB = secondPlayer;
 		createScoreboard();
 	}
 	
-	public void SetMovesMade(int moves) {
+	/**
+	 * Sets the number of moves made for the current round.
+	 * @param moves number of moves made
+	 */
+	public void setMovesMade(int moves) {
 		this.movesMade = moves;
 	}
 	
+	/**
+	 * @return number of moves made in the current round.
+	 */
 	public int getMovesMade() {
 		return movesMade;
 	}
 	
+	/**
+	 * Clears the moves made counter.
+	 */
 	public void resetMovesCounter() {
 		movesMade = 0;
 	}
 	
-	public void createScoreboard() {
+	/**
+	 * Creates a HashMap of all possible game positions mapped to a "Reward" that
+	 * wraps the reward for both player 1 and player 2. 
+	 */
+	private void createScoreboard() {
 		scores = new HashMap<>();
 		
 		scores.put(0, new Reward(0.5F, 0.5F));
@@ -52,14 +75,20 @@ public class GameState {
 		scores.put(-3, new Reward(-1.0F, 2.0F));
 	}
 	
+	/**
+	 * Sets player A.
+	 * @param playerA
+	 */
 	public void setPlayerA(Player playerA) {
 		this.playerA = playerA;
-		//this.playerA.registerGameMaster(this);
 	}
 	
+	/**
+	 * Sets player B.
+	 * @param playerB
+	 */
 	public void setPlayerB(Player playerB) {
 		this.playerB = playerB;
-		//this.playerB.registerGameMaster(this);
 	}
 	
 	/**

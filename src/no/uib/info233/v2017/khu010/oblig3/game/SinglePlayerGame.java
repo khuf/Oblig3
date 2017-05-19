@@ -29,7 +29,8 @@ public class SinglePlayerGame extends Game {
 	}
 	
 	/**
-	 * Assigns a random bot to the game.
+	 * Assigns a random bot to the game. That is, a player
+	 * of defensive or aggressive type.
 	 */
 	public void setRandomOpponent() {
 		Random rng = new Random();
@@ -40,6 +41,11 @@ public class SinglePlayerGame extends Game {
 		getGameState().setPlayerB(new AggressivePlayer(name, -3));
 	}
 	
+	/**
+	 * Used by the GUI to perform a move. Player B will also be 
+	 * requested to come up with a move whenever this method is called.
+	 * @param move energy level to spend.
+	 */
 	public void performMove(int move) {
 		GameState state = getGameState();
 		state.setPlayerBMove(state.getPlayerB().makeNextMove(state.currentPositionProperty().get(), state.getPlayerA().getEnergy()));

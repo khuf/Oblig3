@@ -6,6 +6,13 @@ public class Utility {
 	
 	static boolean debug = true;
 	
+	/**
+	 * Validates if the specified player is trying to perform
+	 * a valid move.
+	 * @param player an instance of a player
+	 * @param move the move to validate
+	 * @return true if the move was valid, otherwise, false.
+	 */
 	public static boolean isValidMove(Player player, int move) {
 		boolean result = false;
 		

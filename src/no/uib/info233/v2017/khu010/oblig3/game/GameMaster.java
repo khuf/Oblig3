@@ -4,18 +4,13 @@ import java.util.Map;
 
 
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
-import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
-import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
-import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * This is the class that the GUI will interact with. The GUI will interact with
  * the GameState class through this class (getGameState()).
- * A singleton GameMaster class.
  * @author knu010 && xeq003
- * @version 0.3.8 (21.04.2017).
+ * @version 0.0.3 (15.05.2017).
  */
 public class GameMaster implements GameManagerInterface {
 	
@@ -27,23 +22,11 @@ public class GameMaster implements GameManagerInterface {
 	
 	private Map<String, String> gameList;
 	
+	/**
+	 * Creates an instance of a single player game
+	 */
 	public GameMaster() {
 		spGame = new SinglePlayerGame("Bob");
-	}
-	
-	/**
-	 * Starts the game by sending a request to both players to come up 
-	 * with their next move.
-	 */
-	public void startSinglePlayer() {
-		spGame = new SinglePlayerGame("Bob");
-	}
-	
-	/**
-	 * Starts a multiplayer game...
-	 */
-	public void startMultiPlayer() {
-		
 	}
 
 	@Override
