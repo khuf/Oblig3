@@ -102,6 +102,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 
 	/**
 	 * Gets the game state of a game that the user is joining.
+	 * Only searches for games_in_progress
 	 * @return game state of a joined game
 	 */
 	public GameState getGameState() {
@@ -276,7 +277,6 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		return null;
 	}
 
-	@Override
 	public boolean hasOpponentMove() {
 		try {
     		String selectOpponentQuery = "SELECT `player_2_move` FROM `games_in_progress` WHERE `game_id` = ? LIMIT 1";
@@ -309,10 +309,25 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	@Override
 	//used when this player is hosting a game online
 	public void newRound() {
-		//if (move_number == "NULL") {
-		//	game_position = 0;
-		//}
 		
+		try {
+			String updateQuery = "UPDATE `games_in_progress` "
+					+ "SET `player_1_move` = 0, `player_2_move` = 0, moves_made = ? "
+					+ "WHERE `game_id` = ? LIMIT 1";
+			
+			PreparedStatement pst = con.prepareStatement(updateQuery);
+			//increase moves made
+			int movesmade = this.mpgame.getGameState().getMovesMade() + 1;
+			pst.setInt(1, movesmade);
+			//set game id
+			pst.setString(2, this.mpgame.getGameID());
+
+			pst.executeUpdate();
+
+		} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(SQLManager.class.getName());
+			lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
 		//set player_1_move && player_2_move to NULL
 		
 		//increase move_number by 1

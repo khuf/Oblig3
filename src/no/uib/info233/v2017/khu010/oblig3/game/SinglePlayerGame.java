@@ -47,7 +47,6 @@ public class SinglePlayerGame extends Game {
 	 * Runs the game in a loop. A game ends when either player is in a winning position
 	 * or if both have run out of energy.
 	 */
-	@Override
 	public void runGame() {
 		System.out.println("Starting game");
 		while (!getGameState().isFinnished()) {
