@@ -4,12 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dialog;
-
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameMaster;
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
@@ -18,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
-import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
