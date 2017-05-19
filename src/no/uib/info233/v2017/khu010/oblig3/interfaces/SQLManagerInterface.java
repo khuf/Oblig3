@@ -1,12 +1,16 @@
 package no.uib.info233.v2017.khu010.oblig3.interfaces;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
+/**
+ * An interface with operations that the game should
+ * be able to perform towards the database.
+ * @author knu010
+ * @version 0.0.1
+ */
 public interface SQLManagerInterface {
 	
 	//create random player id 10 characters long

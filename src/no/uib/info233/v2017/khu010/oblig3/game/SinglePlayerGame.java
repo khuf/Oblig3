@@ -29,7 +29,8 @@ public class SinglePlayerGame extends Game {
 	}
 	
 	/**
-	 * Assigns a random bot to the game.
+	 * Assigns a random bot to the game. That is, a player
+	 * of defensive or aggressive type.
 	 */
 	public void setRandomOpponent() {
 		Random rng = new Random();
@@ -41,6 +42,7 @@ public class SinglePlayerGame extends Game {
 		}
 		System.out.println("Playing vs " + getGameState().getPlayerB());
 	}
+<<<<<<< HEAD
 
 	/**
 	 * Runs the game in a loop. A game ends when either player is in a winning position
@@ -56,18 +58,14 @@ public class SinglePlayerGame extends Game {
 		}
 		System.out.println("Game over");
 	}
+=======
+>>>>>>> origin/oblig4-branch
 	
 	/**
-	 * Sends a request to both player to come up with their next move by calling
-	 * the method requestMoves which returns a boolean value when both players
-	 * have made their move.
-	 * @return true if both players came up with valid moves, otherwise, false.
+	 * Used by the GUI to perform a move. Player B will also be 
+	 * requested to come up with a move whenever this method is called.
+	 * @param move energy level to spend.
 	 */
-	@Override
-	public boolean performMoves() {
-		throw new UnsupportedOperationException();
-	}
-	
 	public void performMove(int move) {
 		GameState state = getGameState();
 		state.setPlayerBMove(state.getPlayerB().makeNextMove(state.currentPositionProperty().get(), state.getPlayerA().getEnergy()));
@@ -99,5 +97,4 @@ public class SinglePlayerGame extends Game {
 		p1.useEnergy(getGameState().getPlayerAMove());
 		state.resetMovesCounter();
 	}
-
 }

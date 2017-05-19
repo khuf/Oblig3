@@ -4,45 +4,29 @@ import java.util.Map;
 
 
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
-import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
-import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
-import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * This is the class that the GUI will interact with. The GUI will interact with
  * the GameState class through this class (getGameState()).
- * A singleton GameMaster class.
  * @author knu010 && xeq003
- * @version 0.3.8 (21.04.2017).
+ * @version 0.0.3 (15.05.2017).
  */
 public class GameMaster implements GameManagerInterface {
 	
 	//private SQLManager server = new SQLManager();
 
-	private Game game;
+	private SinglePlayerGame spGame;
+	
+	private MultiPlayerGame mpGame;
 	
 	private Map<String, String> gameList;
 	
+	/**
+	 * Creates an instance of a single player game
+	 */
 	public GameMaster() {
-		game = new SinglePlayerGame("Bob");
-	}
-	
-	/**
-	 * Starts the game by sending a request to both players to come up 
-	 * with their next move.
-	 */
-	public void startSinglePlayer() {
-		game = new SinglePlayerGame("Bob");
-		game.runGame();
-	}
-	
-	/**
-	 * Starts a multiplayer game...
-	 */
-	public void startMultiPlayer() {
-		
+		spGame = new SinglePlayerGame("Bob");
 	}
 
 	@Override
@@ -76,19 +60,32 @@ public class GameMaster implements GameManagerInterface {
 		
 	}
 	
-	public void registerPlayers(Player playerA, Player playerB) {
-		//.setPlayers(playerA, playerB);
-	}	
-	
-	public Game getGame() {
-		return game;
+	/**
+	 * @return an instance of a single player game
+	 */
+	public SinglePlayerGame getSinglePlayerGame() {
+		return spGame;
 	}
 	
+	/**
+	 * @return an instance of a game state
+	 */
+	public GameState getSinglePlayerGameState() {
+		return spGame.getGameState();
+	}
+	
+	/**
+	 * @return an instance of a game state
+	 */
+	public GameState getMultiPlayerGameState() {
+		return mpGame.getGameState();
+	}
+	
+	/**
+	 * @return a map of available online games as a map with
+	 * player id as key and player name as value.
+	 */
 	public Map<String, String> getGameList() {
 		return gameList;
-	}
-	
-	public Game getSinglePlayerGame() {
-		return game;
 	}
 }

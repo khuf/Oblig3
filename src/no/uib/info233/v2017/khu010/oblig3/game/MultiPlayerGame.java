@@ -1,24 +1,42 @@
 package no.uib.info233.v2017.khu010.oblig3.game;
 
-import no.uib.info233.v2017.khu010.oblig3.Utility;
 import no.uib.info233.v2017.khu010.oblig3.players.*;
 
+/**
+ * A class representing a multi player game.
+ * Each assigned player has a random string of characters
+ * used to uniquely identify him, associated with him.
+ * @author knuhuf
+ * @version 0.0.1 (19.05.2017)
+ */
 public class MultiPlayerGame extends Game {
 	
 	//This is the random string that will be generated for both players in an online game.
 	private String playerAId;
 	private String playerBId;
+	//Game id is a concatenation of playerAId and playerBId.
 	private String game_id;
 	
+	/**
+	 * Creates a game with the specified player name and goal.
+	 * @param playerName name of the player.
+	 * @param goal 3 if the player is hosting. -3 if he has joined a game.
+	 */
 	public MultiPlayerGame(String playerName, int goal) {
-		//creates a new Game, sets new player as player A
 		super(new HumanPlayer(playerName, goal));
 	}
 	
+	/**
+	 * Sets the gameId.
+	 * @param id
+	 */
 	public void setGameID(String id) {
 		this.game_id = id;
 	}
 	
+	/**
+	 * @return game id.
+	 */
 	public String getGameID() {
 		return this.game_id;
 	}
@@ -59,22 +77,6 @@ public class MultiPlayerGame extends Game {
 	 */
 	public String getPlayerBId() {
 		return playerBId;
-	}
-
-	@Override
-	public void runGame() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean performMoves() {
-		boolean validMoves;
-		if (Utility.isValidMove(getGameState().getPlayerA(), getGameState().getPlayerAMove()) &&
-			Utility.isValidMove(getGameState().getPlayerB(), getGameState().getPlayerBMove())); {
-			validMoves = true;
-		}
-		return validMoves;
 	}
 
 	@Override
