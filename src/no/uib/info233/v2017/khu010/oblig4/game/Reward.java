@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3.game;
+package no.uib.info233.v2017.khu010.oblig4.game;
 
 /**
  * This is the class that the client use to retrieve the points for

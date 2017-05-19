@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3.sql;
+package no.uib.info233.v2017.khu010.oblig4.sql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,14 +10,16 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.Statement;
 
-import no.uib.info233.v2017.khu010.oblig3.game.GameState;
-import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
-import no.uib.info233.v2017.khu010.oblig3.game.Reward;
-import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
-import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
-import no.uib.info233.v2017.khu010.oblig3.players.HumanPlayer;
+import no.uib.info233.v2017.khu010.oblig4.game.DBListener;
+import no.uib.info233.v2017.khu010.oblig4.game.GameState;
+import no.uib.info233.v2017.khu010.oblig4.game.MultiPlayerGame;
+import no.uib.info233.v2017.khu010.oblig4.game.Reward;
+import no.uib.info233.v2017.khu010.oblig4.interfaces.PlayerControllerInterface;
+import no.uib.info233.v2017.khu010.oblig4.interfaces.SQLManagerInterface;
+import no.uib.info233.v2017.khu010.oblig4.players.HumanPlayer;
+
+import java.sql.Statement;
 
 /**
  * Handles the SQL connection
@@ -43,17 +45,24 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     private boolean hosting;
     
 	public static void main(String[] args) {
-		
-		mpgame = new MultiPlayerGame("THismeTHo4", -3);
-		
+		//create a new multiplayergame with a testplater
+		mpgame = new MultiPlayerGame("testplayer", -3);
+		//create a sqlmanager for this multiplayergame
 		SQLManager server = new SQLManager(mpgame);
+		//host this game online
 		server.hostOnlineGame();
+		
+		//search for games online
 		Map<String, String> opengames = server.findOpenGames();
-		String joinid = opengames.get("THismeTHo4");
-		server.joinOnlineGame("nigguh", joinid);
-		server.getOpponent();
-		server.startGame();
-		server.saveGame();
+		//save an opponets id our testopponent wants to join
+		String joinid = opengames.get("testplayer");
+		//join game selected id as player named testopponent
+		String gameid = server.joinOnlineGame("testopponent", joinid);
+		
+		server.newRound();
+		server.newRound();
+		
+		server.endGame();
 	}
 
     public SQLManager(MultiPlayerGame mpgame) { 
@@ -83,7 +92,6 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     	}
     	
     }
-
     
 	/**
 	 * Creates a 'pseudo' random id for the player...
@@ -165,7 +173,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	
 	//method for hosting online game
 	public boolean hostOnlineGame() {
-		
+
 		try {
 			//Create query
     		String insertQuery = "INSERT INTO open_games " +
@@ -183,6 +191,9 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
     		
     		//update mpgame
     		this.mpgame.setPlayerAId(player1ID);
+    		
+    		//creates a new dblistener where we are host
+    		DBListener listener = new DBListener(this, this.mpgame, true);
     		
 			return true;
 			
@@ -309,11 +320,12 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	}
 
 	//used when this player is hosting a game online
+	//increases round number and resets player moves
 	public void newRound() {
 		
 		try {
 			String updateQuery = "UPDATE `games_in_progress` "
-					+ "SET `player_1_move` = 0, `player_2_move` = 0, moves_made = ? "
+					+ "SET `player_1_move` = 0, `player_2_move` = 0, `move_number` = ? "
 					+ "WHERE `game_id` = ? LIMIT 1";
 			
 			PreparedStatement pst = con.prepareStatement(updateQuery);
@@ -329,12 +341,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());
 			lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-		//set player_1_move && player_2_move to NULL
-		
-		//increase move_number by 1
-		
 	}
-
 
 	/**
 	 * Ends the game by removing all entries in games in progress with the current 
@@ -342,11 +349,13 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 	 */
 	@Override
 	public void endGame() {
-		
+		GameState gamestate = this.mpgame.getGameState();
 		String gameID = this.mpgame.getGameID();
 		String deleteQuery = "DELETE FROM `games_in_progress` WHERE `game_id` = ?";
-    	String insertQuery = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
-    	Reward rewards = mpgame.getGameState().getPlayerRewards();
+    	String insertQueryRanking = "INSERT INTO `ranking`(`player`, `score`) VALUES (?, ?)";
+    	String insertQuerySaved = "INSERT INTO `saved_games`(game_id, player_1, player_2, game_position, "
+    			+ "player_1_energy, player_2_energy) VALUES (?, ?, ?, ?, ?, ?)";
+    	Reward rewards = gamestate.getPlayerRewards();
 		
 		try {
 			//delete game from games_in_progress
@@ -355,18 +364,28 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 			pst.executeUpdate();
 			
         	//save rewards to ranking table
-            pst = con.prepareStatement(insertQuery);
+            pst = con.prepareStatement(insertQueryRanking);
             //set statement values for player a
-            pst.setString(1, mpgame.getGameState().getPlayerA().getName());
+            pst.setString(1, gamestate.getPlayerA().getName());
             pst.setFloat(2, rewards.getPlayerAScore());
             //execute update for player a
             pst.executeUpdate();
             
             //set statement values for player b
-            pst.setString(1, mpgame.getGameState().getPlayerB().getName());
+            pst.setString(1, gamestate.getPlayerB().getName());
             pst.setFloat(2, rewards.getPlayerBScore());
             //execute update for player b
             pst.executeUpdate();
+            
+            //save game to saved_games
+            pst = con.prepareStatement(insertQuerySaved);
+			pst.setString(1, gameID);
+			pst.setString(2, gamestate.getPlayerA().getName());
+			pst.setString(3, gamestate.getPlayerB().getName());
+			pst.setInt(4, gamestate.getCurrentPosition());
+			pst.setInt(5, gamestate.getPlayerA().getEnergy());
+			pst.setInt(6, gamestate.getPlayerB().getEnergy());
+			pst.executeUpdate();
 			
 		} catch (SQLException ex) {
 			Logger lgr = Logger.getLogger(SQLManager.class.getName());

@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3.interfaces;
+package no.uib.info233.v2017.khu010.oblig4.interfaces;
 
 /**
  * An interface supporting operations

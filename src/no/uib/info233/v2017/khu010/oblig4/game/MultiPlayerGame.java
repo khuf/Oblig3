@@ -1,6 +1,6 @@
-package no.uib.info233.v2017.khu010.oblig3.game;
+package no.uib.info233.v2017.khu010.oblig4.game;
 
-import no.uib.info233.v2017.khu010.oblig3.players.*;
+import no.uib.info233.v2017.khu010.oblig4.players.*;
 
 /**
  * A class representing a multi player game.

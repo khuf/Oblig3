@@ -1,13 +1,11 @@
-package no.uib.info233.v2017.khu010.oblig3.game;
+package no.uib.info233.v2017.khu010.oblig4.game;
 
 import java.util.HashMap;
-
-import no.uib.info233.v2017.khu010.oblig3.Utility;
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
-
 import java.util.Map;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import no.uib.info233.v2017.khu010.oblig4.Utility;
+import no.uib.info233.v2017.khu010.oblig4.players.Player;
 
 public class GameState {
 	

@@ -1,4 +1,4 @@
-package no.uib.info233.v2017.khu010.oblig3.gui;
+package no.uib.info233.v2017.khu010.oblig4.gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -6,10 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-
-import no.uib.info233.v2017.khu010.oblig3.game.GameMaster;
-import no.uib.info233.v2017.khu010.oblig3.game.GameState;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -17,6 +13,10 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+
+import no.uib.info233.v2017.khu010.oblig4.game.GameMaster;
+import no.uib.info233.v2017.khu010.oblig4.game.GameState;
+
 import java.awt.Color;
 import javax.swing.JList;
 

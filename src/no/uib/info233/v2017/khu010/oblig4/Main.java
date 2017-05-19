@@ -1,7 +1,7 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig4;
 
-import no.uib.info233.v2017.khu010.oblig3.game.*;
-import no.uib.info233.v2017.khu010.oblig3.gui.*;
+import no.uib.info233.v2017.khu010.oblig4.game.*;
+import no.uib.info233.v2017.khu010.oblig4.gui.*;
 
 /*
  * 	Entry point for the robot game.

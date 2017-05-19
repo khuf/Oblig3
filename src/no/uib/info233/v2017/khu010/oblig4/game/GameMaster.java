@@ -1,10 +1,9 @@
-package no.uib.info233.v2017.khu010.oblig3.game;
+package no.uib.info233.v2017.khu010.oblig4.game;
 
 import java.util.Map;
 
-
-import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
-import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
+import no.uib.info233.v2017.khu010.oblig4.game.MultiPlayerGame;
+import no.uib.info233.v2017.khu010.oblig4.interfaces.GameManagerInterface;
 
 /**
  * This is the class that the GUI will interact with. The GUI will interact with

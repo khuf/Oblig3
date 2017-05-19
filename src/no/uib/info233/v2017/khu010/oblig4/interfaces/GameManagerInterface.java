@@ -1,6 +1,6 @@
-package no.uib.info233.v2017.khu010.oblig3.interfaces;
+package no.uib.info233.v2017.khu010.oblig4.interfaces;
 
-import no.uib.info233.v2017.khu010.oblig3.game.GameState;
+import no.uib.info233.v2017.khu010.oblig4.game.GameState;
 
 /**
  * An interface with methods used to

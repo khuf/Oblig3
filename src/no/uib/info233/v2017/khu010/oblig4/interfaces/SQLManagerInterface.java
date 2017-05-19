@@ -1,9 +1,9 @@
-package no.uib.info233.v2017.khu010.oblig3.interfaces;
+package no.uib.info233.v2017.khu010.oblig4.interfaces;
 
 import java.util.Map;
 
-import no.uib.info233.v2017.khu010.oblig3.game.GameState;
-import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
+import no.uib.info233.v2017.khu010.oblig4.game.GameState;
+import no.uib.info233.v2017.khu010.oblig4.game.MultiPlayerGame;
 
 /**
  * An interface with operations that the game should
@@ -47,11 +47,8 @@ public interface SQLManagerInterface {
 	void newRound();
 	
 	//ends an online game session by removing the game from games_in_progress
-	//also calls saveGame
-	void endGame();
-	
 	//saves the results to saved_games
-	void saveGame();
+	void endGame();
 	
 	//-------------joining-------------
 	

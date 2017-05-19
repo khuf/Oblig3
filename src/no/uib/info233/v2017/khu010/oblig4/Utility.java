@@ -1,7 +1,7 @@
-package no.uib.info233.v2017.khu010.oblig3;
+package no.uib.info233.v2017.khu010.oblig4;
 
-import no.uib.info233.v2017.khu010.oblig3.game.GameState;
-import no.uib.info233.v2017.khu010.oblig3.players.Player;
+import no.uib.info233.v2017.khu010.oblig4.game.GameState;
+import no.uib.info233.v2017.khu010.oblig4.players.Player;
 
 /**
  * A utility class to perform various "cheat" checks
