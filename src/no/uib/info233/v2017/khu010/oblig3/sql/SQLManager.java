@@ -23,7 +23,7 @@ import no.uib.info233.v2017.khu010.oblig3.players.Player;
 /**
  * Handles the SQL connection
  * Syncs database with game and vice versa
- * @author knu010 && xeq003
+ * @author knu010 og xeq003
  * @version 0.3.8 (21.04.2017).
  *
  */
@@ -459,9 +459,36 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		return null;
 	}
 
-	@Override
-	public boolean hostOnlineGame(MultiPlayerGame mpgame) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean sendMove(int move) {
+		//check if game has started, else try again laterz
+		try {
+			String gameID = mpgame.getGameID();
+			//select the newest instance of the game
+			
+			// yooo fix insert plz
+    		String selectGameInProgress = "INSERT * FROM `games_in_progress` WHERE `game_id` = ? LIMIT 1";
+    		//create a statement which gets all open games
+    		PreparedStatement pst = con.prepareStatement(selectGameInProgress);
+
+    		//search for games where you are host
+    		pst.setString(1, gameID);
+    		//execute query and save results to rs
+    		
+    		ResultSet rs = pst.executeQuery();
+
+    		if (rs.next()){
+				//confirms the selected game has an open spot
+    			
+				}
+			} else {
+				//no game found for this id
+				//game probably has not started yet or has ended
+				return false;
+			}
+
+    	} catch (SQLException ex) {
+			Logger lgr = Logger.getLogger(SQLManager.class.getName());
+			lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
 	}
 }
