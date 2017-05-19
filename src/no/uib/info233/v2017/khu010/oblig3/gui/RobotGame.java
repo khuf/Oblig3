@@ -99,9 +99,15 @@ public class RobotGame extends JFrame {
 		/*Creates a button to start single player mode and assigns an action listener
 		 * that responds to a button click by changing panel.
 		 */
-		JButton btnStartMultiplayer = new JButton("Start Multi Player");
-		btnStartMultiplayer.setBounds(162, 169, 138, 29);
-		mainMenu.add(btnStartMultiplayer);
+		JButton btnStartMultiPlayer = new JButton("Start Multi Player");
+		btnStartMultiPlayer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lt.show(panelContainer, "multiPlayerPanel");
+				//gm.getMultiPlayerGameState().getPlayerA().setName(textFieldPlayerName.getText());
+			}
+		});
+		btnStartMultiPlayer.setBounds(162, 169, 138, 29);
+		mainMenu.add(btnStartMultiPlayer);
 	}
 	
 	/**
