@@ -38,7 +38,7 @@ public class DBListener implements Runnable {
 						gameHasStarted = server.startGame();
 					}
 					//check if opponent has sent his move and both moves are valid 
-					if (server.hasOpponentMove() && mpgame.performMoves()) {
+					if (server.hasOpponentMove()) {
 						mpgame.evaluateTurn();
 					}
 				}

@@ -30,10 +30,6 @@ abstract public class Game {
 		gameState.setPlayerA(playerA);
 	}
 	
-	abstract public void runGame();
-	
-	abstract public boolean performMoves();
-	
 	abstract public void performMove(int move);
 	
 	abstract public void evaluateTurn();

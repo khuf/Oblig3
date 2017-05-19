@@ -21,12 +21,14 @@ public class GameMaster implements GameManagerInterface {
 	
 	//private SQLManager server = new SQLManager();
 
-	private Game game;
+	private SinglePlayerGame spGame;
+	
+	private MultiPlayerGame mpGame;
 	
 	private Map<String, String> gameList;
 	
 	public GameMaster() {
-		game = new SinglePlayerGame("Bob");
+		spGame = new SinglePlayerGame("Bob");
 	}
 	
 	/**
@@ -34,8 +36,7 @@ public class GameMaster implements GameManagerInterface {
 	 * with their next move.
 	 */
 	public void startSinglePlayer() {
-		game = new SinglePlayerGame("Bob");
-		game.runGame();
+		spGame = new SinglePlayerGame("Bob");
 	}
 	
 	/**
@@ -76,19 +77,32 @@ public class GameMaster implements GameManagerInterface {
 		
 	}
 	
-	public void registerPlayers(Player playerA, Player playerB) {
-		//.setPlayers(playerA, playerB);
-	}	
-	
-	public Game getGame() {
-		return game;
+	/**
+	 * @return an instance of a single player game
+	 */
+	public SinglePlayerGame getSinglePlayerGame() {
+		return spGame;
 	}
 	
+	/**
+	 * @return an instance of a game state
+	 */
+	public GameState getSinglePlayerGameState() {
+		return spGame.getGameState();
+	}
+	
+	/**
+	 * @return an instance of a game state
+	 */
+	public GameState getMultiPlayerGameState() {
+		return mpGame.getGameState();
+	}
+	
+	/**
+	 * @return a map of available online games as a map with
+	 * player id as key and player name as value.
+	 */
 	public Map<String, String> getGameList() {
 		return gameList;
-	}
-	
-	public Game getSinglePlayerGame() {
-		return game;
 	}
 }

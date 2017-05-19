@@ -78,7 +78,7 @@ public class GameState {
 	 * @return true/false if either of the players are out of energy.
 	 */
 	private boolean playersHasEnergy() {
-		return playerA.getEnergy() > 0 && playerB.getEnergy() > 0;
+		return playerA.getEnergy() > 0 || playerB.getEnergy() > 0;
 	}
 	
 	/**

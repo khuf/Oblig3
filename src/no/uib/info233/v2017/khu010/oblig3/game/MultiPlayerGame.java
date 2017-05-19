@@ -62,22 +62,6 @@ public class MultiPlayerGame extends Game {
 	}
 
 	@Override
-	public void runGame() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean performMoves() {
-		boolean validMoves;
-		if (Utility.isValidMove(getGameState().getPlayerA(), getGameState().getPlayerAMove()) &&
-			Utility.isValidMove(getGameState().getPlayerB(), getGameState().getPlayerBMove())); {
-			validMoves = true;
-		}
-		return validMoves;
-	}
-
-	@Override
 	public void evaluateTurn() {
 		// TODO Auto-generated method stub
 		

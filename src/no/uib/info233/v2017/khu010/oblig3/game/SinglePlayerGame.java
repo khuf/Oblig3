@@ -39,31 +39,6 @@ public class SinglePlayerGame extends Game {
 		}
 		getGameState().setPlayerB(new AggressivePlayer(name, -3));
 	}
-
-	/**
-	 * Runs the game in a loop. A game ends when either player is in a winning position
-	 * or if both have run out of energy.
-	 */
-	@Override
-	public void runGame() {
-		while (!getGameState().isFinnished()) {
-			if (performMoves()) {
-				evaluateTurn();
-			}
-		}
-		System.out.println(this);
-	}
-	
-	/**
-	 * Sends a request to both player to come up with their next move by calling
-	 * the method requestMoves which returns a boolean value when both players
-	 * have made their move.
-	 * @return true if both players came up with valid moves, otherwise, false.
-	 */
-	@Override
-	public boolean performMoves() {
-		throw new UnsupportedOperationException();
-	}
 	
 	public void performMove(int move) {
 		GameState state = getGameState();
@@ -96,5 +71,4 @@ public class SinglePlayerGame extends Game {
 		p1.useEnergy(getGameState().getPlayerAMove());
 		state.resetMovesCounter();
 	}
-
 }
