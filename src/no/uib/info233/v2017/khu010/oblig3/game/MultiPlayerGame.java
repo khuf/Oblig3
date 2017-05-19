@@ -82,4 +82,10 @@ public class MultiPlayerGame extends Game {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void performMove(int move) {
+		// TODO Auto-generated method stub
+		
+	}
 }

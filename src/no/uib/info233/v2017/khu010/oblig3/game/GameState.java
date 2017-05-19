@@ -36,6 +36,10 @@ public class GameState {
 		return movesMade;
 	}
 	
+	public void resetMovesCounter() {
+		movesMade = 0;
+	}
+	
 	public void createScoreboard() {
 		scores = new HashMap<>();
 		
@@ -82,7 +86,7 @@ public class GameState {
 	 * @return Reward representing both players reward.
 	 */
 	public Reward getPlayerRewards() {
-		return scores.get(currentPosition);
+		return scores.get(currentPosition.get());
 	}
 	
 	/**
@@ -111,6 +115,14 @@ public class GameState {
 	 */
 	public int getPlayerBMove() {
 		return playerBMove.get();
+	}
+	
+	public void incrementCurrentPositionByOne() {
+		currentPosition.set(currentPosition.get() + 1);
+	}
+	
+	public void decrementCurrentPositionbyOne() {
+		currentPosition.set(currentPosition.get() - 1);
 	}
 	
 	/**

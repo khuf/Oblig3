@@ -87,4 +87,8 @@ public class GameMaster implements GameManagerInterface {
 	public Map<String, String> getGameList() {
 		return gameList;
 	}
+	
+	public Game getSinglePlayerGame() {
+		return game;
+	}
 }

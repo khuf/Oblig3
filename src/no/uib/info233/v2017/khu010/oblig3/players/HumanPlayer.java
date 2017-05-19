@@ -24,6 +24,6 @@ public class HumanPlayer extends Player {
 	}
 	
 	public int makeNextMove(int curr, int opp) {
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 }

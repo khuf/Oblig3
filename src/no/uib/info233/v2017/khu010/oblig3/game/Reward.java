@@ -23,5 +23,4 @@ public class Reward {
 	public float getPlayerBScore() {
 		return playerBScore;
 	}
-
 }

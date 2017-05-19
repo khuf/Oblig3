@@ -62,35 +62,39 @@ public class SinglePlayerGame extends Game {
 	 */
 	@Override
 	public boolean performMoves() {
-		/*boolean validMoves = false;
-		
-		Player p1 = getGameState().getPlayerA();
-		Player p2 = getGameState().getPlayerB();
-		int moveB = p2.makeNextMove(getGameState().getCurrentPosition(), p1.getEnergy());
-		
-		if (getGameState().setPlayerAMove(moveA) && getGameState().setPlayerBMove(moveB) ); {
-			validMoves = true;
-		}
-		
-		return validMoves;*/
+		throw new UnsupportedOperationException();
 	}
 	
-	//THIS METHOD NEEDS TO BE CLEANED UP...
+	public void performMove(int move) {
+		GameState state = getGameState();
+		state.setPlayerBMove(state.getPlayerB().makeNextMove(state.currentPositionProperty().get(), state.getPlayerA().getEnergy()));
+		state.setPlayerAMove(move);
+		
+		if (state.getMovesMade() == 2) {
+			evaluateTurn();
+		}
+	}
+	
+	/**
+	 * Evaluates the players moves and moves the currentPosition in the direction
+	 * of the player that won the round.
+	 */
 	@Override
 	public void evaluateTurn() {
+		GameState state = getGameState();
 		Player p1 = getGameState().getPlayerA();
 		Player p2 = getGameState().getPlayerB();
-		if (getGameState().getPlayerAMove() > getGameState().getPlayerBMove()) {
-			getGameState().currentPositionProperty().set(getGameState().getCurrentPosition() + 1);
+		
+		if (state.getPlayerAMove() > state.getPlayerBMove()) {
+			state.incrementCurrentPositionByOne();
 		}
-		else if (getGameState().getPlayerBMove() > getGameState().getPlayerAMove()) {
-			getGameState().currentPositionProperty().set(getGameState().getCurrentPosition() - 1);
+		else if (state.getPlayerAMove() < state.getPlayerBMove()) {
+			state.decrementCurrentPositionbyOne();
 		}
+
 		p2.useEnergy(getGameState().getPlayerBMove());
 		p1.useEnergy(getGameState().getPlayerAMove());
-		System.out.println(p1.getName() + " made the move " + getGameState().getPlayerAMove() + " with " + p1.getEnergy());
-		System.out.println(p2.getName() + " made the move " + getGameState().getPlayerBMove() + " with " + p2.getEnergy());
-		
+		state.resetMovesCounter();
 	}
 
 }

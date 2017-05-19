@@ -34,6 +34,8 @@ abstract public class Game {
 	
 	abstract public boolean performMoves();
 	
+	abstract public void performMove(int move);
+	
 	abstract public void evaluateTurn();
 	
 	public void setGameState(GameState gameState) throws IllegalArgumentException {
