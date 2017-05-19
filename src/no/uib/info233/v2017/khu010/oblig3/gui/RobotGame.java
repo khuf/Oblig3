@@ -155,17 +155,16 @@ public class RobotGame extends JFrame {
 				try {
 					 String points = textFieldAttackPointsSP.getText();
 				     int energy = Integer.parseInt(points);
-
-						if (!gm.getSinglePlayerGame().getGameState().isFinnished()) {
-							gm.getSinglePlayerGame().performMove(energy);
-						}
-						if (gm.getSinglePlayerGame().getGameState().isFinnished()) {
-							float playerAScore = gm.getSinglePlayerGame().getGameState().getPlayerRewards().getPlayerAScore();
-							float playerBScore = gm.getSinglePlayerGame().getGameState().getPlayerRewards().getPlayerBScore();
-							JOptionPane.showMessageDialog(new JFrame(), "Player was awarded " +  playerAScore + " while enemy "
-									+ "player got " + playerBScore, "Game finished", 
-									JOptionPane.INFORMATION_MESSAGE);
-						}
+				     	
+				     if (!gm.getSinglePlayerGame().getGameState().isFinnished()) {
+				    	 gm.getSinglePlayerGame().performMove(energy);
+				     } else {
+				    	 float playerAScore = gm.getSinglePlayerGame().getGameState().getPlayerRewards().getPlayerAScore();
+				    	 float playerBScore = gm.getSinglePlayerGame().getGameState().getPlayerRewards().getPlayerBScore();
+				    	 JOptionPane.showMessageDialog(new JFrame(), "Player was awarded " +  playerAScore + " while enemy "
+								+ "player got " + playerBScore, "Game finished", 
+								JOptionPane.INFORMATION_MESSAGE);
+					}
 				}
 				catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(new JFrame(),

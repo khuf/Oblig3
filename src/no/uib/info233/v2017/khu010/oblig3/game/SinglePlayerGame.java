@@ -36,8 +36,10 @@ public class SinglePlayerGame extends Game {
 		String name = "Bot" + rng.nextInt(30);
 		if (rng.nextBoolean()) {
 			getGameState().setPlayerB(new DefensivePlayer(name, -3));
+		} else {
+			getGameState().setPlayerB(new AggressivePlayer(name, -3));
 		}
-		getGameState().setPlayerB(new AggressivePlayer(name, -3));
+		System.out.println("Playing vs " + getGameState().getPlayerB());
 	}
 
 	/**
@@ -46,12 +48,13 @@ public class SinglePlayerGame extends Game {
 	 */
 	@Override
 	public void runGame() {
+		System.out.println("Starting game");
 		while (!getGameState().isFinnished()) {
 			if (performMoves()) {
 				evaluateTurn();
 			}
 		}
-		System.out.println(this);
+		System.out.println("Game over");
 	}
 	
 	/**
