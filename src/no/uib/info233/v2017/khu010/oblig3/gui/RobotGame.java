@@ -155,15 +155,15 @@ public class RobotGame extends JFrame {
 		btnAttackSP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-<<<<<<< HEAD
 					 String points = textFieldAttackPointsSP.getText();
 				     int energy = Integer.parseInt(points);
+				     GameState state = gm.getSinglePlayerGameState();
 				     	
-				     if (!gm.getSinglePlayerGame().getGameState().isFinnished()) {
+				     if (!state.isFinnished()) {
 				    	 gm.getSinglePlayerGame().performMove(energy);
 				     } else {
-				    	 float playerAScore = gm.getSinglePlayerGame().getGameState().getPlayerRewards().getPlayerAScore();
-				    	 float playerBScore = gm.getSinglePlayerGame().getGameState().getPlayerRewards().getPlayerBScore();
+				    	 float playerAScore = state.getPlayerRewards().getPlayerAScore();
+				    	 float playerBScore = state.getPlayerRewards().getPlayerBScore();
 				    	 JOptionPane.showMessageDialog(new JFrame(), "Player was awarded " +  playerAScore + " while enemy "
 								+ "player got " + playerBScore, "Game finished", 
 								JOptionPane.INFORMATION_MESSAGE);
@@ -174,26 +174,7 @@ public class RobotGame extends JFrame {
 						    "Please enter a number instead",
 						    "Invalid move",
 						    JOptionPane.ERROR_MESSAGE);
-=======
-					String points = textFieldAttackPointsSP.getText();
-					int energy = Integer.parseInt(points);
-					GameState state = gm.getSinglePlayerGameState();
-
-					if (!state.isFinnished()) {
-						gm.getSinglePlayerGame().performMove(energy);
-					}
-					if (state.isFinnished()) {
-						float playerAScore = state.getPlayerRewards().getPlayerAScore();
-						float playerBScore = state.getPlayerRewards().getPlayerBScore();
-						JOptionPane.showMessageDialog(new JFrame(),
-								"Player was awarded " + playerAScore + " while enemy " + "player got " + playerBScore,
-								"Game finished", JOptionPane.INFORMATION_MESSAGE);
-					}
-				} catch (NumberFormatException ex) {
-					JOptionPane.showMessageDialog(new JFrame(), "Please enter a number instead", "Invalid move",
-							JOptionPane.ERROR_MESSAGE);
->>>>>>> origin/oblig4-branch
-				}
+				} 
 			}
 		});
 		btnAttackSP.setBounds(245, 243, 117, 29);
