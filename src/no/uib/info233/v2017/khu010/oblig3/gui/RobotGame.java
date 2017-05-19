@@ -22,6 +22,8 @@ import javax.swing.JFormattedTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Color;
+import javax.swing.JList;
 
 public class RobotGame extends JFrame {
 	
@@ -246,5 +248,25 @@ public class RobotGame extends JFrame {
 		JLabel lblEnergyPlayer2MP = new JLabel("100");
 		lblEnergyPlayer2MP.setBounds(364, 92, 61, 16);
 		multiPlayerGamePanel.add(lblEnergyPlayer2MP);
+		
+		JPanel panelAvailableGamesMP = new JPanel();
+		panelAvailableGamesMP.setBackground(Color.WHITE);
+		panelAvailableGamesMP.setBounds(6, 49, 137, 154);
+		multiPlayerGamePanel.add(panelAvailableGamesMP);
+		
+		JList listAvailableGamesMP = new JList();
+		panelAvailableGamesMP.add(listAvailableGamesMP);
+		
+		JLabel lblAvailableGamesMP = new JLabel("Available games");
+		lblAvailableGamesMP.setBounds(6, 21, 137, 16);
+		multiPlayerGamePanel.add(lblAvailableGamesMP);
+		
+		JButton btnJoinGameMP = new JButton("Join game");
+		btnJoinGameMP.setBounds(16, 213, 117, 29);
+		multiPlayerGamePanel.add(btnJoinGameMP);
+		
+		JButton btnHostGameMP = new JButton("Host game");
+		btnHostGameMP.setBounds(16, 243, 117, 29);
+		multiPlayerGamePanel.add(btnHostGameMP);
 	}
 }
