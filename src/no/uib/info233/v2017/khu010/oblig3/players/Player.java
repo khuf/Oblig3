@@ -23,7 +23,7 @@ abstract public class Player {
 	 * @param name
 	 */
 	public Player(String name, int goal) {
-		this.name.set(name);
+		setName(name);
 		this.energy.set(100);
 		this.goal = goal;
 	}

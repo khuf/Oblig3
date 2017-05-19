@@ -13,7 +13,8 @@ public class Main {
 	public static void main(String[] args) {
 
 		//Starts the application
-		RobotGame game = new RobotGame(new GameMaster());
+		GameMaster gm = new GameMaster();
+		RobotGame game = new RobotGame(gm);
 		game.setVisible(true);
 	}
 

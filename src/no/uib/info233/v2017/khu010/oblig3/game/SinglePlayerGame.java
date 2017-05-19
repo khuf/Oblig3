@@ -37,9 +37,8 @@ public class SinglePlayerGame extends Game {
 		String name = "Bot" + rng.nextInt(30);
 		if (rng.nextBoolean()) {
 			getGameState().setPlayerB(new DefensivePlayer(name, -3));
-		} else {
-			getGameState().setPlayerB(new AggressivePlayer(name, -3));
 		}
+		getGameState().setPlayerB(new AggressivePlayer(name, -3));
 		System.out.println("Playing vs " + getGameState().getPlayerB());
 	}
 	
