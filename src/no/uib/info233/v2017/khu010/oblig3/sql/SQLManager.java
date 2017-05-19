@@ -20,7 +20,7 @@ import no.uib.info233.v2017.khu010.oblig3.players.HumanPlayer;
 
 /**
  * Handles the SQL connection
- * Syncs database with game and vice versa
+ * Synchronizes database with game and vice versa
  * @author knu010 og xeq003
  * @version 0.3.8 (21.04.2017).
  *
