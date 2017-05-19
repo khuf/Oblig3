@@ -53,7 +53,7 @@ public class SQLManager implements SQLManagerInterface, PlayerControllerInterfac
 		server.getOpponent();
 		server.startGame();
 	}
-    
+  
     private SQLManager(MultiPlayerGame mpgame) { 
     	this.mpgame = mpgame;
     	if (mpgame.getGameState().getPlayerA() == null){

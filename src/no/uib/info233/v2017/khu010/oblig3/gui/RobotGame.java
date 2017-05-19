@@ -161,7 +161,8 @@ public class RobotGame extends JFrame {
 				     	
 				     if (!state.isFinnished()) {
 				    	 gm.getSinglePlayerGame().performMove(energy);
-				     } else {
+				     } 
+				     if (state.isFinnished()){
 				    	 float playerAScore = state.getPlayerRewards().getPlayerAScore();
 				    	 float playerBScore = state.getPlayerRewards().getPlayerBScore();
 				    	 JOptionPane.showMessageDialog(new JFrame(), "Player was awarded " +  playerAScore + " while enemy "
