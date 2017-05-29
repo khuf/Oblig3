@@ -2,10 +2,12 @@ package no.uib.info233.v2017.khu010.oblig3.game;
 
 import java.util.Map;
 
+import javax.swing.DefaultListModel;
 
 import no.uib.info233.v2017.khu010.oblig3.interfaces.GameManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
+import no.uib.info233.v2017.khu010.oblig3.players.OnlinePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 import no.uib.info233.v2017.khu010.oblig3.sql.SQLManager;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
@@ -22,7 +24,9 @@ public class GameMaster implements GameManagerInterface {
 	
 	//private SQLManager server = new SQLManager();
 
-	private Game game;
+	private SinglePlayerGame spGame;
+	
+	private MultiPlayerGame mpGame;
 	
 	private String status;
 	
@@ -30,12 +34,10 @@ public class GameMaster implements GameManagerInterface {
 	
 	private boolean foundPlayer = false;
 	
-	private Map<String, String> gameList;
-	
 	private SQLManagerInterface server = new SQLManager();
 	
 	public GameMaster() {
-		game = new SinglePlayerGame("Bob");
+		spGame = new SinglePlayerGame("Bob");
 	}
 	
 	/**
@@ -43,17 +45,14 @@ public class GameMaster implements GameManagerInterface {
 	 * with their next move.
 	 */
 	public void startSinglePlayer() {
-		game = new SinglePlayerGame("Bob");
-		game.runGame();
+		
 	}
 	
 	/**
 	 * Starts a multiplayer game...
 	 */
 	public void startMultiPlayer() {
-		if (gm != null) {
-			gm.runGame();
-		}
+		
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class GameMaster implements GameManagerInterface {
 
 	@Override
 	public void hostGame(String playerName) {
-		MultiPlayerGame mpGame = new MultiPlayerGame(playerName, 3, true);
+		mpGame = new MultiPlayerGame(playerName, 3, true);
 		String playerId = mpGame.getPlayerAId();
 		System.out.println(playerName + " " + mpGame.getPlayerAId());
 		
@@ -93,10 +92,9 @@ public class GameMaster implements GameManagerInterface {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public Map<String, String> listOnlineGames() {
-		return null;
+	
+	public DefaultListModel<OnlinePlayer> getOpenGames() {
+		return server.getOpenGames();
 	}
 	
 	private void updateRanking() {
@@ -106,13 +104,28 @@ public class GameMaster implements GameManagerInterface {
 	public void registerPlayers(Player playerA, Player playerB) {
 		//.setPlayers(playerA, playerB);
 	}	
-	
-	public Game getGame() {
-		return game;
-	}
 
 	@Override
 	public void joinOnlineGame(String playerName, String opponent_id) {
-	
+		String gameId = server.joinOpenGame(playerName, opponent_id);
+		
+		if (!gameId.isEmpty()) {
+			System.out.println("Joined game with game id " + gameId);
+			GameState state = server.getGameInProgress(gameId);
+			System.out.println(state);
+		}
+		else {
+			System.out.println("Failed to join game...");
+		}
+	}
+
+	@Override
+	public SinglePlayerGame getSinglePlayerGame() {
+		return spGame;
+	}
+
+	@Override
+	public MultiPlayerGame getMultiPlayerGame() {
+		return mpGame;
 	}
 }

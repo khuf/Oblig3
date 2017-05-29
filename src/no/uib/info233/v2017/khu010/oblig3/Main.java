@@ -26,11 +26,14 @@ public class Main {
 		//GameState state = new GameState();
 		//Thread t1 = new Thread(new DBListener(state));
 		//t1.start();
-		Gladiators game = new Gladiators(new GameMaster());
-		
 		GameMaster gm = new GameMaster();
+		RobotGame game = new RobotGame(gm);
+		
+		gm.getOpenGames();
+		
+
 		//gm.joinOnlineGame("John", "bkqnH1n@T,");
-		gm.hostGame("RemoveMe");
+		//gm.hostGame("RemoveMe");
 		//gm.startSinglePlayer();
 	}
 

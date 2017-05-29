@@ -1,6 +1,8 @@
 package no.uib.info233.v2017.khu010.oblig3.players;
 
 import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * Base class for a Player.
@@ -9,10 +11,11 @@ import no.uib.info233.v2017.khu010.oblig3.interfaces.PlayerControllerInterface;
  */
 abstract public class Player {
 	
-	private String name;
+	private SimpleStringProperty name = new SimpleStringProperty();
 	private PlayerControllerInterface gameMaster;
-	private int energy;
+	private SimpleIntegerProperty energy = new SimpleIntegerProperty();
 	private int goal;
+	private int move;
 	private boolean debug = true;
 	
 	/**
@@ -20,14 +23,8 @@ abstract public class Player {
 	 * @param name
 	 */
 	public Player(String name, int goal) {
-		this.name = name;
-		this.energy = 100;
-		this.goal = goal;
-	}
-	
-	public Player(String name, int energy, int goal) {
-		this.name = name;
-		this.energy = energy;
+		setName(name);
+		this.energy.set(100);
 		this.goal = goal;
 	}
 	
@@ -57,23 +54,7 @@ abstract public class Player {
 	 */
 	public abstract int makeNextMove(int currentPosition, int opponentEnergy);
 	
-	public abstract int makeNextMove();
-	
-	/**
-	 * Informs the player that the game has come to an end and how 
-	 * much points was earned this round.
-	 * @param earnedPoints the points earned by the player
-	 */
-	public void gameOver(float points){
-		String result = "";
-		if (points > 0) {
-			result = " won ";
-		} else if (points < 0) {
-			result = " lost ";
-		} else result = " got ";
-		points = Math.abs(points);
-		System.out.println(this.name + result + points + " points");
-	}
+	public abstract int makeNextMove(int move);
 	
 	/**
 	 * Uses a specified amount of energy from the player
@@ -83,15 +64,11 @@ abstract public class Player {
 	public int useEnergy(int energyUsage) {
 		int result = 0;
 		if (energyUsage < 0) {energyUsage = 0;};
-		if (this.energy >= energyUsage) {
-			this.energy -= energyUsage;
+		if (getEnergy() >= energyUsage) {
+			energy.set(energy.get() - energyUsage);
 			result = energyUsage;
 		}
 		return result;
-	}
-	
-	public void setEnergy(int energy) {
-		this.energy = energy;
 	}
 	
 	/**
@@ -99,6 +76,10 @@ abstract public class Player {
 	 * @return energy level
 	 */
 	public int getEnergy(){
+		return energy.get();
+	}
+	
+	public SimpleIntegerProperty energyProperty() {
 		return energy;
 	}
 	
@@ -107,7 +88,7 @@ abstract public class Player {
 	 * @param name of player
 	 */
 	public void setName(String name) {
-		this.name = name;
+		this.name.set(name);
 	}
 	
 	/**
@@ -115,6 +96,10 @@ abstract public class Player {
 	 * @return name of the player
 	 */
 	public String getName(){
+		return name.get();
+	}
+	
+	public SimpleStringProperty nameProperty() {
 		return name;
 	}
 	
@@ -127,7 +112,7 @@ abstract public class Player {
 	 * @return A string representation of the player
 	 */
 	public String toString(){
-		return this.name + ", of type " + this.getClass().getSimpleName();
+		return this.name.get() + ", of type " + this.getClass().getSimpleName();
 	}
 
 	/**
@@ -138,7 +123,7 @@ abstract public class Player {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + energy;
+		result = prime * result + energy.get();
 		result = prime * result + goal;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;

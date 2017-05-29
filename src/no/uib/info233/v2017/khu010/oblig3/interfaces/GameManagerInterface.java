@@ -1,6 +1,8 @@
 package no.uib.info233.v2017.khu010.oblig3.interfaces;
 
 import java.util.Map;
+import no.uib.info233.v2017.khu010.oblig3.game.SinglePlayerGame;
+import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
 
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 
@@ -14,5 +16,7 @@ public interface GameManagerInterface {
 	
 	void joinOnlineGame(String playerName, String opponentId);
 	
-	Map<String, String> listOnlineGames();
+	SinglePlayerGame getSinglePlayerGame();
+	
+	MultiPlayerGame getMultiPlayerGame();
 }

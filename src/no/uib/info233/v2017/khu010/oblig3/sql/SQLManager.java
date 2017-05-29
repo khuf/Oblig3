@@ -11,13 +11,19 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
+
 import java.sql.Statement;
 
+import no.uib.info233.v2017.khu010.oblig3.Utility;
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
 import no.uib.info233.v2017.khu010.oblig3.interfaces.SQLManagerInterface;
 import no.uib.info233.v2017.khu010.oblig3.players.AggressivePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.HumanPlayer;
+import no.uib.info233.v2017.khu010.oblig3.players.OnlinePlayer;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 /**
@@ -135,13 +141,12 @@ public class SQLManager implements SQLManagerInterface{
 			rs = pst.executeQuery();
 			while (rs.next()) {
 				result = new GameState();
-				result.setGameId(rs.getString(1));
 				result.setCurrentPosition(rs.getInt(4));
 				result.setPlayerA(rs.getString(2), rs.getInt(5));
 				result.setPlayerB(rs.getString(3), rs.getInt(6));
 				result.setPlayerAMove(rs.getInt(7));
 				result.setPlayerBMove(rs.getInt(8));
-				result.setMoveNumber(rs.getInt(9));
+				result.setRoundNumber(rs.getInt(9));
 			}
 		}
 		catch (SQLException ex) {
@@ -230,5 +235,57 @@ public class SQLManager implements SQLManagerInterface{
 		catch (SQLException ex) {
 			System.out.println(ex.toString());
 		}
+	}
+
+	@Override
+	public DefaultListModel<OnlinePlayer> getOpenGames() {
+		DefaultListModel<OnlinePlayer> list = new DefaultListModel<>();
+		String sqlString = "SELECT `player_1`, `player_1_random` FROM `open_games` WHERE `player_2` IS NULL";
+		
+		try {
+			con = DriverManager.getConnection(url, user, password);
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sqlString);
+			
+			while (rs.next()) {
+				String name = rs.getString(1);
+				String playerId = rs.getString(2);
+				OnlinePlayer player = new OnlinePlayer(name, playerId, 3);
+				list.addElement(player);
+			}
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public String joinOpenGame(String playerName, String enemyPlayerId) {
+		String sqlString = "UPDATE `open_games` SET `player_2` = ?, `player_2_random` = ? WHERE `player_1_random` = ?";
+		String result = "";
+		
+		try {
+			boolean joinedGame = false;
+			con = DriverManager.getConnection(url, user, password);
+			pst = con.prepareStatement(sqlString);
+			pst.setString(1, playerName);
+			pst.setString(2, Utility.createRandomString(10));
+			pst.setString(3, enemyPlayerId);
+			joinedGame = pst.executeUpdate() > 0;
+			
+			if (joinedGame) {
+				ResultSet rs = getOpenGame(enemyPlayerId);
+				while (rs.next()) {
+					result += rs.getString(2);
+					result += rs.getString(4);
+				}
+			}
+		}
+		catch (SQLException ex) {
+			System.out.println(ex.toString());
+		}
+		
+		return result;
 	}   
 }

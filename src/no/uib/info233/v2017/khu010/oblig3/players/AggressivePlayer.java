@@ -8,7 +8,7 @@ import java.util.Random;
  * An aggressive player will try to win the match
  * within 3 rounds.
  * @author knu010 && xeq003
- * @version 0.3.8 (21.04.2017).
+ * @version 0.0.1 (21.04.2017).
  */
 public class AggressivePlayer extends Player {
 
@@ -57,7 +57,7 @@ public class AggressivePlayer extends Player {
 	}
 
 	@Override
-	public int makeNextMove() {
+	public int makeNextMove(int move) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

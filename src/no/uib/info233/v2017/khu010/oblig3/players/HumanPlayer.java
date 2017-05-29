@@ -8,31 +8,40 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.NumberFormatter;
 
+import no.uib.info233.v2017.khu010.oblig3.Utility;
+
+/**
+ * A class representing a human player.
+ * @author knu010
+ * @version 0.0.1
+ */
 public class HumanPlayer extends Player {
 	
+	/**
+	 * Creates a human player with the specified name and goal position.
+	 * @param name of the player
+	 * @param goal position.
+	 */
 	public HumanPlayer(String name, int goal) {
 		super(name, goal);
 	}
 	
-	public HumanPlayer(String name, int energy, int goal) {
-		super(name, energy, goal);
-	}
-
+	/**
+	 * Used by the GUI to perform a move. The
+	 * game then proceeds to submit the move through the sendMove() method.
+	 */
 	@Override
-	public int makeNextMove() {
+	public int makeNextMove(int move) { 
 		int energyToUse = 0;
-		Scanner sc = new Scanner(System.in);
 		
-		
-
-		energyToUse = sc.nextInt();
-		System.out.println(energyToUse);
-		
-		
+		if (Utility.isValidMove(this, move)) {
+			energyToUse = move;
+			//controller.sendMove(getName(), move);
+		}
 		return energyToUse;
 	}
 	
 	public int makeNextMove(int curr, int opp) {
-		return 0;
+		throw new UnsupportedOperationException();
 	}
 }

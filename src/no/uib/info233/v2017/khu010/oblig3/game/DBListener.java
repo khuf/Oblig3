@@ -25,8 +25,7 @@ public class DBListener implements Runnable {
 		while (!game.isFinnished()) {
 		try {
 			System.out.println("Updating gamestate...");
-			game.setGameState(manager.getGameInProgress(game.getGameState().getGameID()));
-			game.setIsBothMovesMade(manager.isBothMovesMade(game.getGameId()));
+			
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

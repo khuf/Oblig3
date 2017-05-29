@@ -4,72 +4,56 @@ import no.uib.info233.v2017.khu010.oblig3.Utility;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
 
 /**
- * This is the base class for a game. The class can not be instanciated
- * and is extended by both SingelPlayerGame and MultiPlayerGame.
- * It implements a couple of methods that are common for both singel player
- * and multiplayer.
- * @author knuhuf
+ * This is the base class for a game.
+ * @author khu010
+ * @version 0.0.2 (16.05.2017)
  *
  */
 abstract public class Game {
 	
 	private GameState gameState;
-	private boolean moveMade = false;
-	private boolean isHost = false;
 	
 	/**
-	 * Creates a fresh game with no players set.
+	 * Creates a game state.
 	 */
 	public Game() {
 		gameState = new GameState();
 	}
 	
+	/**
+	 * Creates a game with a specified game state
+	 * @param gameState representing the current state of a game
+	 */
 	public Game(GameState gameState) {
 		setGameState(gameState);
 	}
 	
-	public Player getPlayerA() {
-		return gameState.getPlayerA();
-	}
-	
-	public Player getPlayerB() {
-		return gameState.getPlayerB();
-	}
-	
-	public void setPlayerA(Player playerA) {
+	/**
+	 * Creates a game with the specified player as the first player.
+	 * @param playerA
+	 */
+	public Game(Player playerA) {
+		gameState = new GameState();
 		gameState.setPlayerA(playerA);
 	}
 	
-	public void setPlayerB(Player playerB) {
-		gameState.setPlayerB(playerB);
-	}
+	/**
+	 * The user uses this method to perform his move.
+	 * @param move energy spent
+	 */
+	abstract public void performMove(int move);
 	
 	/**
-	 * Sets the move of player A and ensures that the specified move is a valid move, i.e. 
-	 * player A can afford the move.
-	 * @param move
+	 * Evaluates the current round. This method should be called when
+	 * both players have submitted their move.
 	 */
-	public boolean setPlayerAMove(int move) {
-		boolean result = false;
-		if (Utility.isValidMove(getPlayerA(), move)) {
-			gameState.setPlayerAMove(move);
-			result = true;
-		}
-		return result;
-	}
+	abstract public void evaluateTurn();
 	
 	/**
-	 * Sets the move of player B and ensures that the specified move is a valid move, i.e. 
-	 * player B can afford the move.
-	 * @param move
+	 * @return current game state
 	 */
-	public boolean setPlayerBMove(int move) {
-		boolean result = false;
-		if (Utility.isValidMove(getPlayerB(), move)) {
-			gameState.setPlayerAMove(move);
-			result = true;
-		}
-		return result;
+	public GameState getGameState() {
+		return gameState;
 	}
 	
 	/**
@@ -79,7 +63,7 @@ abstract public class Game {
 	 * should end.
 	 * @return true for a finished game, otherwise it returns false.
 	 */
-	public synchronized boolean isFinnished() {
+	public boolean isFinnished() {
 		return !playersHasEnergy() || Math.abs(gameState.getCurrentPosition()) == 3;
 	}
 	
@@ -88,26 +72,11 @@ abstract public class Game {
 	 * @return true/false if either of the players are out of energy.
 	 */
 	private boolean playersHasEnergy() {
-		return getPlayerA().getEnergy() > 0 && getPlayerB().getEnergy() > 0;
+		return gameState.getPlayerA().getEnergy() > 0 && gameState.getPlayerB().getEnergy() > 0;
 	}
 	
 	abstract public void runGame();
 	
-	abstract public boolean performMoves();
-	
-	abstract public void evaluateTurn();
-	
-	public void setMoveMade(boolean result) {
-		moveMade = result;
-	}
-	
-	public void setIsHost(boolean isHost) {
-		this.isHost = isHost;
-	}
-	
-	public boolean getIsHost() {
-		return isHost;
-	}
 	
 	public void setGameState(GameState gameState) throws IllegalArgumentException {
 		if (gameState != null) {
@@ -116,9 +85,5 @@ abstract public class Game {
 		else {
 			throw new IllegalArgumentException("The GameState cannot be null");
 		}
-	}
-	
-	public GameState getGameState() {
-		return gameState;
 	}
 }

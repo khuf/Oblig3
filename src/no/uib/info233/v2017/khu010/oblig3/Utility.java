@@ -3,6 +3,7 @@ package no.uib.info233.v2017.khu010.oblig3;
 import no.uib.info233.v2017.khu010.oblig3.game.GameState;
 import no.uib.info233.v2017.khu010.oblig3.game.MultiPlayerGame;
 import no.uib.info233.v2017.khu010.oblig3.players.Player;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class Utility {
 	
@@ -24,7 +25,7 @@ public class Utility {
 		if (oldState != null && latestGameState != null) {
 			if (validatePlayer(oldState.getPlayerA(), latestGameState.getPlayerA(), latestGameState.getPlayerAMove())) {
 				if (validatePlayer(oldState.getPlayerB(), latestGameState.getPlayerB(), latestGameState.getPlayerBMove())) {
-					if (validateMoveNumber(oldState.getMoveNumber(), latestGameState.getMoveNumber())) {
+					if (validateMoveNumber(oldState.getRoundNumber(), latestGameState.getRoundNumber())) {
 						result = true;
 					}
 				}
@@ -48,6 +49,10 @@ public class Utility {
 	
 	private static boolean validateMoveNumber(int oldValue, int newValue) {
 		return oldValue == newValue || oldValue+1 == newValue;
+	}
+	
+	public static String createRandomString(int n) {
+		return RandomStringUtils.randomAscii(n);
 	}
 	
 	public static void debug(Object printme) {

@@ -60,9 +60,9 @@ public class DefensivePlayer extends Player{
 		
 		return energyToUse;
 	}
-	
+
 	@Override
-	public int makeNextMove() {
+	public int makeNextMove(int move) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
